@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TechnicStoreApp</string>
+    <string name="title_home">Главная</string>
+    <string name="title_catalog">Каталог</string>
+    <string name="title_cart">Корзина</string>
+    <string name="title_profile">Профиль</string>
+</resources>
