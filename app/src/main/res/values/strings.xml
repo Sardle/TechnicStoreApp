@@ -4,4 +4,10 @@
     <string name="title_catalog">Каталог</string>
     <string name="title_cart">Корзина</string>
     <string name="title_profile">Профиль</string>
+    <string name="search_in_catalog">Поиск в каталоге</string>
+    <string name="news_it">📰Новости в мире западного IT</string>
+    <string name="popular">🔥Пользуются спросом</string>
+    <string name="title">Title</string>
+    <string name="author">author</string>
+    <string name="add_to_cart">В корзину</string>
 </resources>
