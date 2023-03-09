@@ -7,4 +7,8 @@ interface Repository {
     suspend fun getNews(): List<NewsData>
 
     fun setUserToken(token: String)
+
+    fun getCategories(): List<String>
+
+    fun getTechnicBasedFromCategory(category: String): List<TechnicData>
 }
