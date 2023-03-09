@@ -11,7 +11,8 @@ class TechnicMapper @Inject constructor(){
             name = name.orEmpty(),
             imageUrl = imageUrl.orEmpty(),
             description = description.orEmpty(),
-            price = price ?: 0.0
+            price = price ?: 0.0,
+            category = category.orEmpty()
         )
     }
 }

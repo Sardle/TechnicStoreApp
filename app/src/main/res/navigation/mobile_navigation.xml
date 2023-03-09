@@ -19,7 +19,11 @@
         android:id="@+id/navigation_catalog"
         android:name="com.example.technicstoreapp.ui.catalog.CatalogFragment"
         android:label="@string/title_catalog"
-        tools:layout="@layout/fragment_catalog" />
+        tools:layout="@layout/fragment_catalog" >
+        <action
+            android:id="@+id/action_navigation_catalog_to_categoryPageFragment"
+            app:destination="@id/categoryPageFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cart"
@@ -52,5 +56,18 @@
             android:name="price"
             app:argType="string"
             android:defaultValue="0.0" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryPageFragment"
+        android:name="com.example.technicstoreapp.ui.catalog.category_page.CategoryPageFragment"
+        android:label="fragment_category_page"
+        tools:layout="@layout/fragment_category_page" >
+        <argument
+            android:name="category"
+            app:argType="string"
+            android:defaultValue="Телефоны" />
+        <action
+            android:id="@+id/action_categoryPageFragment_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
     </fragment>
 </navigation>

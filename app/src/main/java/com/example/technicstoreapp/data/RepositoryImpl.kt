@@ -35,4 +35,8 @@ class RepositoryImpl @Inject constructor(
     override fun setUserToken(token: String) {
         prefs.setUserToken(token)
     }
+
+    override fun getCategories(): List<String> = server.getCategories()
+    override fun getTechnicBasedFromCategory(category: String): List<TechnicData> =
+        server.getAllTechnic().filter { it.category == category }.map { mapperTechnic(it) }
 }

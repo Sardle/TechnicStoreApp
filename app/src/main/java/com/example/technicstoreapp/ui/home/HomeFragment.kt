@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
+import com.example.technicstoreapp.ui.catalog.category_page.CategoryPageAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,45 +33,59 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemClick: (String, String, String, String) -> Unit = { name, imageUrl, description, price ->
-            val action = HomeFragmentDirections.actionNavigationHomeToTechnicPageFragment(name, imageUrl, description, price)
-            findNavController().navigate(action)
+        setupPopularRecyclerView()
+        setupNewsRecyclerView()
+        observeTechnicLiveData()
+        observeNewsLiveData()
+    }
+
+    private fun setupPopularRecyclerView() {
+        val popularAdapter = PopularAdapter(::onItemClick)
+
+        binding.recyclerPopular.apply {
+            adapter = popularAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        val recyclerPopular = binding.recyclerPopular
-        val adapter = PopularAdapter(itemClick)
-        recyclerPopular.adapter = adapter
-        recyclerPopular.layoutManager = LinearLayoutManager(
-            this@HomeFragment.context,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        viewModel.getTechnic()
+    }
 
-        val recyclerNews = binding.recyclerNews
-        val adapterNews = NewsAdapter()
-        recyclerNews.adapter = adapterNews
-        recyclerNews.layoutManager = LinearLayoutManager(
-            this@HomeFragment.context,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+    private fun setupNewsRecyclerView() {
+        val newsAdapter = NewsAdapter()
 
-        with(viewModel) {
-            getTechnic()
+        binding.recyclerNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
 
-            technicLiveData.observe(viewLifecycleOwner) {
-                adapter.setItems(it)
-            }
+        viewModel.getNews()
+    }
 
-            setUserToken()
-
-            getNews()
-
-            newsLiveData.observe(viewLifecycleOwner) {
-                adapterNews.setItems(it)
+    private fun observeTechnicLiveData() {
+        viewModel.technicLiveData.observe(viewLifecycleOwner) { technicList ->
+            binding.recyclerPopular.adapter?.let { adapter ->
+                if (adapter is PopularAdapter) {
+                    adapter.setItems(technicList)
+                }
             }
         }
     }
+
+    private fun observeNewsLiveData() {
+        viewModel.newsLiveData.observe(viewLifecycleOwner) { newsList ->
+            binding.recyclerNews.adapter?.let { adapter ->
+                if (adapter is NewsAdapter) {
+                    adapter.setItems(newsList)
+                }
+            }
+        }
+    }
+
+    private fun onItemClick(name: String, imageUrl: String, description: String, price: String) {
+        val action = HomeFragmentDirections.actionNavigationHomeToTechnicPageFragment(name, imageUrl, description, price)
+        findNavController().navigate(action)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
