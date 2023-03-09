@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.technicstoreapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_catalog"
@@ -27,4 +31,26 @@
         android:name="com.example.technicstoreapp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        tools:layout="@layout/fragment_technic_page"
+        android:id="@+id/technicPageFragment"
+        android:name="com.example.technicstoreapp.ui.TechnicPageFragment"
+        android:label="TechnicPageFragment" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="price"
+            app:argType="string"
+            android:defaultValue="0.0" />
+    </fragment>
 </navigation>
