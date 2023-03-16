@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.PopularRecyclerBinding
 import com.example.technicstoreapp.domain.TechnicData
 
-class PopularAdapter(private val itemClick: (String, String, String, String) -> Unit) :
+class PopularAdapter(private val itemClick: (Int) -> Unit) :
     RecyclerView.Adapter<PopularViewHolder>() {
 
     private val listTechnicData = mutableListOf<TechnicData>()

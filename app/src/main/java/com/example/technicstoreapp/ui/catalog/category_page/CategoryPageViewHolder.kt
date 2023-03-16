@@ -8,7 +8,7 @@ import com.example.technicstoreapp.domain.TechnicData
 
 class CategoryPageViewHolder(
     private val binding: CategoryRecyclerPageBinding,
-    private val itemClick: (String, String, String, String) -> Unit
+    private val itemClick: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: TechnicData) {
@@ -18,7 +18,7 @@ class CategoryPageViewHolder(
         binding.categoryPrice.text = item.price.toString() + " р."
 
         binding.categoryImage.setOnClickListener {
-            itemClick(item.name, item.imageUrl, item.description, item.price.toString() + " р.")
+            itemClick(item.id)
         }
     }
 

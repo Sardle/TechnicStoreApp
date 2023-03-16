@@ -64,13 +64,8 @@ class CategoryPageFragment : Fragment() {
         viewModel.getTechnic(args.category)
     }
 
-    private fun onItemClick(name: String, imageUrl: String, description: String, price: String) {
-        val action = CategoryPageFragmentDirections.actionCategoryPageFragmentToTechnicPageFragment(
-            name,
-            imageUrl,
-            description,
-            price
-        )
+    private fun onItemClick(id: Int) {
+        val action = CategoryPageFragmentDirections.actionCategoryPageFragmentToTechnicPageFragment(id)
         findNavController().navigate(action)
     }
 }

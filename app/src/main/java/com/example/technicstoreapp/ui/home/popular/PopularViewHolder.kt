@@ -8,7 +8,7 @@ import com.example.technicstoreapp.domain.TechnicData
 
 class PopularViewHolder(
     private val binding: PopularRecyclerBinding,
-    private val itemClick: (String, String, String, String) -> Unit
+    private val itemClick: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: TechnicData) {
@@ -17,7 +17,7 @@ class PopularViewHolder(
         getPoster(item.imageUrl, binding.imageTechnic)
 
         binding.imageTechnic.setOnClickListener {
-            itemClick(item.name, item.imageUrl, item.description, item.price.toString() + " р.")
+            itemClick(item.id)
         }
     }
 

@@ -7,7 +7,7 @@ import com.example.technicstoreapp.databinding.CategoryRecyclerPageBinding
 import com.example.technicstoreapp.databinding.PopularRecyclerBinding
 import com.example.technicstoreapp.domain.TechnicData
 
-class CategoryPageAdapter(private val itemClick: (String, String, String, String) -> Unit) :
+class CategoryPageAdapter(private val itemClick: (Int) -> Unit) :
     RecyclerView.Adapter<CategoryPageViewHolder>() {
 
     private val listTechnicData = mutableListOf<TechnicData>()

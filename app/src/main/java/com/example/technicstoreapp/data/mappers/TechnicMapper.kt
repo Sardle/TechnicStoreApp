@@ -8,6 +8,7 @@ class TechnicMapper @Inject constructor(){
 
     operator fun invoke(response: TechnicResponse): TechnicData = with(response) {
         TechnicData(
+            id = id ?: 1,
             name = name.orEmpty(),
             imageUrl = imageUrl.orEmpty(),
             description = description.orEmpty(),

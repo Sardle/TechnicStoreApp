@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
-import com.example.technicstoreapp.ui.catalog.category_page.CategoryPageAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +32,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.setUserToken()
         setupPopularRecyclerView()
         setupNewsRecyclerView()
         observeTechnicLiveData()
@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(name: String, imageUrl: String, description: String, price: String) {
-        val action = HomeFragmentDirections.actionNavigationHomeToTechnicPageFragment(name, imageUrl, description, price)
+    private fun onItemClick(id: Int) {
+        val action = HomeFragmentDirections.actionNavigationHomeToTechnicPageFragment(id)
         findNavController().navigate(action)
     }
 

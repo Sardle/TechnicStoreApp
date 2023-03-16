@@ -27,9 +27,13 @@
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.example.technicstoreapp.ui.notifications.CartFragment"
+        android:name="com.example.technicstoreapp.ui.cart.CartFragment"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_navigation_cart_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.technicstoreapp.ui.profile.ProfileFragment"
@@ -38,24 +42,12 @@
     <fragment
         tools:layout="@layout/fragment_technic_page"
         android:id="@+id/technicPageFragment"
-        android:name="com.example.technicstoreapp.ui.TechnicPageFragment"
+        android:name="com.example.technicstoreapp.ui.technic_page.TechnicPageFragment"
         android:label="TechnicPageFragment" >
         <argument
-            android:name="name"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="imageUrl"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="description"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="price"
-            app:argType="string"
-            android:defaultValue="0.0" />
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/categoryPageFragment"
