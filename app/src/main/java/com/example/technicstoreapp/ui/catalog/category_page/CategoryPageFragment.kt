@@ -10,8 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.databinding.FragmentCategoryPageBinding
-import com.example.technicstoreapp.ui.catalog.CatalogAdapter
-import com.example.technicstoreapp.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/search"
+        android:id="@+id/search_catalog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edittext"
@@ -34,11 +34,19 @@
         android:hint="@string/search_in_catalog"
         android:inputType="textAutoComplete"
         android:textSize="20sp"
-        android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/search_view"/>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.Repository
-import com.example.technicstoreapp.domain.TechnicData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,21 +27,21 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun plus(id: Int) {
+    fun plusUnitTechnic(id: Int) {
         viewModelScope.launch {
             repository.insertTechnic(repository.getTechnicInfo(id))
             _technicCartLiveData.value = repository.getAllTechnicFromCart()
         }
     }
 
-    fun minus(id: Int) {
+    fun minusUnitTechnic(id: Int) {
         viewModelScope.launch {
             repository.removeUnitTechnic(repository.getTechnicInfo(id))
             _technicCartLiveData.value = repository.getAllTechnicFromCart()
         }
     }
 
-    fun delete(id: Int) {
+    fun deleteUnitTechnic(id: Int) {
         viewModelScope.launch {
             repository.deleteTechnic(repository.getTechnicInfo(id))
             _technicCartLiveData.value = repository.getAllTechnicFromCart()

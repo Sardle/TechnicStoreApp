@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCartBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CartFragment : Fragment(){
+class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
@@ -54,7 +55,13 @@ class CartFragment : Fragment(){
     }
 
     private fun setupCatalogRecyclerView() {
-        val catalogAdapter = CartAdapter(::onItemClick, ::onPlusClick, ::onMinusClick, ::onDeleteClick, ::updateOrder)
+        val catalogAdapter = CartAdapter(
+            ::onItemClick,
+            ::onPlusClick,
+            ::onMinusClick,
+            ::onDeleteClick,
+            ::updateOrder
+        )
 
         binding.recyclerCart.apply {
             adapter = catalogAdapter
@@ -70,15 +77,26 @@ class CartFragment : Fragment(){
     }
 
     private fun onPlusClick(id: Int) {
-        viewModel.plus(id)
+        viewModel.plusUnitTechnic(id)
     }
 
     private fun onMinusClick(id: Int) {
-        viewModel.minus(id)
+        viewModel.minusUnitTechnic(id)
     }
 
-    private fun onDeleteClick(id: Int) {
-        viewModel.delete(id)
+    private fun onDeleteClick(id: Int, rowView: View) {
+        val anim = AnimationUtils.loadAnimation(rowView.context, R.anim.recycler_remove_item)
+        rowView.startAnimation(anim)
+
+        anim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                viewModel.deleteUnitTechnic(id)
+            }
+        })
     }
 
     private fun updateOrder() {

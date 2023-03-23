@@ -13,6 +13,7 @@ import com.example.technicstoreapp.domain.TechnicData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import java.util.*
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -68,7 +69,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllTechnicFromCart(listTechnic: List<CartTechnicData>) {
 //        withContext(Dispatchers.IO) {
-//            db.delete(listTechnic.map { mapperDb.dataToEntity(it) })
+//            db.deleteUnitTechnic(listTechnic.map { mapperDb.dataToEntity(it) })
 //        }
     }
 
@@ -99,5 +100,12 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getSumCurrentPrices(): Double = withContext(Dispatchers.IO) {
         db.getCurrentPrices().sum()
+    }
+
+    override fun getSearchResult(searchString: String): List<TechnicData> {
+        return server.getAllTechnic().map { mapperTechnic(it) }.filter {
+            it.name.lowercase(Locale.ROOT)
+                .contains(searchString.lowercase(Locale.ROOT).toRegex())
+        }
     }
 }

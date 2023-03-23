@@ -1,8 +1,11 @@
 package com.example.technicstoreapp.ui.cart
 
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.CartRecyclerBinding
 import com.example.technicstoreapp.domain.CartTechnicData
 
@@ -11,10 +14,9 @@ class CartViewHolder(
     private val itemClick: (Int) -> Unit,
     private val plusClick: (Int) -> Unit,
     private val minusClick: (Int) -> Unit,
-    private val deleteClick: (Int) -> Unit,
-    private val updateClick: () -> Unit
-) :
-    RecyclerView.ViewHolder(binding.root) {
+    private val deleteClick: (Int, View) -> Unit,
+    private val updateClick: () -> Unit,
+) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: CartTechnicData) {
         binding.count.text = item.count.toString()
         binding.cartName.text = item.name
@@ -22,7 +24,7 @@ class CartViewHolder(
         binding.cartPrice.text = (item.price * item.count).toString() + " р."
 
         if (binding.count.text == "0") {
-            deleteClick(item.id)
+            deleteClick(item.id, binding.root)
             updateClick()
         }
 
@@ -40,7 +42,7 @@ class CartViewHolder(
             updateClick()
         }
 
-        binding.cartImage.setOnClickListener {
+        binding.root.setOnClickListener {
             itemClick(item.id)
         }
     }

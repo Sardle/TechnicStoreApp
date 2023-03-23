@@ -76,19 +76,19 @@
         android:id="@+id/name_technic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="Primer"
+        android:layout_marginTop="30dp"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_technic_page" />
+        app:layout_constraintTop_toBottomOf="@+id/toggle" />
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:text="Primer"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -107,6 +107,71 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/control_switch_background_border"
+        android:checkedButton="@+id/calm"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_technic_page">
+
+        <RadioButton
+            android:id="@+id/calm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Calm"
+            android:textColor="@drawable/control_switch_color_selector" />
+
+        <RadioButton
+            android:id="@+id/rumor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Rumor"
+            android:textColor="@drawable/control_switch_color_selector" />
+
+        <RadioButton
+            android:id="@+id/outbreak"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/control_switch_background_selector"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Outbreak"
+            android:textColor="@drawable/control_switch_color_selector" />
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

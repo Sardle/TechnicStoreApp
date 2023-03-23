@@ -22,7 +22,21 @@
         tools:layout="@layout/fragment_catalog" >
         <action
             android:id="@+id/action_navigation_catalog_to_categoryPageFragment"
-            app:destination="@id/categoryPageFragment" />
+            app:destination="@id/categoryPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_catalog_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_navigation_catalog_to_technicPageFragment"
+            app:destination="@id/technicPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment
@@ -60,6 +74,15 @@
             android:defaultValue="Телефоны" />
         <action
             android:id="@+id/action_categoryPageFragment_to_technicPageFragment"
-            app:destination="@id/technicPageFragment" />
+            app:destination="@id/technicPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_search"
+        android:id="@+id/searchFragment"
+        android:name="com.example.technicstoreapp.ui.search.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.ui.catalog.category_page
+package com.example.technicstoreapp.ui.search
 
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.CategoryRecyclerPageBinding
 import com.example.technicstoreapp.domain.TechnicData
 
-class CategoryPageViewHolder(
+class SearchViewHolder(
     private val binding: CategoryRecyclerPageBinding,
     private val itemClick: (Int) -> Unit
 ) :

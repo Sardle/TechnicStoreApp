@@ -16,7 +16,7 @@ class PopularViewHolder(
         binding.price.text = item.price.toString() + " р."
         getPoster(item.imageUrl, binding.imageTechnic)
 
-        binding.imageTechnic.setOnClickListener {
+        binding.root.setOnClickListener {
             itemClick(item.id)
         }
     }

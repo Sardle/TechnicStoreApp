@@ -25,4 +25,6 @@ interface Repository {
     suspend fun deleteTechnic(technicData: TechnicData)
 
     suspend fun getSumCurrentPrices(): Double
+
+    fun getSearchResult(searchString: String): List<TechnicData>
 }

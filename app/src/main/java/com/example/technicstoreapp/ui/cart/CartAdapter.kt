@@ -1,8 +1,12 @@
 package com.example.technicstoreapp.ui.cart
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.CartRecyclerBinding
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.TechnicData
@@ -11,7 +15,7 @@ class CartAdapter(
     private val itemClick: (Int) -> Unit,
     private val plusClick: (Int) -> Unit,
     private val minusClick: (Int) -> Unit,
-    private val deleteClick: (Int) -> Unit,
+    private val deleteClick: (Int, View) -> Unit,
     private val updateClick: () -> Unit,
 ) :
     RecyclerView.Adapter<CartViewHolder>() {
