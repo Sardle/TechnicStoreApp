@@ -12,7 +12,13 @@ interface Repository {
 
     fun getTechnicBasedFromCategory(category: String): List<TechnicData>
 
-    suspend fun insertTechnic(technicData: TechnicData)
+    suspend fun plusUnitTechnic(id: Int, color: String)
+
+    suspend fun insertTechnic(technicData: TechnicData, color: String)
+
+    fun getColorsTechnic(id: Int): List<String>
+
+    fun getImageTechnic(id: Int, color: String): String
 
     suspend fun getAllTechnicFromCart(): List<CartTechnicData>
 
@@ -20,9 +26,9 @@ interface Repository {
 
     fun getTechnicInfo(id: Int): TechnicData
 
-    suspend fun removeUnitTechnic(technicData: TechnicData)
+    suspend fun removeUnitTechnic(id: Int, color: String)
 
-    suspend fun deleteTechnic(technicData: TechnicData)
+    suspend fun deleteTechnic(id: Int, color: String)
 
     suspend fun getSumCurrentPrices(): Double
 

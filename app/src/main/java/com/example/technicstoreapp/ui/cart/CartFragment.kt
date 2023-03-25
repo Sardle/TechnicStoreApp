@@ -76,15 +76,15 @@ class CartFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun onPlusClick(id: Int) {
-        viewModel.plusUnitTechnic(id)
+    private fun onPlusClick(id: Int, color: String) {
+        viewModel.plusUnitTechnic(id, color)
     }
 
-    private fun onMinusClick(id: Int) {
-        viewModel.minusUnitTechnic(id)
+    private fun onMinusClick(id: Int, color: String) {
+        viewModel.minusUnitTechnic(id, color)
     }
 
-    private fun onDeleteClick(id: Int, rowView: View) {
+    private fun onDeleteClick(id: Int, rowView: View, color: String) {
         val anim = AnimationUtils.loadAnimation(rowView.context, R.anim.recycler_remove_item)
         rowView.startAnimation(anim)
 
@@ -94,7 +94,7 @@ class CartFragment : Fragment() {
             override fun onAnimationRepeat(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
-                viewModel.deleteUnitTechnic(id)
+                viewModel.deleteUnitTechnic(id, color)
             }
         })
     }

@@ -14,7 +14,7 @@ class PopularViewHolder(
     fun onBind(item: TechnicData) {
         binding.name.text = item.name
         binding.price.text = item.price.toString() + " р."
-        getPoster(item.imageUrl, binding.imageTechnic)
+        getPoster(item.colorsAndImageUrl.values.first(), binding.imageTechnic)
 
         binding.root.setOnClickListener {
             itemClick(item.id)

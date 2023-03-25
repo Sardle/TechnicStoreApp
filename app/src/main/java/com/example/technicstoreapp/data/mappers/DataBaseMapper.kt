@@ -11,7 +11,8 @@ class DataBaseMapper @Inject constructor() {
         data: TechnicData,
         color: String,
         count: Int,
-        currentPrice: Double
+        currentPrice: Double,
+        imageUrl: String
     ): TechnicEntity = with(data) {
         TechnicEntity(
             id = id,

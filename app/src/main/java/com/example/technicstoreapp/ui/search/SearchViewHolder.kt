@@ -13,7 +13,7 @@ class SearchViewHolder(
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: TechnicData) {
         binding.categoryName.text = item.name
-        getPoster(item.imageUrl, binding.categoryImage)
+        getPoster(item.colorsAndImageUrl.values.first(), binding.categoryImage)
         binding.categoryDescription.text = item.description
         binding.categoryPrice.text = item.price.toString() + " р."
         binding.categoryPrice.setOnClickListener {

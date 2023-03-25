@@ -16,7 +16,7 @@ class DataBaseSource @Inject constructor(
 
     fun updateItem(technic: TechnicEntity) = dao.updateItem(technic)
 
-    fun getItemById(id: Int): TechnicEntity? = dao.getItemById(id)
+    fun getItemById(id: Int, color: String): TechnicEntity? = dao.getItemById(id, color)
 
     fun deleteTechnic(technic: TechnicEntity) = dao.deleteTechnic(technic)
 

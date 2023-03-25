@@ -13,9 +13,9 @@ import com.example.technicstoreapp.domain.TechnicData
 
 class CartAdapter(
     private val itemClick: (Int) -> Unit,
-    private val plusClick: (Int) -> Unit,
-    private val minusClick: (Int) -> Unit,
-    private val deleteClick: (Int, View) -> Unit,
+    private val plusClick: (Int, String) -> Unit,
+    private val minusClick: (Int, String) -> Unit,
+    private val deleteClick: (Int, View, String) -> Unit,
     private val updateClick: () -> Unit,
 ) :
     RecyclerView.Adapter<CartViewHolder>() {

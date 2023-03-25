@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.cart
 
+import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,23 +28,23 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun plusUnitTechnic(id: Int) {
+    fun plusUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.insertTechnic(repository.getTechnicInfo(id))
+            repository.plusUnitTechnic(id, color)
             _technicCartLiveData.value = repository.getAllTechnicFromCart()
         }
     }
 
-    fun minusUnitTechnic(id: Int) {
+    fun minusUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.removeUnitTechnic(repository.getTechnicInfo(id))
+            repository.removeUnitTechnic(id, color)
             _technicCartLiveData.value = repository.getAllTechnicFromCart()
         }
     }
 
-    fun deleteUnitTechnic(id: Int) {
+    fun deleteUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.deleteTechnic(repository.getTechnicInfo(id))
+            repository.deleteTechnic(id, color)
             _technicCartLiveData.value = repository.getAllTechnicFromCart()
         }
     }

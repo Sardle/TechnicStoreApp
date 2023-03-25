@@ -12,9 +12,9 @@ import com.example.technicstoreapp.domain.CartTechnicData
 class CartViewHolder(
     private val binding: CartRecyclerBinding,
     private val itemClick: (Int) -> Unit,
-    private val plusClick: (Int) -> Unit,
-    private val minusClick: (Int) -> Unit,
-    private val deleteClick: (Int, View) -> Unit,
+    private val plusClick: (Int, String) -> Unit,
+    private val minusClick: (Int, String) -> Unit,
+    private val deleteClick: (Int, View, String) -> Unit,
     private val updateClick: () -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: CartTechnicData) {
@@ -22,23 +22,24 @@ class CartViewHolder(
         binding.cartName.text = item.name
         getPoster(item.imageUrl, binding.cartImage)
         binding.cartPrice.text = (item.price * item.count).toString() + " р."
+        binding.cartColor.text = "Цвет: " + item.color
 
         if (binding.count.text == "0") {
-            deleteClick(item.id, binding.root)
+            deleteClick(item.id, binding.root, item.color)
             updateClick()
         }
 
         binding.minus.setOnClickListener {
             val count = binding.count.text.toString().toInt() - 1
             binding.count.text = count.toString()
-            minusClick(item.id)
+            minusClick(item.id, item.color)
             updateClick()
         }
 
         binding.plus.setOnClickListener {
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
-            plusClick(item.id)
+            plusClick(item.id, item.color)
             updateClick()
         }
 

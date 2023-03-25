@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.OnBackPressedCallback
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
-import com.example.technicstoreapp.domain.TechnicData
-import com.example.technicstoreapp.ui.technic_page.TechnicPageFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,30 +33,46 @@ class TechnicPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val technic = viewModel.getTechnicInfo(args.id)
         val addCart = "В корзину за " + technic.price + " р."
+
+        val colors = viewModel.getColorsTechnic(technic.id)
+
+        binding.firstColor.text = colors.first()
+        binding.secondColor.text = colors[1]
+        binding.thirdColor.text = colors.last()
+
+        var selectedColor = colors.first()
+
 
         with(binding) {
             nameHeading.text = technic.name
             nameTechnic.text = technic.name
             description.text = technic.description
-            getPoster(technic.imageUrl, imageTechnicPage)
+            getPoster(
+                viewModel.getImageTechnic(technic.id, firstColor.text.toString()),
+                imageTechnicPage
+            )
             addToCart.text = addCart
         }
 
+        binding.toggle.setOnCheckedChangeListener { _, checkedId ->
+            val selectedRadioButton = view.findViewById<RadioButton>(checkedId)
+            selectedColor = selectedRadioButton?.text.toString()
+            getPoster(
+                viewModel.getImageTechnic(technic.id, selectedColor),
+                binding.imageTechnicPage
+            )
+        }
+
         binding.addToCart.setOnClickListener {
-            viewModel.insertTechnicToCart(technic)
+            viewModel.insertTechnicToCart(technic, selectedColor)
         }
 
         binding.back.setOnClickListener {
-//            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    findNavController().popBackStack()
-//                }
-//            })
             requireActivity().onBackPressed()
         }
+
     }
 
     private fun getPoster(url: String, image: ImageView) {

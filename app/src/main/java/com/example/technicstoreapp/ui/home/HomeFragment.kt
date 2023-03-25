@@ -34,11 +34,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel.setUserToken()
-        setupPopularRecyclerView()
-        setupNewsRecyclerView()
-        observeTechnicLiveData()
-        observeNewsLiveData()
+//        viewModel.setUserToken()
+//        setupPopularRecyclerView()
+//        setupNewsRecyclerView()
+//        observeTechnicLiveData()
+//        observeNewsLiveData()
     }
 
     private fun setupPopularRecyclerView() {

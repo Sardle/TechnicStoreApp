@@ -46,20 +46,37 @@ class RepositoryImpl @Inject constructor(
     override fun getTechnicBasedFromCategory(category: String): List<TechnicData> =
         server.getAllTechnic().filter { it.category == category }.map { mapperTechnic(it) }
 
-    override suspend fun insertTechnic(technicData: TechnicData) {
+    override suspend fun plusUnitTechnic(id: Int, color: String) {
         withContext(Dispatchers.IO) {
-            val existingTechnic = db.getItemById(technicData.id)
+            val existingTechnic = db.getItemById(id, color)
             if (existingTechnic != null) {
                 with(existingTechnic) {
                     count += 1
                     currentPrice = price * count
                 }
                 db.updateItem(existingTechnic)
-            } else {
-                db.insert(mapperDb.dataToEntity(technicData, "orange", 1, technicData.price))
             }
         }
     }
+
+    override suspend fun insertTechnic(technicData: TechnicData, color: String) {
+        withContext(Dispatchers.IO) {
+            plusUnitTechnic(technicData.id, color)
+            db.insert(
+                mapperDb.dataToEntity(
+                    technicData,
+                    color,
+                    1,
+                    technicData.price,
+                    getImageTechnic(technicData.id, color)
+                )
+            )
+        }
+    }
+
+    override fun getColorsTechnic(id: Int): List<String> = server.getColorsTechnic(id)
+
+    override fun getImageTechnic(id: Int, color: String): String = server.getImageTechnic(id, color)
 
     override suspend fun getAllTechnicFromCart(): List<CartTechnicData> {
         return withContext(Dispatchers.IO) {
@@ -76,9 +93,9 @@ class RepositoryImpl @Inject constructor(
     override fun getTechnicInfo(id: Int): TechnicData =
         server.getAllTechnic().filter { it.id == id }.map { mapperTechnic(it) }.first()
 
-    override suspend fun removeUnitTechnic(technicData: TechnicData) {
+    override suspend fun removeUnitTechnic(id: Int, color: String) {
         withContext(Dispatchers.IO) {
-            val existingTechnic = db.getItemById(technicData.id)
+            val existingTechnic = db.getItemById(id, color)
             if (existingTechnic != null) {
                 with(existingTechnic) {
                     count -= 1
@@ -89,9 +106,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteTechnic(technicData: TechnicData) {
+    override suspend fun deleteTechnic(id: Int, color: String) {
         withContext(Dispatchers.IO) {
-            val existingTechnic = db.getItemById(technicData.id)
+            val existingTechnic = db.getItemById(id, color)
             if (existingTechnic != null) {
                 db.deleteTechnic(existingTechnic)
             }

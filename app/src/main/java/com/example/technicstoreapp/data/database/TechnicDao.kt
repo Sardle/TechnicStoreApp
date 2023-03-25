@@ -20,8 +20,8 @@ interface TechnicDao {
     @Update
     fun updateItem(technic: TechnicEntity)
 
-    @Query("SELECT * FROM technic_cart WHERE id = :id")
-    fun getItemById(id: Int): TechnicEntity?
+    @Query("SELECT * FROM technic_cart WHERE id = :id AND color = :color")
+    fun getItemById(id: Int, color: String): TechnicEntity?
 
     @Query("SELECT currentPrice FROM technic_cart")
     fun getCurrentPrices(): List<Double>
