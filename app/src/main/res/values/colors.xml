@@ -14,4 +14,5 @@
     <color name="lightBlue">#ff6691c4</color>
     <color name="lighterBlue">#ffcdd8ec</color>
     <color name="controlBackground">#ffffffff</color>
+    <color name="red">#FF0000</color>
 </resources>

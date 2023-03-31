@@ -1,6 +1,8 @@
 package com.example.technicstoreapp.ui.catalog
 
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.CatalogRecyclerBinding
 
 class CatalogViewHolder(
@@ -9,11 +11,17 @@ class CatalogViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: String) {
-        binding.categoryName.apply {
-            text = item
-            setOnClickListener {
-                itemClick(item)
-            }
+        val urlAndText = item.split("|")
+        getPoster(urlAndText.last(), binding.imageCatalog)
+        binding.catalogName.text = urlAndText.first()
+        binding.root.setOnClickListener {
+            itemClick(urlAndText.first())
         }
+    }
+
+    private fun getPoster(url: String, image: ImageView) {
+        Glide.with(image)
+            .load(url)
+            .into(image)
     }
 }

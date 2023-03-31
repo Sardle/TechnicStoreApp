@@ -68,15 +68,11 @@ class RepositoryImpl @Inject constructor(
                     color,
                     1,
                     technicData.price,
-                    getImageTechnic(technicData.id, color)
+                    technicData.colorsAndImageUrl[color].toString()
                 )
             )
         }
     }
-
-    override fun getColorsTechnic(id: Int): List<String> = server.getColorsTechnic(id)
-
-    override fun getImageTechnic(id: Int, color: String): String = server.getImageTechnic(id, color)
 
     override suspend fun getAllTechnicFromCart(): List<CartTechnicData> {
         return withContext(Dispatchers.IO) {

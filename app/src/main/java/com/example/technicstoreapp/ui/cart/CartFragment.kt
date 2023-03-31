@@ -33,15 +33,20 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(viewModel) {
-            getAllPrices()
-
-            priceLiveData.observe(viewLifecycleOwner) {
-                binding.order.text = it.toString()
-            }
-        }
+        viewModel.getAllPrices()
+        setupPrice()
         setupCatalogRecyclerView()
         observeCartTechnicLiveData()
+    }
+
+    private fun setupPrice() {
+        with(viewModel) {
+            getPriceForSetup()
+
+            priceForSetupLiveData.observe(viewLifecycleOwner) {
+                binding.order.text = getString(R.string.order, it.toString())
+            }
+        }
     }
 
     private fun observeCartTechnicLiveData() {
@@ -71,8 +76,8 @@ class CartFragment : Fragment() {
         viewModel.getTechnicCart()
     }
 
-    private fun onItemClick(id: Int) {
-        val action = CartFragmentDirections.actionNavigationCartToTechnicPageFragment(id)
+    private fun onItemClick(id: Int, color: String) {
+        val action = CartFragmentDirections.actionNavigationCartToTechnicPageFragment(id, color)
         findNavController().navigate(action)
     }
 
@@ -100,21 +105,17 @@ class CartFragment : Fragment() {
     }
 
     private fun updateOrder() {
-        putPrice()
+        with(viewModel) {
+            getAllPrices()
+
+            priceLiveData.observe(viewLifecycleOwner) {
+                binding.order.text = getString(R.string.order, it.toString())
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun putPrice() {
-        with(viewModel) {
-            getAllPrices()
-
-            priceLiveData.observe(viewLifecycleOwner) {
-                binding.order.text = resources.getString(R.string.order) + it.toString() + " р."
-            }
-        }
     }
 }

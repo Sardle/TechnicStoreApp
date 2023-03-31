@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCatalogBinding
 import com.example.technicstoreapp.ui.search.SearchFragment
@@ -86,7 +86,12 @@ class CatalogFragment : Fragment() {
 
         binding.categories.apply {
             adapter = catalogAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(
+                this@CatalogFragment.context,
+                2,
+                GridLayoutManager.VERTICAL,
+                false
+            )
         }
 
         viewModel.getCategories()

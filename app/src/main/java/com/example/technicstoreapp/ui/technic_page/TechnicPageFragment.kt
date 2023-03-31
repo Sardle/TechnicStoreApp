@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
+import com.example.technicstoreapp.domain.TechnicData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,33 +36,18 @@ class TechnicPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val technic = viewModel.getTechnicInfo(args.id)
-        val addCart = "В корзину за " + technic.price + " р."
+        val defaultColor = args.defaultColor
+        val colors = technic.colorsAndImageUrl.keys.toList()
 
-        val colors = viewModel.getColorsTechnic(technic.id)
-
-        binding.firstColor.text = colors.first()
-        binding.secondColor.text = colors[1]
-        binding.thirdColor.text = colors.last()
-
-        var selectedColor = colors.first()
-
-
-        with(binding) {
-            nameHeading.text = technic.name
-            nameTechnic.text = technic.name
-            description.text = technic.description
-            getPoster(
-                viewModel.getImageTechnic(technic.id, firstColor.text.toString()),
-                imageTechnicPage
-            )
-            addToCart.text = addCart
-        }
+        setupColors(colors)
+        var selectedColor = getDefaultColor(defaultColor, colors)
+        setupPage(technic, selectedColor)
 
         binding.toggle.setOnCheckedChangeListener { _, checkedId ->
-            val selectedRadioButton = view.findViewById<RadioButton>(checkedId)
+            val selectedRadioButton = binding.toggle.findViewById<RadioButton>(checkedId)
             selectedColor = selectedRadioButton?.text.toString()
             getPoster(
-                viewModel.getImageTechnic(technic.id, selectedColor),
+                technic.colorsAndImageUrl[selectedColor].toString(),
                 binding.imageTechnicPage
             )
         }
@@ -69,10 +56,52 @@ class TechnicPageFragment : Fragment() {
             viewModel.insertTechnicToCart(technic, selectedColor)
         }
 
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
+        back()
+    }
 
+    private fun back() {
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun setupPage(technic: TechnicData, selectedColor: String) {
+        with(binding) {
+            nameHeading.text = technic.name
+            nameTechnic.text = technic.name
+            description.text = technic.description
+            getPoster(
+                technic.colorsAndImageUrl[selectedColor].toString(),
+                imageTechnicPage
+            )
+            addToCart.text = getString(R.string.add_to_cart, technic.price.toString())
+        }
+    }
+
+    private fun getDefaultColor(defaultColor: String, colors: List<String>): String {
+        val selectedColor: String
+        when (defaultColor) {
+            "default" -> {
+                selectedColor = colors.first()
+            }
+            colors[1] -> {
+                selectedColor = colors[1]
+                binding.toggle.check(binding.secondColor.id)
+            }
+            else -> {
+                selectedColor = colors.last()
+                binding.toggle.check(binding.thirdColor.id)
+            }
+        }
+        return selectedColor
+    }
+
+    private fun setupColors(colors: List<String>) {
+        with(binding) {
+            firstColor.text = colors.first()
+            secondColor.text = colors[1]
+            thirdColor.text = colors.last()
+        }
     }
 
     private fun getPoster(url: String, image: ImageView) {

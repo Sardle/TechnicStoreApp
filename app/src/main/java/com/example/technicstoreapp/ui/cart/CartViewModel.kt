@@ -1,6 +1,5 @@
 package com.example.technicstoreapp.ui.cart
 
-import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +20,15 @@ class CartViewModel @Inject constructor(
 
     private val _priceLiveData = MutableLiveData<Double>()
     val priceLiveData: LiveData<Double> get() = _priceLiveData
+
+    private val _priceForSetupLiveData = MutableLiveData<Double>()
+    val priceForSetupLiveData: LiveData<Double> get() = _priceForSetupLiveData
+
+    fun getPriceForSetup() {
+        viewModelScope.launch {
+            _priceForSetupLiveData.value = repository.getSumCurrentPrices()
+        }
+    }
 
     fun getTechnicCart() {
         viewModelScope.launch {
@@ -51,6 +59,7 @@ class CartViewModel @Inject constructor(
 
     fun getAllPrices() {
         viewModelScope.launch {
+            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${repository.getSumCurrentPrices()}")
             _priceLiveData.value = repository.getSumCurrentPrices()
         }
     }

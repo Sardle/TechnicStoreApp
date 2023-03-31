@@ -1,17 +1,15 @@
 package com.example.technicstoreapp.ui.cart
 
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.CartRecyclerBinding
 import com.example.technicstoreapp.domain.CartTechnicData
 
 class CartViewHolder(
     private val binding: CartRecyclerBinding,
-    private val itemClick: (Int) -> Unit,
+    private val itemClick: (Int, String) -> Unit,
     private val plusClick: (Int, String) -> Unit,
     private val minusClick: (Int, String) -> Unit,
     private val deleteClick: (Int, View, String) -> Unit,
@@ -30,28 +28,25 @@ class CartViewHolder(
         }
 
         binding.minus.setOnClickListener {
-            val count = binding.count.text.toString().toInt() - 1
-            binding.count.text = count.toString()
             minusClick(item.id, item.color)
+            binding.count.text = (binding.count.text.toString().toInt() - 1).toString()
             updateClick()
         }
 
         binding.plus.setOnClickListener {
+            plusClick(item.id, item.color)
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
-            plusClick(item.id, item.color)
             updateClick()
         }
 
         binding.root.setOnClickListener {
-            itemClick(item.id)
+            itemClick(item.id, item.color)
         }
     }
 
     private fun getPoster(url: String, image: ImageView) {
-        Glide.with(image)
-            .load(url)
-            .into(image)
+        Glide.with(image).load(url).into(image)
     }
 
 }

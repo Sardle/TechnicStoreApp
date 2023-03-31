@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.technicstoreapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_technicPageFragment"
             app:destination="@id/technicPageFragment" />
@@ -19,7 +19,7 @@
         android:id="@+id/navigation_catalog"
         android:name="com.example.technicstoreapp.ui.catalog.CatalogFragment"
         android:label="@string/title_catalog"
-        tools:layout="@layout/fragment_catalog" >
+        tools:layout="@layout/fragment_catalog">
         <action
             android:id="@+id/action_navigation_catalog_to_categoryPageFragment"
             app:destination="@id/categoryPageFragment"
@@ -43,35 +43,50 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.technicstoreapp.ui.cart.CartFragment"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" >
+        tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_navigation_cart_to_technicPageFragment"
-            app:destination="@id/technicPageFragment" />
+            app:destination="@id/technicPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.technicstoreapp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_infoUserFragment"
+            app:destination="@id/infoUserFragment" />
+    </fragment>
     <fragment
-        tools:layout="@layout/fragment_technic_page"
         android:id="@+id/technicPageFragment"
         android:name="com.example.technicstoreapp.ui.technic_page.TechnicPageFragment"
-        android:label="TechnicPageFragment" >
+        android:label="TechnicPageFragment"
+        tools:layout="@layout/fragment_technic_page">
         <argument
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="default_color"
+            android:defaultValue="default"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/categoryPageFragment"
         android:name="com.example.technicstoreapp.ui.catalog.category_page.CategoryPageFragment"
         android:label="fragment_category_page"
-        tools:layout="@layout/fragment_category_page" >
+        tools:layout="@layout/fragment_category_page">
         <argument
             android:name="category"
-            app:argType="string"
-            android:defaultValue="Телефоны" />
+            android:defaultValue="Телефоны"
+            app:argType="string" />
         <action
             android:id="@+id/action_categoryPageFragment_to_technicPageFragment"
             app:destination="@id/technicPageFragment"
@@ -81,8 +96,38 @@
             app:popExitAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_search"
         android:id="@+id/searchFragment"
         android:name="com.example.technicstoreapp.ui.search.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.LogInFragment"
+        android:label="LogInFragment"
+        tools:layout="@layout/fragment_log_in">
+        <action
+            android:id="@+id/action_logInFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoUserFragment"
+        android:name="com.example.technicstoreapp.ui.profile.user.InfoUserFragment"
+        android:label="InfoUserFragment"
+        tools:layout="@layout/fragment_info_user" >
+        <action
+            android:id="@+id/action_infoUserFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

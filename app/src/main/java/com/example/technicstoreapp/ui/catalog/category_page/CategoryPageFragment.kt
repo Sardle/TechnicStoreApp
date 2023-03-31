@@ -32,7 +32,7 @@ class CategoryPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.nameCategory.text = args.category
+        binding.categoryName.text = args.category
         binding.backCategory.setOnClickListener {
             requireActivity().onBackPressed()
         }

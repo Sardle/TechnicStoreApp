@@ -16,10 +16,6 @@ interface Repository {
 
     suspend fun insertTechnic(technicData: TechnicData, color: String)
 
-    fun getColorsTechnic(id: Int): List<String>
-
-    fun getImageTechnic(id: Int, color: String): String
-
     suspend fun getAllTechnicFromCart(): List<CartTechnicData>
 
     suspend fun deleteAllTechnicFromCart(listTechnic: List<CartTechnicData>)
