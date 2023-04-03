@@ -8,5 +8,6 @@ data class CartTechnicData(
     val price: Double,
     val category: String,
     val color: String,
-    val count: Int
+    val count: Int,
+    val orderTime: String
 )

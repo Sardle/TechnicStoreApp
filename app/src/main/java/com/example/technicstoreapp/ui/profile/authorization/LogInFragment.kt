@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -39,11 +40,23 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkDataEntry()
         removeStroke(binding.numberPhone)
         removeStroke(binding.password)
         comeToProfilePage()
         leadToBYNumberFormat()
         comeToRegisterPage()
+    }
+
+    private fun comeToProfilePage() {
+        viewModel.checkLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                val action = LogInFragmentDirections.actionLogInFragmentToNavigationProfile()
+                findNavController().navigate(action)
+            } else {
+                binding.incorrectNumberOrPassword.isVisible = true
+            }
+        }
     }
 
     private fun removeStroke(editText: EditText) {
@@ -71,28 +84,16 @@ class LogInFragment : Fragment() {
         return true
     }
 
-    private fun checkLogInUser(): Boolean {
-        return if (!viewModel.checkLogInUser(
-                binding.numberPhone.text.toString(), binding.password.text.toString()
-            )
-        ) {
-            binding.incorrectNumberOrPassword.isVisible = true
-            false
-        } else {
-            binding.incorrectNumberOrPassword.isVisible = false
-            true
-        }
-    }
-
-    private fun comeToProfilePage() {
+    private fun checkDataEntry() {
         binding.logIn.setOnClickListener {
             val checkPassword = checkPassword()
-            val checkLogInUser = checkLogInUser()
             val areAllEditTextsFilled = areAllEditTextsFilled()
             val checkNumber = checkNumber()
-            if (checkPassword && areAllEditTextsFilled && checkNumber && checkLogInUser) {
-                val action = LogInFragmentDirections.actionLogInFragmentToNavigationProfile()
-                findNavController().navigate(action)
+            if (checkPassword && areAllEditTextsFilled && checkNumber) {
+                viewModel.checkLogInUser(
+                    binding.numberPhone.text.toString(),
+                    binding.password.text.toString()
+                )
             }
         }
     }
@@ -108,7 +109,12 @@ class LogInFragment : Fragment() {
         if (binding.numberPhone.text.toString().length != 19) {
             binding.numberPhone.error = getString(R.string.error_to_number)
             binding.numberPhone.background =
-                requireContext().getDrawable(R.drawable.error_style_edittext)
+                this@LogInFragment.context?.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.error_style_edittext
+                    )
+                }
             return false
         }
         return true

@@ -13,10 +13,10 @@ class Server @Inject constructor() {
     fun getUserById(idUser: String): UserData = userList.first { it.id == idUser }
 
     fun checkLogIn(number: String, password: String): UserData? {
-        return if (userList.none { it.id == number && it.password == password }) {
+        return if (userList.none { it.id == number && it.hashPassword == password }) {
             null
         } else {
-            userList.first { it.id == number && it.password == password }
+            userList.first { it.id == number && it.hashPassword == password }
         }
     }
 
@@ -306,7 +306,7 @@ class Server @Inject constructor() {
             UserData(
                 id = "fe65b1fd44aa4fd522a2cb11d71843e4f6854010535567dc9ef955a2bb29b815",
                 name = "Nikita",
-                password = "4aaddb02457f15ef2be140605b177a76e3c1d13db8c24e020668ff808e7a8531",
+                hashPassword = "4aaddb02457f15ef2be140605b177a76e3c1d13db8c24e020668ff808e7a8531",
                 number = "+375 (29) 804-31-37",
                 address = "",
                 email = "dfvdfvdfvdfv",

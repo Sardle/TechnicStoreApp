@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.Repository
+import com.example.technicstoreapp.domain.RepositoryUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: Repository
+    private val repository: Repository,
+    private val repositoryUser: RepositoryUser
 ) : ViewModel() {
 
     private val _technicCartLiveData = MutableLiveData<List<CartTechnicData>>()
@@ -23,6 +25,12 @@ class CartViewModel @Inject constructor(
 
     private val _priceForSetupLiveData = MutableLiveData<Double>()
     val priceForSetupLiveData: LiveData<Double> get() = _priceForSetupLiveData
+
+    fun update() {
+        viewModelScope.launch {
+            repositoryUser.updateUser("1000")
+        }
+    }
 
     fun getPriceForSetup() {
         viewModelScope.launch {
@@ -59,7 +67,6 @@ class CartViewModel @Inject constructor(
 
     fun getAllPrices() {
         viewModelScope.launch {
-            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${repository.getSumCurrentPrices()}")
             _priceLiveData.value = repository.getSumCurrentPrices()
         }
     }

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.allViews
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,7 +20,6 @@ import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
-import java.text.NumberFormat
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -42,13 +40,14 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkDataEntry()
         comeToProfilePage()
         leadToFormat(FORMAT_NUMBER, binding.phone)
         leadToFormat(FORMAT_DATE, binding.dateOfBirth)
         removeStrokeForAll()
     }
 
-    private fun comeToProfilePage() {
+    private fun checkDataEntry() {
         binding.registerBtn.setOnClickListener {
             val checkPassword = checkPassword()
             val areAllEditTextsFilled = areAllEditTextsFilled()
@@ -68,7 +67,15 @@ class RegisterFragment : Fragment() {
                         binding.dateOfBirth.text.toString()
                     )
                 )
-                val action = RegisterFragmentDirections.actionRegisterFragmentToNavigationProfile()
+            }
+        }
+    }
+
+    private fun comeToProfilePage() {
+        viewModel.checkLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                val action =
+                    RegisterFragmentDirections.actionRegisterFragmentToNavigationProfile()
                 findNavController().navigate(action)
             }
         }

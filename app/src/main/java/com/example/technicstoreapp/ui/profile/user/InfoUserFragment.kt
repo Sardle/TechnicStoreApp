@@ -51,6 +51,7 @@ class InfoUserFragment : Fragment() {
 
             userLiveData.observe(viewLifecycleOwner) {
                 binding.nameUserPage.text = it.name
+                binding.numberUser.text = it.number
                 binding.emailUser.text = it.email
                 binding.dateOfBirthUser.text = it.dateOfBirth
             }

@@ -33,6 +33,10 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.order.setOnClickListener {
+            viewModel.update()
+        }
+
         viewModel.getAllPrices()
         setupPrice()
         setupCatalogRecyclerView()

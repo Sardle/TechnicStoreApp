@@ -4,15 +4,15 @@ interface RepositoryUser {
 
     fun checkAvailabilityUser(): Boolean
 
-    fun addUserToList(userData: UserData)
+    suspend fun createUser(userData: UserData): Boolean
 
-    fun setPrefsUserId(number: String, password: String)
+    fun setPrefs(id: String)
 
     fun logOutUser()
 
-    fun getUser(): UserData
+    suspend fun getUserById(): UserData
 
-    fun getUserById(idUser: String): UserData
+    suspend fun updateUser(points: String)
 
-    fun checkLogInUser(number: String, password: String): UserData?
+    suspend fun checkLogInUser(number: String, password: String): Boolean
 }

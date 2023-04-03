@@ -1,6 +1,7 @@
 package com.example.technicstoreapp.di
 
 import com.example.technicstoreapp.data.network.NewsService
+import com.example.technicstoreapp.data.network.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,29 +14,19 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NewsModule {
+class UserModule {
 
     @Provides
-    @Named("retrofitNews")
-    fun getRetrofit(client: OkHttpClient): Retrofit {
+    @Named("retrofitUser")
+    fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2/")
+            .baseUrl("https://android-api.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
             .build()
     }
 
     @Provides
-    fun getClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY };
-        return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build()
-    }
-
-    @Provides
-    fun getNewsService(@Named("retrofitNews") retrofit: Retrofit): NewsService {
-        return retrofit.create(NewsService::class.java)
+    fun getNewsService(@Named("retrofitUser") retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }
