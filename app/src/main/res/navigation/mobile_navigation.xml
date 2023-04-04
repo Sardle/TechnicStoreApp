@@ -51,6 +51,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_out_right"
             app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_cart_to_logInFragment"
+            app:destination="@id/logInFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
@@ -62,7 +65,11 @@
             app:destination="@id/logInFragment" />
         <action
             android:id="@+id/action_navigation_profile_to_infoUserFragment"
-            app:destination="@id/infoUserFragment" />
+            app:destination="@id/infoUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/technicPageFragment"
@@ -107,7 +114,11 @@
         tools:layout="@layout/fragment_log_in">
         <action
             android:id="@+id/action_logInFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_enter_profile"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_exit_profile" />
         <action
             android:id="@+id/action_logInFragment_to_navigation_profile"
             app:destination="@id/navigation_profile" />
@@ -119,7 +130,8 @@
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/slide_exit_profile" />
     </fragment>
     <fragment
         android:id="@+id/infoUserFragment"

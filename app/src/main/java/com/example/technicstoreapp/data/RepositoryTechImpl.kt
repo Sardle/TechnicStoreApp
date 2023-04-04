@@ -4,30 +4,32 @@ import com.example.technicstoreapp.data.mappers.DataBaseMapper
 import com.example.technicstoreapp.data.mappers.NewsMapper
 import com.example.technicstoreapp.data.mappers.TechnicMapper
 import com.example.technicstoreapp.data.network.NewsService
+import com.example.technicstoreapp.data.network.TechService
 import com.example.technicstoreapp.data.source.DataBaseSource
 import com.example.technicstoreapp.data.source.UserDataSource
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.NewsData
-import com.example.technicstoreapp.domain.Repository
+import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.TechnicData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
-import java.util.*
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor(
+class RepositoryTechImpl @Inject constructor(
     private val mapperTechnic: TechnicMapper,
-    private val server: Server,
     private val mapperNews: NewsMapper,
     private val prefs: UserDataSource,
     private val service: NewsService,
     private val db: DataBaseSource,
-    private val mapperDb: DataBaseMapper
-) : Repository {
+    private val mapperDb: DataBaseMapper,
+    private val techService: TechService
+) : RepositoryTech {
 
-    override fun getAllTechnic(): List<TechnicData> {
-        return server.getAllTechnic().map { mapperTechnic(it) }
+    override suspend fun getAllTechnic(): List<TechnicData> {
+        return withContext(Dispatchers.IO) {
+            techService.getAllTechnic().execute().body()?.map { mapperTechnic(it) }
+                ?: throw Exception()
+        }
     }
 
     override suspend fun getNews(): List<NewsData> {
@@ -42,9 +44,18 @@ class RepositoryImpl @Inject constructor(
         prefs.setUserToken(token)
     }
 
-    override fun getCategories(): List<String> = server.getCategories()
-    override fun getTechnicBasedFromCategory(category: String): List<TechnicData> =
-        server.getAllTechnic().filter { it.category == category }.map { mapperTechnic(it) }
+    override suspend fun getCategories(): List<String> {
+        return withContext(Dispatchers.IO) {
+            techService.getCategories().execute().body() ?: throw Exception()
+        }
+    }
+
+    override suspend fun getTechnicBasedFromCategory(category: String): List<TechnicData> {
+        return withContext(Dispatchers.IO) {
+            techService.getTechnicByCategory(category).execute().body()?.map { mapperTechnic(it) }
+                ?: throw Exception()
+        }
+    }
 
     override suspend fun plusUnitTechnic(id: Int, color: String) {
         withContext(Dispatchers.IO) {
@@ -68,7 +79,7 @@ class RepositoryImpl @Inject constructor(
                     color,
                     1,
                     technicData.price,
-                    technicData.colorsAndImageUrl[color].toString()
+                    technicData.colors[color].toString()
                 )
             )
         }
@@ -86,8 +97,11 @@ class RepositoryImpl @Inject constructor(
 //        }
     }
 
-    override fun getTechnicInfo(id: Int): TechnicData =
-        server.getAllTechnic().filter { it.id == id }.map { mapperTechnic(it) }.first()
+    override suspend fun getTechnicInfo(id: Int): TechnicData {
+        return withContext(Dispatchers.IO) {
+            mapperTechnic(techService.getTechnicById(id).execute().body() ?: throw Exception())
+        }
+    }
 
     override suspend fun removeUnitTechnic(id: Int, color: String) {
         withContext(Dispatchers.IO) {
@@ -115,10 +129,9 @@ class RepositoryImpl @Inject constructor(
         db.getCurrentPrices().sum()
     }
 
-    override fun getSearchResult(searchString: String): List<TechnicData> {
-        return server.getAllTechnic().map { mapperTechnic(it) }.filter {
-            it.name.lowercase(Locale.ROOT)
-                .contains(searchString.lowercase(Locale.ROOT).toRegex())
+    override suspend fun getSearchResult(searchString: String): List<TechnicData> {
+        return withContext(Dispatchers.IO) {
+            techService.search(searchString).execute().body()?.map { mapperTechnic(it) } ?: throw Exception()
         }
     }
 }

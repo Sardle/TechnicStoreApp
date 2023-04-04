@@ -12,6 +12,6 @@ data class UserResponse(
     @SerializedName("email") val email: String? = null,
     @SerializedName("address") var address: String? = null,
     @SerializedName("discountPoints") var discountPoints: String? = null,
-    @SerializedName("carts") var carts: List<CartTechnicResponse>? = null,
+    @SerializedName("carts") var carts: List<HistoryOrderResponse>? = null,
     @SerializedName("dateOfBirth") val dateOfBirth: String? = null
 )

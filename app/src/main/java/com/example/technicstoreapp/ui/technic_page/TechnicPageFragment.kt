@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RadioButton
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.allViews
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -35,28 +39,39 @@ class TechnicPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val technic = viewModel.getTechnicInfo(args.id)
-        val defaultColor = args.defaultColor
-        val colors = technic.colorsAndImageUrl.keys.toList()
+        viewModel.getTechnicInfo(args.id)
 
-        setupColors(colors)
-        var selectedColor = getDefaultColor(defaultColor, colors)
-        setupPage(technic, selectedColor)
-
-        binding.toggle.setOnCheckedChangeListener { _, checkedId ->
-            val selectedRadioButton = binding.toggle.findViewById<RadioButton>(checkedId)
-            selectedColor = selectedRadioButton?.text.toString()
-            getPoster(
-                technic.colorsAndImageUrl[selectedColor].toString(),
-                binding.imageTechnicPage
-            )
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            checkLoading(it)
         }
 
-        binding.addToCart.setOnClickListener {
-            viewModel.insertTechnicToCart(technic, selectedColor)
-        }
+        viewModel.technicLiveData.observe(viewLifecycleOwner) {
 
-        back()
+            if (it != null) {
+                val technic = it
+                val defaultColor = args.defaultColor
+                val colors = technic.colors.keys.toList()
+
+                setupColors(colors)
+                var selectedColor = getDefaultColor(defaultColor, colors)
+                setupPage(technic, selectedColor)
+
+                binding.toggle.setOnCheckedChangeListener { _, checkedId ->
+                    val selectedRadioButton = binding.toggle.findViewById<RadioButton>(checkedId)
+                    selectedColor = selectedRadioButton?.text.toString()
+                    getPoster(
+                        technic.colors[selectedColor].toString(),
+                        binding.imageTechnicPage
+                    )
+                }
+
+                binding.addToCart.setOnClickListener {
+                    viewModel.insertTechnicToCart(technic, selectedColor)
+                }
+
+                back()
+            }
+        }
     }
 
     private fun back() {
@@ -71,7 +86,7 @@ class TechnicPageFragment : Fragment() {
             nameTechnic.text = technic.name
             description.text = technic.description
             getPoster(
-                technic.colorsAndImageUrl[selectedColor].toString(),
+                technic.colors[selectedColor].toString(),
                 imageTechnicPage
             )
             addToCart.text = getString(R.string.add_to_cart, technic.price.toString())
@@ -101,6 +116,16 @@ class TechnicPageFragment : Fragment() {
             firstColor.text = colors.first()
             secondColor.text = colors[1]
             thirdColor.text = colors.last()
+        }
+    }
+
+    private fun checkLoading(exists: Boolean) {
+        for (view in requireView().allViews) {
+            if (view is ProgressBar) {
+                view.isVisible = exists
+            } else if (view !is ConstraintLayout){
+                view.isVisible = !exists
+            }
         }
     }
 

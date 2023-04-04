@@ -11,5 +11,4 @@ data class CartTechnicResponse (
     @SerializedName("category") val category: String? = null,
     @SerializedName("color") val color: String? = null,
     @SerializedName("count") val count: Int? = null,
-    @SerializedName("orderTime") val orderTime: String? = null
 )

@@ -1,8 +1,8 @@
 package com.example.technicstoreapp.di
 
-import com.example.technicstoreapp.data.RepositoryImpl
+import com.example.technicstoreapp.data.RepositoryTechImpl
 import com.example.technicstoreapp.data.RepositoryUserImpl
-import com.example.technicstoreapp.domain.Repository
+import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import dagger.Binds
 import dagger.Module
@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun getRepository(impl: RepositoryImpl): Repository
+    abstract fun getRepository(impl: RepositoryTechImpl): RepositoryTech
 
     @Binds
     abstract fun getUserRepository(impl: RepositoryUserImpl): RepositoryUser

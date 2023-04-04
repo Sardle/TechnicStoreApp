@@ -9,5 +9,4 @@ data class CartTechnicData(
     val category: String,
     val color: String,
     val count: Int,
-    val orderTime: String
 )

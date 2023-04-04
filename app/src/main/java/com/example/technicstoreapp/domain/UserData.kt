@@ -8,6 +8,6 @@ data class UserData(
     var address: String,
     var email: String,
     var discountPoints: String,
-    var carts: List<CartTechnicData>,
+    var carts: List<HistoryOrderData>,
     val dateOfBirth: String
 )

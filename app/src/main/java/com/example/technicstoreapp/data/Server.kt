@@ -288,10 +288,10 @@ class Server @Inject constructor() {
     )
 
     fun getColorsTechnic(id: Int): List<String> =
-        getAllTechnic().first { it.id == id }.colorsAndImageUrl?.keys?.toList() ?: emptyList()
+        getAllTechnic().first { it.id == id }.colors?.keys?.toList() ?: emptyList()
 
     fun getImageTechnic(id: Int, color: String): String =
-        getAllTechnic().first { it.id == id }.colorsAndImageUrl?.get(color)
+        getAllTechnic().first { it.id == id }.colors?.get(color)
             .toString()
 
     fun getCategories(): List<String> = listOf(

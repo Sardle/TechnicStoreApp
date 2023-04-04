@@ -1,15 +1,18 @@
 package com.example.technicstoreapp.ui.catalog.category_page
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCategoryPageBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,12 +45,19 @@ class CategoryPageFragment : Fragment() {
     }
 
     private fun observeTechnicLiveData() {
+        observeLoadingLiveData()
         viewModel.technicLiveData.observe(viewLifecycleOwner) { technicList ->
             binding.categoriesInfo.adapter?.let { adapter ->
                 if (adapter is CategoryPageAdapter) {
                     adapter.setItems(technicList)
                 }
             }
+        }
+    }
+
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBarCategoryPage.isVisible = it
         }
     }
 
@@ -63,7 +73,8 @@ class CategoryPageFragment : Fragment() {
     }
 
     private fun onItemClick(id: Int) {
-        val action = CategoryPageFragmentDirections.actionCategoryPageFragmentToTechnicPageFragment(id)
+        val action =
+            CategoryPageFragmentDirections.actionCategoryPageFragmentToTechnicPageFragment(id)
         findNavController().navigate(action)
     }
 }

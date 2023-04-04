@@ -41,12 +41,19 @@ class SearchFragment : Fragment(){
     }
 
     private fun observeTechnicLiveData() {
+        observeLoadingLiveData()
         viewModel.searchLiveData.observe(viewLifecycleOwner) { technicList ->
             binding.recyclerSearch.adapter?.let { adapter ->
                 if (adapter is SearchAdapter) {
                     adapter.setItems(technicList)
                 }
             }
+        }
+    }
+
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBarSearch.isVisible = it
         }
     }
 

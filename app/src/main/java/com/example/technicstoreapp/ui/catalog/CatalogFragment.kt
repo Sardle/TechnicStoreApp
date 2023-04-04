@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCatalogBinding
 import com.example.technicstoreapp.ui.search.SearchFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -98,12 +99,19 @@ class CatalogFragment : Fragment() {
     }
 
     private fun observeTechnicLiveData() {
+        observeLoadingLiveData()
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { technicList ->
             binding.categories.adapter?.let { adapter ->
                 if (adapter is CatalogAdapter) {
                     adapter.setItems(technicList)
                 }
             }
+        }
+    }
+
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBarCatalog.isVisible = it
         }
     }
 

@@ -2,11 +2,12 @@ package com.example.technicstoreapp.data.mappers
 
 import com.example.technicstoreapp.data.models.UserResponse
 import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.HistoryOrderData
 import com.example.technicstoreapp.domain.UserData
 import javax.inject.Inject
 
 class UserMapper @Inject constructor(
-    private val cartTechnicMapper: CartTechnicMapper
+    private val historyOrderMapper: HistoryOrderMapper
 ) {
 
     fun responseToData(userResponse: UserResponse): UserData = with(userResponse) {
@@ -18,7 +19,7 @@ class UserMapper @Inject constructor(
             address = address.orEmpty(),
             email = email.orEmpty(),
             discountPoints = discountPoints.orEmpty(),
-            carts = (carts ?: emptyList<CartTechnicData>()) as List<CartTechnicData>,
+            carts = ((carts ?: emptyList()) as List<HistoryOrderData>),
             dateOfBirth = dateOfBirth.orEmpty()
         )
     }
@@ -32,7 +33,7 @@ class UserMapper @Inject constructor(
             address = address,
             email = email,
             discountPoints = discountPoints,
-            carts = carts.map { cartTechnicMapper(it) },
+            carts = carts.map { historyOrderMapper(it) },
             dateOfBirth = dateOfBirth
         )
     }

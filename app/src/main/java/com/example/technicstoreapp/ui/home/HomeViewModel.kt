@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.NewsData
-import com.example.technicstoreapp.domain.Repository
+import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.TechnicData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: Repository
+    private val repositoryTech: RepositoryTech
 ) : ViewModel() {
 
     private val _technicLiveData = MutableLiveData<List<TechnicData>>()
@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     fun getTechnic() {
         _loadingLiveData.value = true
         viewModelScope.launch {
-            _technicLiveData.value = repository.getAllTechnic()
+            _technicLiveData.value = repositoryTech.getAllTechnic()
             _loadingLiveData.value = false
         }
     }
@@ -36,13 +36,13 @@ class HomeViewModel @Inject constructor(
     fun getNews() {
         _loadingLiveData.value = true
         viewModelScope.launch {
-            _newsLiveData.value = repository.getNews()
+            _newsLiveData.value = repositoryTech.getNews()
             _loadingLiveData.value = false
         }
     }
 
     fun setUserToken() {
-        repository.setUserToken(USER_TOKEN)
+        repositoryTech.setUserToken(USER_TOKEN)
     }
 
     companion object {

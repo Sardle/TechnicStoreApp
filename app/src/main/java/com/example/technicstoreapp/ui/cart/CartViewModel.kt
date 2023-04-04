@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
-import com.example.technicstoreapp.domain.Repository
+import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: Repository,
+    private val repositoryTech: RepositoryTech,
     private val repositoryUser: RepositoryUser
 ) : ViewModel() {
 
@@ -23,8 +23,12 @@ class CartViewModel @Inject constructor(
     private val _priceLiveData = MutableLiveData<Double>()
     val priceLiveData: LiveData<Double> get() = _priceLiveData
 
-    private val _priceForSetupLiveData = MutableLiveData<Double>()
-    val priceForSetupLiveData: LiveData<Double> get() = _priceForSetupLiveData
+    private val _checkLiveData = MutableLiveData<Boolean>()
+    val checkLiveData: LiveData<Boolean> get() = _checkLiveData
+
+    fun checkAvailabilityUser() {
+        _checkLiveData.value = repositoryUser.checkAvailabilityUser()
+    }
 
     fun update() {
         viewModelScope.launch {
@@ -32,42 +36,40 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun getPriceForSetup() {
-        viewModelScope.launch {
-            _priceForSetupLiveData.value = repository.getSumCurrentPrices()
-        }
-    }
-
     fun getTechnicCart() {
         viewModelScope.launch {
-            _technicCartLiveData.value = repository.getAllTechnicFromCart()
+            _priceLiveData.value = repositoryTech.getSumCurrentPrices()
+            _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun plusUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.plusUnitTechnic(id, color)
-            _technicCartLiveData.value = repository.getAllTechnicFromCart()
+            repositoryTech.plusUnitTechnic(id, color)
+            _priceLiveData.value = repositoryTech.getSumCurrentPrices()
+            _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun minusUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.removeUnitTechnic(id, color)
-            _technicCartLiveData.value = repository.getAllTechnicFromCart()
+            repositoryTech.removeUnitTechnic(id, color)
+            _priceLiveData.value = repositoryTech.getSumCurrentPrices()
+            _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun deleteUnitTechnic(id: Int, color: String) {
         viewModelScope.launch {
-            repository.deleteTechnic(id, color)
-            _technicCartLiveData.value = repository.getAllTechnicFromCart()
+            repositoryTech.deleteTechnic(id, color)
+            _priceLiveData.value = repositoryTech.getSumCurrentPrices()
+            _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun getAllPrices() {
         viewModelScope.launch {
-            _priceLiveData.value = repository.getSumCurrentPrices()
+            _priceLiveData.value = repositoryTech.getSumCurrentPrices()
         }
     }
 }

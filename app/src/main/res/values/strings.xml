@@ -30,6 +30,7 @@
     <string name="incorrect_number_or_password">Неверный логин или пароль!</string>
     <string name="error_to_date">Дата должна быть в формате ДД.ММ.ГГГГ</string>
     <string name="error_to_number">Неверный номер</string>
+    <string name="error_to_number_is_occupied">Номер телефона уже занят!</string>
     <string name="hello">Привет, %1$s!</string>
     <string name="info_about_user">Информация о пользователе</string>
     <string name="number_phone">Номер телефона: </string>
@@ -37,4 +38,5 @@
     <string name="date_of_birth_for_user_page">Дата рождения:</string>
     <string name="log_out_account">Выйти с аккаунта</string>
     <string name="remove_account">Удалить аккаунт</string>
+    <string name="discount_hilt">Баллы начисляются в размере 1% от заказа</string>
 </resources>

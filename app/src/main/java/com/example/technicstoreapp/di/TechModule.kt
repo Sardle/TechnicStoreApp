@@ -1,6 +1,6 @@
 package com.example.technicstoreapp.di
 
-import com.example.technicstoreapp.data.network.UserService
+import com.example.technicstoreapp.data.network.TechService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,19 +11,19 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-class UserModule {
+class TechModule {
 
     @Provides
-    @Named("retrofitUser")
+    @Named("retrofitTech")
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://android-api.herokuapp.com/UserTech/")
+            .baseUrl("https://android-api.herokuapp.com/Technic/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
-    fun getUserService(@Named("retrofitUser") retrofit: Retrofit): UserService {
-        return retrofit.create(UserService::class.java)
+    fun getTechService(@Named("retrofitTech") retrofit: Retrofit): TechService {
+        return retrofit.create(TechService::class.java)
     }
 }

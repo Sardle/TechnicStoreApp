@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.allViews
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -49,11 +53,25 @@ class InfoUserFragment : Fragment() {
         with(viewModel) {
             getUser()
 
+            viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+                checkLoading(it)
+            }
+
             userLiveData.observe(viewLifecycleOwner) {
                 binding.nameUserPage.text = it.name
                 binding.numberUser.text = it.number
                 binding.emailUser.text = it.email
                 binding.dateOfBirthUser.text = it.dateOfBirth
+            }
+        }
+    }
+
+    private fun checkLoading(exists: Boolean) {
+        for (view in requireView().allViews) {
+            if (view is ProgressBar) {
+                view.isVisible = exists
+            } else if (view !is ConstraintLayout){
+                view.isVisible = !exists
             }
         }
     }

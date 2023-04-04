@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCartBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,14 +31,28 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_cart
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.order.setOnClickListener {
-            viewModel.update()
+            viewModel.checkAvailabilityUser()
+
+            viewModel.checkLiveData.observe(viewLifecycleOwner) {
+                if (!it) {
+                    viewModel.update()
+                } else {
+                    val action = CartFragmentDirections.actionNavigationCartToLogInFragment()
+                    findNavController().navigate(action)
+                    //requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_profile
+                }
+            }
         }
 
-        viewModel.getAllPrices()
         setupPrice()
         setupCatalogRecyclerView()
         observeCartTechnicLiveData()
@@ -45,9 +60,8 @@ class CartFragment : Fragment() {
 
     private fun setupPrice() {
         with(viewModel) {
-            getPriceForSetup()
-
-            priceForSetupLiveData.observe(viewLifecycleOwner) {
+            getAllPrices()
+            priceLiveData.observe(viewLifecycleOwner) {
                 binding.order.text = getString(R.string.order, it.toString())
             }
         }
@@ -111,10 +125,6 @@ class CartFragment : Fragment() {
     private fun updateOrder() {
         with(viewModel) {
             getAllPrices()
-
-            priceLiveData.observe(viewLifecycleOwner) {
-                binding.order.text = getString(R.string.order, it.toString())
-            }
         }
     }
 

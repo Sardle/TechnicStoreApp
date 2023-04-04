@@ -1,16 +1,16 @@
 package com.example.technicstoreapp.domain
 
-interface Repository {
+interface RepositoryTech {
 
-    fun getAllTechnic(): List<TechnicData>
+    suspend fun getAllTechnic(): List<TechnicData>
 
     suspend fun getNews(): List<NewsData>
 
     fun setUserToken(token: String)
 
-    fun getCategories(): List<String>
+    suspend fun getCategories(): List<String>
 
-    fun getTechnicBasedFromCategory(category: String): List<TechnicData>
+    suspend fun getTechnicBasedFromCategory(category: String): List<TechnicData>
 
     suspend fun plusUnitTechnic(id: Int, color: String)
 
@@ -20,7 +20,7 @@ interface Repository {
 
     suspend fun deleteAllTechnicFromCart(listTechnic: List<CartTechnicData>)
 
-    fun getTechnicInfo(id: Int): TechnicData
+    suspend fun getTechnicInfo(id: Int): TechnicData
 
     suspend fun removeUnitTechnic(id: Int, color: String)
 
@@ -28,5 +28,5 @@ interface Repository {
 
     suspend fun getSumCurrentPrices(): Double
 
-    fun getSearchResult(searchString: String): List<TechnicData>
+    suspend fun getSearchResult(searchString: String): List<TechnicData>
 }

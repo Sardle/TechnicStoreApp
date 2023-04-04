@@ -10,7 +10,7 @@ class TechnicMapper @Inject constructor(){
         TechnicData(
             id = id ?: 1,
             name = name.orEmpty(),
-            colorsAndImageUrl = colorsAndImageUrl ?: emptyMap(),
+            colors = colors ?: emptyMap(),
             description = description.orEmpty(),
             price = price ?: 0.0,
             category = category.orEmpty()

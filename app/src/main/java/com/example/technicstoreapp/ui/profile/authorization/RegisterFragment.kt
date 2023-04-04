@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -77,6 +78,15 @@ class RegisterFragment : Fragment() {
                 val action =
                     RegisterFragmentDirections.actionRegisterFragmentToNavigationProfile()
                 findNavController().navigate(action)
+            } else {
+                binding.phone.error = getString(R.string.error_to_number_is_occupied)
+                binding.phone.background =
+                    this@RegisterFragment.context?.let { context ->
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.error_style_edittext
+                        )
+                    }
             }
         }
     }
@@ -141,7 +151,12 @@ class RegisterFragment : Fragment() {
         if (binding.phone.text.toString().length != 19) {
             binding.phone.error = getString(R.string.error_to_number)
             binding.phone.background =
-                requireContext().getDrawable(R.drawable.error_style_edittext)
+                this@RegisterFragment.context?.let { context ->
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.error_style_edittext
+                    )
+                }
             return false
         }
         return true
@@ -151,7 +166,12 @@ class RegisterFragment : Fragment() {
         if (!binding.passwordReg.text.toString().matches(REGEX_PASSWORD.toRegex())) {
             binding.passwordReg.error = getString(R.string.error_to_password)
             binding.passwordReg.background =
-                requireContext().getDrawable(R.drawable.error_style_edittext)
+                this@RegisterFragment.context?.let { context ->
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.error_style_edittext
+                    )
+                }
             return false
         }
         return true
@@ -159,10 +179,14 @@ class RegisterFragment : Fragment() {
 
     private fun checkDate(): Boolean {
         if (!binding.dateOfBirth.text.toString().matches(REGEX_DATE.toRegex())) {
-            println("!!!!!!!!!!!!!!!!!!!!!!!${binding.dateOfBirth.text}")
             binding.dateOfBirth.error = getString(R.string.error_to_date)
             binding.dateOfBirth.background =
-                requireContext().getDrawable(R.drawable.error_style_edittext)
+                this@RegisterFragment.context?.let { context ->
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.error_style_edittext
+                    )
+                }
             return false
         }
         return true

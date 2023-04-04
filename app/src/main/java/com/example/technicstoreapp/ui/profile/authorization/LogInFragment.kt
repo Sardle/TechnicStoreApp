@@ -1,6 +1,7 @@
 package com.example.technicstoreapp.ui.profile.authorization
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentLogInBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
@@ -36,7 +38,6 @@ class LogInFragment : Fragment() {
         _binding = FragmentLogInBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -78,7 +79,12 @@ class LogInFragment : Fragment() {
         if (!binding.password.text.toString().matches(REGEX_PASSWORD.toRegex())) {
             binding.password.error = getString(R.string.error_to_password)
             binding.password.background =
-                requireContext().getDrawable(R.drawable.error_style_edittext)
+                this@LogInFragment.context?.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.error_style_edittext
+                    )
+                }
             return false
         }
         return true
