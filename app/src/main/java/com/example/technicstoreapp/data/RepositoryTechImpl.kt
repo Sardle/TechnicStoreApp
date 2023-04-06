@@ -27,16 +27,13 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getAllTechnic(): List<TechnicData> {
         return withContext(Dispatchers.IO) {
-            techService.getAllTechnic().execute().body()?.map { mapperTechnic(it) }
-                ?: throw Exception()
+            techService.getAllTechnic().map { mapperTechnic(it) }
         }
     }
 
     override suspend fun getNews(): List<NewsData> {
         return withContext(Dispatchers.IO) {
-            service.getNews("pc technologies", prefs.getUserToken())
-                .execute()
-                .body()?.let { mapperNews(it) } ?: throw Exception()
+            mapperNews(service.getNews("pc technologies", prefs.getUserToken()))
         }
     }
 
@@ -46,14 +43,13 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getCategories(): List<String> {
         return withContext(Dispatchers.IO) {
-            techService.getCategories().execute().body() ?: throw Exception()
+            techService.getCategories()
         }
     }
 
     override suspend fun getTechnicBasedFromCategory(category: String): List<TechnicData> {
         return withContext(Dispatchers.IO) {
-            techService.getTechnicByCategory(category).execute().body()?.map { mapperTechnic(it) }
-                ?: throw Exception()
+            techService.getTechnicByCategory(category).map { mapperTechnic(it) }
         }
     }
 
@@ -99,7 +95,7 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getTechnicInfo(id: Int): TechnicData {
         return withContext(Dispatchers.IO) {
-            mapperTechnic(techService.getTechnicById(id).execute().body() ?: throw Exception())
+            mapperTechnic(techService.getTechnicById(id))
         }
     }
 
@@ -131,7 +127,13 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getSearchResult(searchString: String): List<TechnicData> {
         return withContext(Dispatchers.IO) {
-            techService.search(searchString).execute().body()?.map { mapperTechnic(it) } ?: throw Exception()
+            techService.search(searchString).map { mapperTechnic(it) }
+        }
+    }
+
+    override suspend fun checkListCart(): Boolean {
+        return withContext(Dispatchers.IO) {
+            db.getAll().isEmpty()
         }
     }
 }

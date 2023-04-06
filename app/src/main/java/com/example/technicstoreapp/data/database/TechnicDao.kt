@@ -8,7 +8,7 @@ interface TechnicDao {
     @Query("SELECT * FROM technic_cart")
     fun getAll(): List<TechnicEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(technic: TechnicEntity)
 
     @Delete

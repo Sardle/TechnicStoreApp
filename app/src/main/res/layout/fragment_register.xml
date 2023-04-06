@@ -7,6 +7,7 @@
     android:background="@drawable/register">
 
     <TextView
+        android:id="@+id/create_new_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_new_account"
@@ -244,5 +245,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.08" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/purple_700"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/register_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="phone, date_of_birth, name, password_reg, register_btn, email, create_new_account"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

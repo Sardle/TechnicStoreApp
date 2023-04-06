@@ -52,8 +52,8 @@
             app:popEnterAnim="@anim/slide_out_right"
             app:popExitAnim="@anim/slide_in_left" />
         <action
-            android:id="@+id/action_navigation_cart_to_logInFragment"
-            app:destination="@id/logInFragment" />
+            android:id="@+id/action_navigation_cart_to_orderFragment"
+            app:destination="@id/orderFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
@@ -97,8 +97,6 @@
         <action
             android:id="@+id/action_categoryPageFragment_to_technicPageFragment"
             app:destination="@id/technicPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_out_right"
             app:popExitAnim="@anim/slide_in_left" />
     </fragment>
@@ -132,6 +130,9 @@
             android:id="@+id/action_registerFragment_to_navigation_profile"
             app:destination="@id/navigation_profile"
             app:exitAnim="@anim/slide_exit_profile" />
+        <action
+            android:id="@+id/action_registerFragment_to_authSuccessDialog"
+            app:destination="@id/authSuccessDialog" />
     </fragment>
     <fragment
         android:id="@+id/infoUserFragment"
@@ -142,4 +143,18 @@
             android:id="@+id/action_infoUserFragment_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
+    <fragment
+        android:id="@+id/authSuccessDialog"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.AuthSuccessDialog"
+        android:label="AuthSuccessDialog"
+        tools:layout="@layout/fragment_auth_success">
+        <action
+            android:id="@+id/action_authSuccessDialog_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_order"
+        android:id="@+id/orderFragment"
+        android:name="com.example.technicstoreapp.ui.cart.order.OrderFragment"
+        android:label="OrderFragment" />
 </navigation>

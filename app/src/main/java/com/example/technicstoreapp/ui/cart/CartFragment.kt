@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
@@ -33,22 +35,55 @@ class CartFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_cart
+
+        with(viewModel) {
+            checkListTechnicLiveData.observe(viewLifecycleOwner) {
+                binding.cartGroup.isVisible = !it
+                binding.emptyCart.isVisible = it
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkUser()
 
-        binding.order.setOnClickListener {
-            viewModel.checkAvailabilityUser()
+        viewModel.checkListTechnic()
 
-            viewModel.checkLiveData.observe(viewLifecycleOwner) {
-                if (!it) {
-                    viewModel.update()
-                } else {
-                    val action = CartFragmentDirections.actionNavigationCartToLogInFragment()
+        binding.comeToCatalog.setOnClickListener {
+            val navController =
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+            navController.popBackStack(R.id.navigation_cart, false)
+
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
+                menu.isChecked = true
+            }
+            bottomNavigationView.selectedItemId = R.id.navigation_catalog
+        }
+
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBarCart.isVisible = it
+            binding.cartGroup.isVisible = !it
+        }
+
+        viewModel.checkLiveData.observe(viewLifecycleOwner) {check ->
+            binding.order.setOnClickListener {
+                if (!check) {
+                    val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
                     findNavController().navigate(action)
-                    //requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_profile
+                } else {
+                    val navController =
+                        requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+                    navController.popBackStack(R.id.navigation_cart, false)
+
+                    val bottomNavigationView =
+                        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+                    bottomNavigationView.menu.findItem(R.id.navigation_profile).let { menu ->
+                        menu.isChecked = true
+                    }
+                    bottomNavigationView.selectedItemId = R.id.navigation_profile
                 }
             }
         }

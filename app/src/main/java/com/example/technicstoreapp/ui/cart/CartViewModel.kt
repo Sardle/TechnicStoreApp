@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
+import com.example.technicstoreapp.domain.use_cases.CalcDiscount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech,
-    private val repositoryUser: RepositoryUser
+    private val repositoryUser: RepositoryUser,
+    private val calcDiscount: CalcDiscount
 ) : ViewModel() {
 
     private val _technicCartLiveData = MutableLiveData<List<CartTechnicData>>()
@@ -26,20 +28,39 @@ class CartViewModel @Inject constructor(
     private val _checkLiveData = MutableLiveData<Boolean>()
     val checkLiveData: LiveData<Boolean> get() = _checkLiveData
 
-    fun checkAvailabilityUser() {
-        _checkLiveData.value = repositoryUser.checkAvailabilityUser()
+    private val _checkListTechnicLiveData = MutableLiveData<Boolean>()
+    val checkListTechnicLiveData: LiveData<Boolean> get() = _checkListTechnicLiveData
+
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
+
+    fun checkListTechnic() {
+        viewModelScope.launch {
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
+        }
+    }
+
+    fun checkUser() {
+        viewModelScope.launch {
+            _checkLiveData.value = repositoryUser.checkAvailabilityUser()
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
+        }
     }
 
     fun update() {
         viewModelScope.launch {
-            repositoryUser.updateUser("1000")
+            priceLiveData.value?.let { calcDiscount.calculatingDiscount(it) }
+                ?.let { repositoryUser.updateUser(it) }
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
 
     fun getTechnicCart() {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _loadingLiveData.value = false
         }
     }
 
@@ -48,6 +69,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.plusUnitTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
 
@@ -56,6 +78,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.removeUnitTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
 
@@ -64,6 +87,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.deleteTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
 

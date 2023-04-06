@@ -1,24 +1,9 @@
 package com.example.technicstoreapp.data
 
 import com.example.technicstoreapp.data.models.TechnicResponse
-import com.example.technicstoreapp.domain.UserData
 import javax.inject.Inject
 
 class Server @Inject constructor() {
-
-    fun addUserToList(userData: UserData) {
-        userList.add(userData)
-    }
-
-    fun getUserById(idUser: String): UserData = userList.first { it.id == idUser }
-
-    fun checkLogIn(number: String, password: String): UserData? {
-        return if (userList.none { it.id == number && it.hashPassword == password }) {
-            null
-        } else {
-            userList.first { it.id == number && it.hashPassword == password }
-        }
-    }
 
     fun getAllTechnic(): List<TechnicResponse> = listOf(
         TechnicResponse(
@@ -300,20 +285,4 @@ class Server @Inject constructor() {
         "Смарт-часы|https://cdn-icons-png.flaticon.com/512/3197/3197701.png",
         "Холодильники|https://cdn-icons-png.flaticon.com/512/4151/4151229.png"
     )
-
-    companion object {
-        private val userList = mutableListOf(
-            UserData(
-                id = "fe65b1fd44aa4fd522a2cb11d71843e4f6854010535567dc9ef955a2bb29b815",
-                name = "Nikita",
-                hashPassword = "4aaddb02457f15ef2be140605b177a76e3c1d13db8c24e020668ff808e7a8531",
-                number = "+375 (29) 804-31-37",
-                address = "",
-                email = "dfvdfvdfvdfv",
-                discountPoints = "0",
-                carts = emptyList(),
-                dateOfBirth = "15.05.2003"
-            )
-        )
-    }
 }

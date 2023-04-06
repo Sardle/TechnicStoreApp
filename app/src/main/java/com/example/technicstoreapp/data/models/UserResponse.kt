@@ -1,17 +1,17 @@
 package com.example.technicstoreapp.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class UserResponse(
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("surname") var surname: String? = null,
-    @SerializedName("age") val age: String? = null,
-    @SerializedName("hashPassword") val hashPassword: String? = null,
-    @SerializedName("number") var number: String? = null,
-    @SerializedName("email") val email: String? = null,
-    @SerializedName("address") var address: String? = null,
-    @SerializedName("discountPoints") var discountPoints: String? = null,
-    @SerializedName("carts") var carts: List<HistoryOrderResponse>? = null,
-    @SerializedName("dateOfBirth") val dateOfBirth: String? = null
+    @Json(name = "id") val id: String? = null,
+    @Json(name = "name") var name: String? = null,
+    @Json(name = "surname") var surname: String? = null,
+    @Json(name = "age") val age: String? = null,
+    @Json(name = "hashPassword") val hashPassword: String? = null,
+    @Json(name = "number") var number: String? = null,
+    @Json(name = "email") val email: String? = null,
+    @Json(name = "address") var address: String? = null,
+    @Json(name = "discountPoints") var discountPoints: Int? = null,
+    @Json(name = "carts") var carts: List<HistoryOrderResponse>? = null,
+    @Json(name = "dateOfBirth") val dateOfBirth: String? = null
 )

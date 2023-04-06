@@ -1,8 +1,8 @@
 package com.example.technicstoreapp.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class LogInResponse(
-    val number: String,
-    val hashPassword:String
+    @Json(name = "number") val number: String,
+    @Json(name = "hashPassword") val hashPassword: String
 )

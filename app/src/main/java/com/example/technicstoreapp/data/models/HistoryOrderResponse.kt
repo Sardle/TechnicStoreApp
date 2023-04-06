@@ -1,6 +1,8 @@
 package com.example.technicstoreapp.data.models
 
+import com.squareup.moshi.Json
+
 data class HistoryOrderResponse (
-    val orderTime:String? = null,
-    val listCartTechnicResponse: List<CartTechnicResponse>? = null
+    @Json(name = "orderTime") val orderTime:String? = null,
+    @Json(name = "listCartTechnicResponse") val listCartTechnicResponse: List<CartTechnicResponse>? = null
 )

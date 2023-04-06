@@ -29,4 +29,6 @@ interface RepositoryTech {
     suspend fun getSumCurrentPrices(): Double
 
     suspend fun getSearchResult(searchString: String): List<TechnicData>
+
+    suspend fun checkListCart(): Boolean
 }

@@ -7,7 +7,7 @@ data class UserData(
     var number: String,
     var address: String,
     var email: String,
-    var discountPoints: String,
+    var discountPoints: Int,
     var carts: List<HistoryOrderData>,
     val dateOfBirth: String
 )

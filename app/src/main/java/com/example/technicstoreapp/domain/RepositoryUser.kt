@@ -12,7 +12,7 @@ interface RepositoryUser {
 
     suspend fun getUserById(): UserData
 
-    suspend fun updateUser(points: String)
+    suspend fun updateUser(points: Int)
 
     suspend fun checkLogInUser(number: String, password: String): Boolean
 }

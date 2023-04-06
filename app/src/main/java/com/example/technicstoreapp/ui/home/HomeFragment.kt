@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
-import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

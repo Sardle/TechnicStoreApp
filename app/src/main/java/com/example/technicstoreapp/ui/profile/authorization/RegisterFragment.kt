@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.allViews
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,8 @@ class RegisterFragment : Fragment() {
             val checkDate = checkDate()
             val checkNumber = checkNumber()
             if (checkPassword && areAllEditTextsFilled && checkDate && checkNumber) {
+                binding.progressBarRegister.isVisible = true
+                binding.registerGroup.isVisible = false
                 viewModel.addUserToList(
                     UserData(
                         "",
@@ -63,7 +66,7 @@ class RegisterFragment : Fragment() {
                         binding.phone.text.toString(),
                         "",
                         binding.email.text.toString(),
-                        "0",
+                        0,
                         emptyList(),
                         binding.dateOfBirth.text.toString()
                     )
@@ -75,10 +78,12 @@ class RegisterFragment : Fragment() {
     private fun comeToProfilePage() {
         viewModel.checkLiveData.observe(viewLifecycleOwner) {
             if (it) {
-                val action =
-                    RegisterFragmentDirections.actionRegisterFragmentToNavigationProfile()
+                binding.progressBarRegister.isVisible = false
+                val action = RegisterFragmentDirections.actionRegisterFragmentToAuthSuccessDialog()
                 findNavController().navigate(action)
             } else {
+                binding.registerGroup.isVisible = true
+                binding.progressBarRegister.isVisible = false
                 binding.phone.error = getString(R.string.error_to_number_is_occupied)
                 binding.phone.background =
                     this@RegisterFragment.context?.let { context ->

@@ -1,8 +1,8 @@
 package com.example.technicstoreapp.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class AuthResponse(
-    @SerializedName("result") val result: UserResponse,
-    @SerializedName("isSuccess") val isSuccess: Boolean = false
+    @Json(name = "result") val result: UserResponse? = null,
+    @Json(name = "isSuccess") val isSuccess: Boolean = false
 )

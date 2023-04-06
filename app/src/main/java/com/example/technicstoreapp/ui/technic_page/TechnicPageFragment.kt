@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
 import com.example.technicstoreapp.domain.TechnicData
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,14 @@ class TechnicPageFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
+            menu.isChecked = true
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +61,7 @@ class TechnicPageFragment : Fragment() {
                 val defaultColor = args.defaultColor
                 val colors = technic.colors.keys.toList()
 
+                binding.toggle.check(binding.firstColor.id)
                 setupColors(colors)
                 var selectedColor = getDefaultColor(defaultColor, colors)
                 setupPage(technic, selectedColor)

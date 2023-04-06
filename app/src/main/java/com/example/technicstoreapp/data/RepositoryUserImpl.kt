@@ -20,11 +20,11 @@ class RepositoryUserImpl @Inject constructor(
     override fun checkAvailabilityUser(): Boolean = prefs.getUserId().isEmpty()
 
     override suspend fun createUser(userData: UserData): Boolean {
-        var isSuccess = false
+        var isSuccess: Boolean
         withContext(Dispatchers.IO) {
             val user = encryptIdAndPassword(userData)
-            val authResponse = service.createUser(userMapper.dataToResponse(user)).execute().body()
-                ?: throw Exception()
+            val authResponse = service.createUser(userMapper.dataToResponse(user))
+            println("NNNNNNNNNNNNNNNNNN${authResponse.isSuccess}")
             isSuccess = if (authResponse.isSuccess) {
                 setPrefs(user.id)
                 true
@@ -46,30 +46,29 @@ class RepositoryUserImpl @Inject constructor(
     override suspend fun getUserById(): UserData {
         return withContext(Dispatchers.IO) {
             userMapper.responseToData(
-                service.getUserById(prefs.getUserId()).execute().body() ?: throw Exception()
+                service.getUserById(prefs.getUserId())
             )
         }
     }
 
-    override suspend fun updateUser(points: String) {
+    override suspend fun updateUser(points: Int) {
         withContext(Dispatchers.IO) {
             val user = getUserById()
 
-            user.discountPoints = points
-            service.updateUser(userMapper.dataToResponse(user)).execute().body()
+            user.discountPoints += points
+            service.updateUser(userMapper.dataToResponse(user))
         }
     }
 
     override suspend fun checkLogInUser(number: String, password: String): Boolean {
-        var isSuccess = false
+        var isSuccess: Boolean
         withContext(Dispatchers.IO) {
             val authResponse =
-                service.getLogIn(LogInResponse(number, encryptField(password))).execute().body()
-                    ?: throw Exception()
+                service.getLogIn(LogInResponse(number, encryptField(password)))
             isSuccess = authResponse.isSuccess
             if (authResponse.isSuccess) {
-                setPrefs(userMapper.responseToData(authResponse.result).id)
-                userMapper.responseToData(authResponse.result)
+                authResponse.result?.let { userMapper.responseToData(it).id }?.let { setPrefs(it) }
+                authResponse.result?.let { userMapper.responseToData(it) }
             } else {
                 null
             }

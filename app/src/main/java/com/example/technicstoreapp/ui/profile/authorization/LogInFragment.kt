@@ -1,7 +1,6 @@
 package com.example.technicstoreapp.ui.profile.authorization
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,6 +37,17 @@ class LogInFragment : Fragment() {
         _binding = FragmentLogInBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_profile).let { menu ->
+            menu.isChecked = true
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,6 +77,7 @@ class LogInFragment : Fragment() {
             @SuppressLint("UseCompatLoadingForDrawables")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 editText.background = requireContext().getDrawable(R.drawable.style_login_edittext)
+                binding.incorrectNumberOrPassword.isVisible = false
             }
 
             override fun afterTextChanged(s: Editable?) {}

@@ -39,4 +39,21 @@
     <string name="log_out_account">Выйти с аккаунта</string>
     <string name="remove_account">Удалить аккаунт</string>
     <string name="discount_hilt">Баллы начисляются в размере 1% от заказа</string>
+    <string name="come_to_profile">Перейти к профилю!</string>
+    <string name="auth_success">Вы успешно зарегистрированы!</string>
+    <string name="use_discount">Использовать баллы:</string>
+    <string name="all">Все</string>
+    <string name="total_discount">Всего: %1$s</string>
+    <string name="cart_empty">Ваша корзина пуста!</string>
+    <string name="come_to_catalog">Перейти в каталог</string>
+    <string name="create_order">Оформление заказа</string>
+    <string name="technic">Техника:</string>
+    <string name="enter_address">Заказ будет доставлять на:</string>
+    <string name="your_address">Ваш адрес</string>
+    <string name="payment_method">Способ оплаты:</string>
+    <string name="cash">Наличные</string>
+    <string name="card">Картой курьеру</string>
+    <string name="add_order">Сделать заказ</string>
+    <string name="total_sum_order">Общая сумма заказа:</string>
+    <string name="set_price">%1$s р.</string>
 </resources>

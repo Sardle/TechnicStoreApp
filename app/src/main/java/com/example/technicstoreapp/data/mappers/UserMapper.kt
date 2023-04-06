@@ -1,7 +1,6 @@
 package com.example.technicstoreapp.data.mappers
 
 import com.example.technicstoreapp.data.models.UserResponse
-import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.HistoryOrderData
 import com.example.technicstoreapp.domain.UserData
 import javax.inject.Inject
@@ -18,7 +17,7 @@ class UserMapper @Inject constructor(
             number = number.orEmpty(),
             address = address.orEmpty(),
             email = email.orEmpty(),
-            discountPoints = discountPoints.orEmpty(),
+            discountPoints = discountPoints ?: 0,
             carts = ((carts ?: emptyList()) as List<HistoryOrderData>),
             dateOfBirth = dateOfBirth.orEmpty()
         )

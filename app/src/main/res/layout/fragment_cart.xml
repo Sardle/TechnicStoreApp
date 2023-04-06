@@ -4,27 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.cart.CartFragment"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    tools:context=".ui.cart.CartFragment">
 
     <View
+        android:id="@+id/cart_name_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/purple_700"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/guideline13"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/cart_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_cart"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/guideline13"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -37,9 +39,9 @@
         android:id="@+id/recycler_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/order"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline13"
-        app:layout_constraintBottom_toTopOf="@+id/order"/>
+        app:layout_constraintTop_toBottomOf="@+id/guideline13" />
 
     <Button
         android:id="@+id/order"
@@ -48,9 +50,70 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/orange"
         android:text="@string/order"
-        app:cornerRadius="20dp"
         android:textSize="12sp"
+        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/purple_700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/cart_empty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cart_name_view"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_9nP76E1BYh.json" />
+
+    <TextView
+        android:id="@+id/cart_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/cart_empty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/come_to_catalog"/>
+
+    <Button
+        android:id="@+id/come_to_catalog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/orange"
+        android:text="@string/come_to_catalog"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/cart_empty"
+        app:layout_constraintStart_toStartOf="@id/cart_empty" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/empty_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="come_to_catalog, cart_empty,animation_view_cart"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/cart_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="recycler_cart, order"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
