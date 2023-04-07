@@ -10,9 +10,11 @@ interface RepositoryUser {
 
     fun logOutUser()
 
+    suspend fun deleteUser()
+
     suspend fun getUserById(): UserData
 
-    suspend fun updateUser(points: Int)
+    suspend fun updateUser(historyOrderData: HistoryOrderData, address: String, points: Int)
 
     suspend fun checkLogInUser(number: String, password: String): Boolean
 }

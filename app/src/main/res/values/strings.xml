@@ -38,7 +38,7 @@
     <string name="date_of_birth_for_user_page">Дата рождения:</string>
     <string name="log_out_account">Выйти с аккаунта</string>
     <string name="remove_account">Удалить аккаунт</string>
-    <string name="discount_hilt">Баллы начисляются в размере 1% от заказа</string>
+    <string name="discount_hilt">Баллы начисляются в размере 5% от заказа</string>
     <string name="come_to_profile">Перейти к профилю!</string>
     <string name="auth_success">Вы успешно зарегистрированы!</string>
     <string name="use_discount">Использовать баллы:</string>
@@ -56,4 +56,24 @@
     <string name="add_order">Сделать заказ</string>
     <string name="total_sum_order">Общая сумма заказа:</string>
     <string name="set_price">%1$s р.</string>
+    <string name="back">Назад</string>
+    <string name="to_cart">В корзину</string>
+    <string name="to_cart_access">Ваша техника успешно добавлена в корзину!</string>
+    <string name="order_access">Заказ успешно выполнен успешно!</string>
+    <string name="log_out">Вы уверены, что хотите выйти?</string>
+    <string name="delete_account">Вы уверены, что хотите удалить аккаунт?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="product_in_cart">Этот товар уже в корзине!</string>
+    <string name="back_to_cart">К корзине</string>
+    <string name="to_history">К истории</string>
+    <string name="discount_calc">10 баллов = 1р.</string>
+    <string name="discount_error">Недостаточно баллов!</string>
+    <string name="done">Готово</string>
+    <string name="cancel">Отменить</string>
+    <string name="me_have_account">У меня уже есть аккаунт</string>
+    <string name="registr_not">Зарегистрироваться</string>
+    <string name="hilt_auth">Для совершения покупки вам нужно авторизоваться!</string>
+    <string name="auth">Авторизоваться</string>
+    <string name="actual_address">Актуальный адрес:</string>
 </resources>

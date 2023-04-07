@@ -23,7 +23,6 @@ class LogInViewModel @Inject constructor(
     fun checkLogInUser(number: String, password: String) {
         viewModelScope.launch {
             _checkLiveData.value = repositoryUser.checkLogInUser(number, password)
-            println("YYYYYYYYYYYYYYYYY${checkLiveData.value}")
         }
     }
 

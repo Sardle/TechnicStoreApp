@@ -18,7 +18,7 @@ interface RepositoryTech {
 
     suspend fun getAllTechnicFromCart(): List<CartTechnicData>
 
-    suspend fun deleteAllTechnicFromCart(listTechnic: List<CartTechnicData>)
+    suspend fun deleteAllTechnicFromCart()
 
     suspend fun getTechnicInfo(id: Int): TechnicData
 
@@ -31,4 +31,6 @@ interface RepositoryTech {
     suspend fun getSearchResult(searchString: String): List<TechnicData>
 
     suspend fun checkListCart(): Boolean
+
+    suspend fun checkIfElementExists(name: String, color: String): Boolean
 }

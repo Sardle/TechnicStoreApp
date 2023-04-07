@@ -39,15 +39,15 @@
         android:id="@+id/recycler_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/order"
+        app:layout_constraintBottom_toTopOf="@+id/order_cart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline13" />
 
     <Button
-        android:id="@+id/order"
+        android:id="@+id/order_cart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/orange"
         android:text="@string/order"
         android:textSize="12sp"
@@ -108,12 +108,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:constraint_referenced_ids="come_to_catalog, cart_empty,animation_view_cart"/>
+        app:constraint_referenced_ids="come_to_catalog, cart_empty, animation_view_cart"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/cart_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="recycler_cart, order"/>
+        app:constraint_referenced_ids="recycler_cart, order_cart"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

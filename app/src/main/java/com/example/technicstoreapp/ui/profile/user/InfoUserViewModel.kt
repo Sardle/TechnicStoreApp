@@ -29,6 +29,12 @@ class InfoUserViewModel @Inject constructor(
         }
     }
 
+    fun deleteUser() {
+        viewModelScope.launch {
+            repositoryUser.deleteUser()
+        }
+    }
+
     fun logOutUser() {
         repositoryUser.logOutUser()
     }

@@ -83,14 +83,14 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getAllTechnicFromCart(): List<CartTechnicData> {
         return withContext(Dispatchers.IO) {
-            db.getAll().map { mapperDb.entityToCartData(it) }
+            db.getAll().map { mapperDb.entityToData(it) }
         }
     }
 
-    override suspend fun deleteAllTechnicFromCart(listTechnic: List<CartTechnicData>) {
-//        withContext(Dispatchers.IO) {
-//            db.deleteUnitTechnic(listTechnic.map { mapperDb.dataToEntity(it) })
-//        }
+    override suspend fun deleteAllTechnicFromCart() {
+        withContext(Dispatchers.IO) {
+            db.delete(db.getAll())
+        }
     }
 
     override suspend fun getTechnicInfo(id: Int): TechnicData {
@@ -134,6 +134,12 @@ class RepositoryTechImpl @Inject constructor(
     override suspend fun checkListCart(): Boolean {
         return withContext(Dispatchers.IO) {
             db.getAll().isEmpty()
+        }
+    }
+
+    override suspend fun checkIfElementExists(name: String, color: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            db.checkIfElementExists(name, color) == 0
         }
     }
 }

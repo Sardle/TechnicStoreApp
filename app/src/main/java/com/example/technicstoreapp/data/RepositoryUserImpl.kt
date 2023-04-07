@@ -1,9 +1,11 @@
 package com.example.technicstoreapp.data
 
+import com.example.technicstoreapp.data.mappers.HistoryOrderMapper
 import com.example.technicstoreapp.data.mappers.UserMapper
 import com.example.technicstoreapp.data.models.LogInResponse
 import com.example.technicstoreapp.data.network.UserService
 import com.example.technicstoreapp.data.source.UserDataSource
+import com.example.technicstoreapp.domain.HistoryOrderData
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.UserData
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +16,8 @@ import javax.inject.Inject
 class RepositoryUserImpl @Inject constructor(
     private val prefs: UserDataSource,
     private val service: UserService,
-    private val userMapper: UserMapper
+    private val userMapper: UserMapper,
+    private val historyOrderMapper: HistoryOrderMapper
 ) : RepositoryUser {
 
     override fun checkAvailabilityUser(): Boolean = prefs.getUserId().isEmpty()
@@ -24,7 +27,6 @@ class RepositoryUserImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             val user = encryptIdAndPassword(userData)
             val authResponse = service.createUser(userMapper.dataToResponse(user))
-            println("NNNNNNNNNNNNNNNNNN${authResponse.isSuccess}")
             isSuccess = if (authResponse.isSuccess) {
                 setPrefs(user.id)
                 true
@@ -43,6 +45,13 @@ class RepositoryUserImpl @Inject constructor(
         prefs.setUserId("")
     }
 
+    override suspend fun deleteUser() {
+        withContext(Dispatchers.IO) {
+            service.deleteUser(userMapper.dataToResponse(getUserById()))
+            logOutUser()
+        }
+    }
+
     override suspend fun getUserById(): UserData {
         return withContext(Dispatchers.IO) {
             userMapper.responseToData(
@@ -51,10 +60,14 @@ class RepositoryUserImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateUser(points: Int) {
+    override suspend fun updateUser(historyOrderData: HistoryOrderData, address: String, points: Int) {
         withContext(Dispatchers.IO) {
             val user = getUserById()
 
+            user.address = address
+            val listHistory = user.carts.toMutableList()
+            listHistory.add(historyOrderData)
+            user.carts = listHistory.toList()
             user.discountPoints += points
             service.updateUser(userMapper.dataToResponse(user))
         }

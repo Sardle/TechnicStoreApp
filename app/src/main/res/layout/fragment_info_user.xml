@@ -123,6 +123,30 @@
         app:layout_constraintTop_toBottomOf="@id/date_of_birth_text" />
 
     <TextView
+        android:id="@+id/actual_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/actual_address"
+        android:visibility="invisible"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_of_birth_user" />
+
+    <TextView
+        android:id="@+id/actual_address_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_margin="10dp"
+        android:text="ул. Якуба Коласа, д.26"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actual_address" />
+
+    <TextView
         android:id="@+id/log_out_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

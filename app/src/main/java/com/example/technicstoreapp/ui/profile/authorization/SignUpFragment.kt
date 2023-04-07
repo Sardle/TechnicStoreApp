@@ -15,8 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
-import com.example.technicstoreapp.databinding.FragmentRegisterBinding
+import com.example.technicstoreapp.databinding.FragmentSignUpBinding
 import com.example.technicstoreapp.domain.UserData
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
@@ -24,19 +25,23 @@ import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<RegisterViewModel>()
+    private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,6 +52,13 @@ class RegisterFragment : Fragment() {
         leadToFormat(FORMAT_NUMBER, binding.phone)
         leadToFormat(FORMAT_DATE, binding.dateOfBirth)
         removeStrokeForAll()
+        comeToBack()
+    }
+
+    private fun comeToBack() {
+        binding.backRegister.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun checkDataEntry() {
@@ -79,14 +91,14 @@ class RegisterFragment : Fragment() {
         viewModel.checkLiveData.observe(viewLifecycleOwner) {
             if (it) {
                 binding.progressBarRegister.isVisible = false
-                val action = RegisterFragmentDirections.actionRegisterFragmentToAuthSuccessDialog()
+                val action = SignUpFragmentDirections.actionRegisterFragmentToAuthSuccessDialog()
                 findNavController().navigate(action)
             } else {
                 binding.registerGroup.isVisible = true
                 binding.progressBarRegister.isVisible = false
                 binding.phone.error = getString(R.string.error_to_number_is_occupied)
                 binding.phone.background =
-                    this@RegisterFragment.context?.let { context ->
+                    this@SignUpFragment.context?.let { context ->
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.error_style_edittext
@@ -156,7 +168,7 @@ class RegisterFragment : Fragment() {
         if (binding.phone.text.toString().length != 19) {
             binding.phone.error = getString(R.string.error_to_number)
             binding.phone.background =
-                this@RegisterFragment.context?.let { context ->
+                this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.error_style_edittext
@@ -171,7 +183,7 @@ class RegisterFragment : Fragment() {
         if (!binding.passwordReg.text.toString().matches(REGEX_PASSWORD.toRegex())) {
             binding.passwordReg.error = getString(R.string.error_to_password)
             binding.passwordReg.background =
-                this@RegisterFragment.context?.let { context ->
+                this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.error_style_edittext
@@ -186,7 +198,7 @@ class RegisterFragment : Fragment() {
         if (!binding.dateOfBirth.text.toString().matches(REGEX_DATE.toRegex())) {
             binding.dateOfBirth.error = getString(R.string.error_to_date)
             binding.dateOfBirth.background =
-                this@RegisterFragment.context?.let { context ->
+                this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.error_style_edittext

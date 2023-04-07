@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class CartTechnicMapper @Inject constructor() {
 
-    operator fun invoke(technicData: CartTechnicData): CartTechnicResponse = with(technicData) {
+    fun dataToResponse(technicData: CartTechnicData): CartTechnicResponse = with(technicData) {
         CartTechnicResponse(
             id = id,
             name = name,
@@ -16,6 +16,19 @@ class CartTechnicMapper @Inject constructor() {
             category = category,
             color = category,
             count = count,
+        )
+    }
+
+    fun responseToData(cartTechnicResponse: CartTechnicResponse): CartTechnicData = with(cartTechnicResponse) {
+        CartTechnicData(
+            id = id ?: 0,
+            name = name.orEmpty(),
+            imageUrl = imageUrl.orEmpty(),
+            description = description.orEmpty(),
+            price = price ?: 0.0,
+            category = category.orEmpty(),
+            color = category.orEmpty(),
+            count = count ?: 0,
         )
     }
 }

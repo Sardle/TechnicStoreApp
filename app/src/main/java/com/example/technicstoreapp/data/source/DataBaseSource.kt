@@ -12,6 +12,8 @@ class DataBaseSource @Inject constructor(
 
     fun insert(technic: TechnicEntity) = dao.insert(technic)
 
+    fun checkIfElementExists(name: String, color: String): Int = dao.checkIfElementExists(name, color)
+
     fun delete(technic: List<TechnicEntity>) = dao.delete(technic)
 
     fun updateItem(technic: TechnicEntity) = dao.updateItem(technic)

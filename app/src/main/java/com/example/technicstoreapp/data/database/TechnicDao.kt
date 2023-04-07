@@ -25,4 +25,7 @@ interface TechnicDao {
 
     @Query("SELECT currentPrice FROM technic_cart")
     fun getCurrentPrices(): List<Double>
+
+    @Query("SELECT COUNT(*) FROM technic_cart WHERE name = :name AND color = :color")
+    fun checkIfElementExists(name: String, color: String): Int
 }

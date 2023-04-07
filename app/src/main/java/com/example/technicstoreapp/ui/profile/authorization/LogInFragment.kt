@@ -65,6 +65,8 @@ class LogInFragment : Fragment() {
                 val action = LogInFragmentDirections.actionLogInFragmentToNavigationProfile()
                 findNavController().navigate(action)
             } else {
+                binding.progressBarProfileLogIn.isVisible = false
+                binding.logInGroup.isVisible = true
                 binding.incorrectNumberOrPassword.isVisible = true
             }
         }
@@ -107,6 +109,8 @@ class LogInFragment : Fragment() {
             val areAllEditTextsFilled = areAllEditTextsFilled()
             val checkNumber = checkNumber()
             if (checkPassword && areAllEditTextsFilled && checkNumber) {
+                binding.progressBarProfileLogIn.isVisible = true
+                binding.logInGroup.isVisible = false
                 viewModel.checkLogInUser(
                     binding.numberPhone.text.toString(),
                     binding.password.text.toString()

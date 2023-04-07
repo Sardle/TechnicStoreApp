@@ -12,11 +12,13 @@ import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
 import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +41,8 @@ class TechnicPageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
             menu.isChecked = true
         }
@@ -49,15 +52,29 @@ class TechnicPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getTechnicInfo(args.id)
+        observeLoadingLiveData()
+        observeCheckLiveData()
+        observeTechnicLiveData()
+        back()
+    }
 
+    private fun observeLoadingLiveData() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             checkLoading(it)
         }
+    }
 
-        viewModel.technicLiveData.observe(viewLifecycleOwner) {
+    private fun observeCheckLiveData() {
+        viewModel.checkLiveData.observe(viewLifecycleOwner) {
+            binding.addToCart.isVisible = it
+            binding.productInCart.isVisible = !it
+        }
+    }
 
-            if (it != null) {
-                val technic = it
+    private fun observeTechnicLiveData() {
+        viewModel.technicLiveData.observe(viewLifecycleOwner) { technic ->
+
+            if (technic != null) {
                 val defaultColor = args.defaultColor
                 val colors = technic.colors.keys.toList()
 
@@ -65,6 +82,7 @@ class TechnicPageFragment : Fragment() {
                 setupColors(colors)
                 var selectedColor = getDefaultColor(defaultColor, colors)
                 setupPage(technic, selectedColor)
+                viewModel.checkIfElementExists(technic.name, selectedColor)
 
                 binding.toggle.setOnCheckedChangeListener { _, checkedId ->
                     val selectedRadioButton = binding.toggle.findViewById<RadioButton>(checkedId)
@@ -73,15 +91,41 @@ class TechnicPageFragment : Fragment() {
                         technic.colors[selectedColor].toString(),
                         binding.imageTechnicPage
                     )
+                    viewModel.checkIfElementExists(technic.name, selectedColor)
                 }
 
                 binding.addToCart.setOnClickListener {
+                    showDialogAccess(technic.name, selectedColor)
                     viewModel.insertTechnicToCart(technic, selectedColor)
+                    viewModel.checkIfElementExists(technic.name, selectedColor)
                 }
-
-                back()
             }
         }
+    }
+
+    private fun showDialogAccess(name: String, selectedColor: String) {
+        val customAlertDialog = this@TechnicPageFragment.context?.let {
+            CustomAlertDialog(it)
+                .setImage(R.drawable.success)
+                .setMessage(getString(R.string.to_cart_access))
+                .setBackText(getString(R.string.back))
+                .setOkText(getString(R.string.to_cart))
+                .setOnOkClickListener { _, _ ->
+                    val navController =
+                        requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+                    navController.popBackStack(R.id.navigation_catalog, false)
+
+                    val bottomNavigationView =
+                        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+                    bottomNavigationView.menu.findItem(R.id.navigation_cart).let { menu ->
+                        menu.isChecked = true
+                    }
+                    bottomNavigationView.selectedItemId = R.id.navigation_cart
+                }
+                .setOnBackClickListener {_, _ -> viewModel.checkIfElementExists(name, selectedColor)}
+        }
+
+        customAlertDialog?.show()
     }
 
     private fun back() {
@@ -133,7 +177,7 @@ class TechnicPageFragment : Fragment() {
         for (view in requireView().allViews) {
             if (view is ProgressBar) {
                 view.isVisible = exists
-            } else if (view !is ConstraintLayout){
+            } else if (view !is ConstraintLayout) {
                 view.isVisible = !exists
             }
         }

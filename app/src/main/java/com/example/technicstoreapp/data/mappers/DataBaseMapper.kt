@@ -27,7 +27,7 @@ class DataBaseMapper @Inject constructor() {
         )
     }
 
-    fun entityToCartData(data: TechnicEntity): CartTechnicData = with(data) {
+    fun entityToData(data: TechnicEntity): CartTechnicData = with(data) {
         CartTechnicData(
             id = id,
             name = name,

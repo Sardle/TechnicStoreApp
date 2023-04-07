@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 data class HistoryOrderResponse (
     @Json(name = "orderTime") val orderTime:String? = null,
-    @Json(name = "listCartTechnicResponse") val listCartTechnicResponse: List<CartTechnicResponse>? = null
+    @Json(name = "cartTechnicResponse") val cartTechnicResponse: List<CartTechnicResponse>? = null
 )

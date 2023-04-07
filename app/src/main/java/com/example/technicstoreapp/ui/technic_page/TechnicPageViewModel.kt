@@ -21,6 +21,15 @@ class TechnicPageViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _checkLiveData = MutableLiveData<Boolean>()
+    val checkLiveData: LiveData<Boolean> get() = _checkLiveData
+
+    fun checkIfElementExists(name: String, color: String) {
+        viewModelScope.launch {
+            _checkLiveData.value = repositoryTech.checkIfElementExists(name, color)
+        }
+    }
+
     fun insertTechnicToCart(technicData: TechnicData, color: String) {
         viewModelScope.launch {
             repositoryTech.insertTechnic(technicData, color)

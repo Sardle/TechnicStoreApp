@@ -5,18 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.HistoryOrderData
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.use_cases.CalcDiscount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech,
-    private val repositoryUser: RepositoryUser,
-    private val calcDiscount: CalcDiscount
+    private val repositoryUser: RepositoryUser
 ) : ViewModel() {
 
     private val _technicCartLiveData = MutableLiveData<List<CartTechnicData>>()
@@ -43,14 +45,6 @@ class CartViewModel @Inject constructor(
     fun checkUser() {
         viewModelScope.launch {
             _checkLiveData.value = repositoryUser.checkAvailabilityUser()
-            _checkListTechnicLiveData.value = repositoryTech.checkListCart()
-        }
-    }
-
-    fun update() {
-        viewModelScope.launch {
-            priceLiveData.value?.let { calcDiscount.calculatingDiscount(it) }
-                ?.let { repositoryUser.updateUser(it) }
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }

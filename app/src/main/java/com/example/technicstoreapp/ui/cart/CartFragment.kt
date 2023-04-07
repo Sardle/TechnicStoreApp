@@ -36,20 +36,37 @@ class CartFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        with(viewModel) {
-            checkListTechnicLiveData.observe(viewLifecycleOwner) {
-                binding.cartGroup.isVisible = !it
-                binding.emptyCart.isVisible = it
-            }
-        }
+        viewModel.checkUser()
+
+        viewModel.checkListTechnic()
+        checkListTechnicLiveData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.checkUser()
-
         viewModel.checkListTechnic()
+        checkListTechnicLiveData()
+        comeToCatalog()
 
+        viewModel.checkLiveData.observe(viewLifecycleOwner) {check ->
+            binding.orderCart.setOnClickListener {
+                if (!check) {
+                    val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
+                    findNavController().navigate(action)
+                } else {
+                    val action = CartFragmentDirections.actionNavigationCartToNotAuthenticationFragment()
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
+        setupPrice()
+        setupCatalogRecyclerView()
+        observeCartTechnicLiveData()
+    }
+
+    private fun comeToCatalog() {
         binding.comeToCatalog.setOnClickListener {
             val navController =
                 requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
@@ -62,42 +79,29 @@ class CartFragment : Fragment() {
             }
             bottomNavigationView.selectedItemId = R.id.navigation_catalog
         }
+    }
 
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBarCart.isVisible = it
-            binding.cartGroup.isVisible = !it
-        }
-
-        viewModel.checkLiveData.observe(viewLifecycleOwner) {check ->
-            binding.order.setOnClickListener {
-                if (!check) {
-                    val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
-                    findNavController().navigate(action)
-                } else {
-                    val navController =
-                        requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
-                    navController.popBackStack(R.id.navigation_cart, false)
-
-                    val bottomNavigationView =
-                        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-                    bottomNavigationView.menu.findItem(R.id.navigation_profile).let { menu ->
-                        menu.isChecked = true
+    private fun checkListTechnicLiveData() {
+        with(viewModel) {
+            checkListTechnicLiveData.observe(viewLifecycleOwner) {
+                if (!it) {
+                    viewModel.loadingLiveData.observe(viewLifecycleOwner) { loading ->
+                        binding.progressBarCart.isVisible = loading
+                        binding.cartGroup.isVisible = !loading
+                        binding.orderCart.isVisible = !loading
                     }
-                    bottomNavigationView.selectedItemId = R.id.navigation_profile
                 }
+                binding.cartGroup.isVisible = !it
+                binding.emptyCart.isVisible = it
             }
         }
-
-        setupPrice()
-        setupCatalogRecyclerView()
-        observeCartTechnicLiveData()
     }
 
     private fun setupPrice() {
         with(viewModel) {
             getAllPrices()
             priceLiveData.observe(viewLifecycleOwner) {
-                binding.order.text = getString(R.string.order, it.toString())
+                binding.orderCart.text = getString(R.string.order, it.toString())
             }
         }
     }

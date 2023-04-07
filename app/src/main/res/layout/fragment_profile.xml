@@ -78,6 +78,16 @@
         app:layout_constraintEnd_toEndOf="@id/discount_view"
         app:layout_constraintStart_toStartOf="@id/discount_view" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/discount_calc"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/discount"
+        app:layout_constraintEnd_toEndOf="@id/discount_view"
+        app:layout_constraintStart_toStartOf="@id/discount_view" />
+
     <Button
         android:id="@+id/favourites"
         android:layout_width="0dp"

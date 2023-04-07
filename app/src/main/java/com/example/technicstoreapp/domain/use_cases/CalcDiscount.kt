@@ -5,7 +5,11 @@ import kotlin.math.roundToInt
 
 class CalcDiscount @Inject constructor(){
 
-    fun calculatingDiscount(points: Double): Int {
-        return (points * 0.01).roundToInt()
+    fun calculatingPoints(points: Double): Int {
+        return (points * 0.05).roundToInt()
+    }
+
+    fun calculatingDiscount(points: Int): Double {
+        return (points.toDouble() / 10)
     }
 }

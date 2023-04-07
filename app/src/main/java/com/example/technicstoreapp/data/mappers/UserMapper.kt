@@ -18,7 +18,7 @@ class UserMapper @Inject constructor(
             address = address.orEmpty(),
             email = email.orEmpty(),
             discountPoints = discountPoints ?: 0,
-            carts = ((carts ?: emptyList()) as List<HistoryOrderData>),
+            carts = carts?.map { historyOrderMapper.responseToData(it) } ?: emptyList(),
             dateOfBirth = dateOfBirth.orEmpty()
         )
     }
@@ -32,7 +32,7 @@ class UserMapper @Inject constructor(
             address = address,
             email = email,
             discountPoints = discountPoints,
-            carts = carts.map { historyOrderMapper(it) },
+            carts = carts.map { historyOrderMapper.dataToResponse(it) },
             dateOfBirth = dateOfBirth
         )
     }

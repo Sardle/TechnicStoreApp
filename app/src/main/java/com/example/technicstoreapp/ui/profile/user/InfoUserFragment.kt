@@ -11,7 +11,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentInfoUserBinding
+import com.example.technicstoreapp.ui.cart.order.OrderFragmentDirections
+import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,13 +38,51 @@ class InfoUserFragment : Fragment() {
 
         setupPage()
         logOutUser()
+        deleteAccount()
     }
 
     private fun logOutUser() {
         binding.logOutAccount.setOnClickListener {
-            viewModel.logOutUser()
-            comeToProfilePage()
+            showDialogLogOut()
         }
+    }
+
+    private fun deleteAccount() {
+        binding.removeAccount.setOnClickListener {
+            showDialogDelete()
+        }
+    }
+
+    private fun showDialogDelete() {
+        val customAlertDialog = this@InfoUserFragment.context?.let {
+            CustomAlertDialog(it)
+                .setImage(R.drawable.delete)
+                .setMessage(getString(R.string.delete_account))
+                .setBackText(getString(R.string.no))
+                .setOkText(getString(R.string.yes))
+                .setOnOkClickListener { _, _ ->
+                    viewModel.deleteUser()
+                    comeToProfilePage()
+                }
+        }
+
+        customAlertDialog?.show()
+    }
+
+    private fun showDialogLogOut() {
+        val customAlertDialog = this@InfoUserFragment.context?.let {
+            CustomAlertDialog(it)
+                .setImage(R.drawable.log_out)
+                .setMessage(getString(R.string.log_out))
+                .setBackText(getString(R.string.no))
+                .setOkText(getString(R.string.yes))
+                .setOnOkClickListener { _, _ ->
+                    viewModel.logOutUser()
+                    comeToProfilePage()
+                }
+        }
+
+        customAlertDialog?.show()
     }
 
     private fun comeToProfilePage() {
@@ -62,6 +103,11 @@ class InfoUserFragment : Fragment() {
                 binding.numberUser.text = it.number
                 binding.emailUser.text = it.email
                 binding.dateOfBirthUser.text = it.dateOfBirth
+                if (it.address != "") {
+                    binding.actualAddress.isVisible = true
+                    binding.actualAddressUser.isVisible = true
+                    binding.actualAddressUser.text = it.address
+                }
             }
         }
     }

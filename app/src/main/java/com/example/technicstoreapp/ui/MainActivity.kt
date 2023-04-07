@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.registerFragment -> {
+                R.id.signUpFragment -> {
+                    navView.isVisible = false
+                }
+                R.id.notAuthenticationFragment -> {
                     navView.isVisible = false
                 }
                 R.id.orderFragment -> {
