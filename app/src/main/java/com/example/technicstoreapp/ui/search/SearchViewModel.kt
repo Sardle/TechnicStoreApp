@@ -21,11 +21,15 @@ class SearchViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _checkEmptyLiveData = MutableLiveData<Boolean>()
+    val checkEmptyLiveData: LiveData<Boolean> get() = _checkEmptyLiveData
+
     fun getSearchResult(search: String) {
         _loadingLiveData.value = true
         viewModelScope.launch {
             _searchLiveData.value = repositoryTech.getSearchResult(search)
             _loadingLiveData.value = false
+            _checkEmptyLiveData.value = repositoryTech.getSearchResult(search).isEmpty()
         }
     }
 }
