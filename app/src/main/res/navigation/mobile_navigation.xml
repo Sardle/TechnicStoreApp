@@ -80,6 +80,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_out_right"
             app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_profile_to_historyOrderFragment"
+            app:destination="@id/historyOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/technicPageFragment"
@@ -183,4 +186,9 @@
             android:id="@+id/action_notAuthenticationFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/historyOrderFragment"
+        tools:layout="@layout/fragment_history_order"
+        android:name="com.example.technicstoreapp.ui.profile.history_order.HistoryOrderFragment"
+        android:label="HistoryOrderFragment" />
 </navigation>
