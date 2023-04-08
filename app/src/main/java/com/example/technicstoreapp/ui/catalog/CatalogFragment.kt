@@ -41,14 +41,6 @@ class CatalogFragment : Fragment() {
         bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
             menu.isChecked = true
         }
-        binding.categories.isVisible = false
-        if (binding.searchCatalog.text.toString() != "") {
-            binding.frame.isVisible = true
-            moveToSearchFragment(binding.searchCatalog.text.toString())
-        } else {
-            binding.categories.isVisible = false
-            binding.searchCatalog.setText("")
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,36 +48,11 @@ class CatalogFragment : Fragment() {
 
         observeTechnicLiveData()
         setupCatalogRecyclerView()
-        setupSearchPage()
-    }
 
-    private fun setupSearchPage() {
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (start != 0) {
-                    binding.categories.isVisible = false
-                    binding.frame.isVisible = true
-                    moveToSearchFragment(s.toString())
-                } else {
-                    binding.categories.isVisible = true
-                    binding.frame.isVisible = false
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
+        binding.searchCatalog.setOnClickListener {
+            val action = CatalogFragmentDirections.actionNavigationCatalogToSearchFragment()
+            findNavController().navigate(action)
         }
-
-        binding.searchCatalog.addTextChangedListener(textWatcher)
-    }
-
-    private fun moveToSearchFragment(search: String) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frame, SearchFragment.newInstance(search))
-            .addToBackStack("back")
-            .commit()
     }
 
     private fun setupCatalogRecyclerView() {

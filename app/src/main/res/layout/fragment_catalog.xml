@@ -33,12 +33,22 @@
         android:background="@drawable/rounded_edittext"
         android:drawableStart="@drawable/search_icon"
         android:hint="@string/search_in_catalog"
-        android:inputType="textAutoComplete"
+        android:focusable="false"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/search_view"/>
+
+<!--    <TextView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        -->
+<!--        android:text="Поиск в каталоге"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/search_view"/>-->
 
     <FrameLayout
         android:id="@+id/frame"
