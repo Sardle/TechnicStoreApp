@@ -12,6 +12,8 @@ interface RepositoryUser {
 
     suspend fun deleteUser()
 
+    suspend fun getHistoryOrderData() : List<HistoryOrderItem>
+
     suspend fun getUserById(): UserData
 
     suspend fun updateUser(historyOrderData: HistoryOrderData, address: String, points: Int)

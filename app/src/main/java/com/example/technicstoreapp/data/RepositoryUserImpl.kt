@@ -1,11 +1,13 @@
 package com.example.technicstoreapp.data
 
+import com.example.technicstoreapp.data.mappers.HistoryOrderItemMapper
 import com.example.technicstoreapp.data.mappers.HistoryOrderMapper
 import com.example.technicstoreapp.data.mappers.UserMapper
 import com.example.technicstoreapp.data.models.LogInResponse
 import com.example.technicstoreapp.data.network.UserService
 import com.example.technicstoreapp.data.source.UserDataSource
 import com.example.technicstoreapp.domain.HistoryOrderData
+import com.example.technicstoreapp.domain.HistoryOrderItem
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.UserData
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,7 @@ class RepositoryUserImpl @Inject constructor(
     private val prefs: UserDataSource,
     private val service: UserService,
     private val userMapper: UserMapper,
-    private val historyOrderMapper: HistoryOrderMapper
+    private val historyOrderItemMapper: HistoryOrderItemMapper
 ) : RepositoryUser {
 
     override fun checkAvailabilityUser(): Boolean = prefs.getUserId().isEmpty()
@@ -49,6 +51,13 @@ class RepositoryUserImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             service.deleteUser(userMapper.dataToResponse(getUserById()))
             logOutUser()
+        }
+    }
+
+    override suspend fun getHistoryOrderData(): List<HistoryOrderItem> {
+        return withContext(Dispatchers.IO) {
+            val user = getUserById()
+            historyOrderItemMapper(user.carts)
         }
     }
 

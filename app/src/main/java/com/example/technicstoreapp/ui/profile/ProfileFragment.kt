@@ -51,6 +51,11 @@ class ProfileFragment : Fragment() {
         comeToInfoUserPage()
         if (!viewModel.checkUser()) {
 
+            binding.orderHistory.setOnClickListener {
+                val action = ProfileFragmentDirections.actionNavigationProfileToHistoryOrderFragment()
+                findNavController().navigate(action)
+            }
+
             with(viewModel) {
                 getUser()
 
