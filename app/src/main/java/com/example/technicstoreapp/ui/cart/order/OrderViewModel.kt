@@ -71,11 +71,11 @@ class OrderViewModel @Inject constructor(
             val currentDate = Date()
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             val formattedDate = dateFormat.format(currentDate)
-            val historyOrderData = HistoryOrderData(formattedDate, repositoryTech.getAllTechnicFromCart())
             var points = calcDiscount.calculatingPoints(sum)
             if (priceWithDiscountLiveData.value!! > 0) {
                 points = -priceWithDiscountLiveData.value!!
             }
+            val historyOrderData = HistoryOrderData(formattedDate, repositoryTech.getAllTechnicFromCart(), priceLiveData.value!!)
             repositoryUser.updateUser(historyOrderData, address, points)
             repositoryTech.deleteAllTechnicFromCart()
         }

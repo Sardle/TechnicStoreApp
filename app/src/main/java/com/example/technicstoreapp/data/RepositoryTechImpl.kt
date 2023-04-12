@@ -33,7 +33,9 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getNews(): List<NewsData> {
         return withContext(Dispatchers.IO) {
-            mapperNews(service.getNews("pc technologies", prefs.getUserToken()))
+            service.getNews("pc technologies", prefs.getUserToken()).articles?.map {
+                mapperNews(it)
+            } ?: emptyList()
         }
     }
 

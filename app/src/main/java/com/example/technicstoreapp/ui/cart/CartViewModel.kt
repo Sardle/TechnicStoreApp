@@ -36,6 +36,9 @@ class CartViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _countLiveData = MutableLiveData<Int>()
+    val countLiveData: LiveData<Int> get() = _countLiveData
+
     fun checkListTechnic() {
         viewModelScope.launch {
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
@@ -54,6 +57,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
             _loadingLiveData.value = false
         }
     }
@@ -63,6 +67,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.plusUnitTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
@@ -72,6 +77,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.removeUnitTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
@@ -81,6 +87,7 @@ class CartViewModel @Inject constructor(
             repositoryTech.deleteTechnic(id, color)
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
+            _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }

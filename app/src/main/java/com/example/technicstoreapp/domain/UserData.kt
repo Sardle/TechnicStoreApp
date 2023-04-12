@@ -9,5 +9,6 @@ data class UserData(
     var email: String,
     var discountPoints: Int,
     var carts: List<HistoryOrderData>,
-    val dateOfBirth: String
+    val dateOfBirth: String,
+    var favouriteTechnicData: List<TechnicData>
 )

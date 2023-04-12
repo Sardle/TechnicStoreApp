@@ -5,26 +5,30 @@ import com.example.technicstoreapp.domain.HistoryOrderData
 import com.example.technicstoreapp.domain.HistoryOrderItem
 import javax.inject.Inject
 
-class HistoryOrderItemMapper @Inject constructor(){
+class HistoryOrderItemMapper @Inject constructor() {
 
     operator fun invoke(historyOrderData: List<HistoryOrderData>): List<HistoryOrderItem> {
-        return historyOrderData.flatMap { historyOrder ->
-            val listTechnic = historyOrder.cartTechnicData.map { mapCartTechnicToHistoryTechnic(it) }
-            listOf(HistoryOrderItem.TimeOrder(historyOrder.orderTime)) + listTechnic
+        return historyOrderData.flatMap { i ->
+            listOf(
+                HistoryOrderItem.TimeOrder(i.orderTime),
+                *i.cartTechnicData.map { mapCartTechnicToHistoryTechnic(it) }.toTypedArray(),
+                HistoryOrderItem.TotalCount(i.totalCount)
+            )
         }
     }
 
-    private fun mapCartTechnicToHistoryTechnic(cartTechnicData: CartTechnicData): HistoryOrderItem.HistoryTechnic = with(cartTechnicData) {
-        HistoryOrderItem.HistoryTechnic(
-            id = id,
-            name = name,
-            imageUrl = imageUrl,
-            description = description,
-            price = price,
-            category = category,
-            color = color,
-            count = count
-        )
-    }
+    private fun mapCartTechnicToHistoryTechnic(cartTechnicData: CartTechnicData): HistoryOrderItem.HistoryTechnic =
+        with(cartTechnicData) {
+            HistoryOrderItem.HistoryTechnic(
+                id = id,
+                name = name,
+                imageUrl = imageUrl,
+                description = description,
+                price = price,
+                category = category,
+                color = color,
+                count = count
+            )
+        }
 
 }

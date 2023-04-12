@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.HistoryOrderItemBinding
 import com.example.technicstoreapp.databinding.TextItemBinding
+import com.example.technicstoreapp.databinding.TextItemTotalCountBinding
 import com.example.technicstoreapp.domain.HistoryOrderItem
 
 class HistoryOrderAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,6 +24,11 @@ class HistoryOrderAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val item = TextItemBinding.inflate(layoutInflater, parent, false)
                 TimeOrderViewHolder(item)
             }
+            TOTAL_COUNT_TYPE -> {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val item = TextItemTotalCountBinding.inflate(layoutInflater, parent, false)
+                TotalCountViewHolder(item)
+            }
             else -> throw Exception("Invalid Type!")
         }
 
@@ -32,12 +38,14 @@ class HistoryOrderAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder) {
             is HistoryOrderViewHolder -> holder.onBind(listHistoryOrderItem[position] as HistoryOrderItem.HistoryTechnic)
             is TimeOrderViewHolder -> holder.onBind(listHistoryOrderItem[position] as HistoryOrderItem.TimeOrder)
+            is TotalCountViewHolder -> holder.onBind(listHistoryOrderItem[position] as HistoryOrderItem.TotalCount)
         }
     }
 
     override fun getItemViewType(position: Int): Int = when (listHistoryOrderItem[position]) {
         is HistoryOrderItem.HistoryTechnic -> TECHNIC_TYPE
         is HistoryOrderItem.TimeOrder -> TITLE_TYPE
+        is HistoryOrderItem.TotalCount -> TOTAL_COUNT_TYPE
     }
 
     fun setItems(items: List<HistoryOrderItem>) {
@@ -49,5 +57,6 @@ class HistoryOrderAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val TITLE_TYPE = 1
         private const val TECHNIC_TYPE = 2
+        private const val TOTAL_COUNT_TYPE = 3
     }
 }

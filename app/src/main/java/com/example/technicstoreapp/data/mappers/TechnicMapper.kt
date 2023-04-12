@@ -16,4 +16,15 @@ class TechnicMapper @Inject constructor(){
             category = category.orEmpty()
         )
     }
+
+    operator fun invoke(data: TechnicData): TechnicResponse = with(data) {
+        TechnicResponse(
+            id = id,
+            name = name,
+            colors = colors,
+            description = description,
+            price = price,
+            category = category
+        )
+    }
 }

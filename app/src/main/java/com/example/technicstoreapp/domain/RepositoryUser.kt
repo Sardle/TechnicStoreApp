@@ -12,7 +12,15 @@ interface RepositoryUser {
 
     suspend fun deleteUser()
 
-    suspend fun getHistoryOrderData() : List<HistoryOrderItem>
+    suspend fun addToFavourite(TechnicData: TechnicData)
+
+    suspend fun removeFromFavourite(technicData: TechnicData)
+
+    suspend fun checkToFavourite(technicData: TechnicData): Boolean?
+
+    suspend fun getFavouriteTechnic() : List<TechnicData>
+
+    suspend fun getHistoryOrderItem() : List<HistoryOrderItem>
 
     suspend fun getUserById(): UserData
 

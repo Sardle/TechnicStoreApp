@@ -15,6 +15,7 @@ import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentInfoUserBinding
 import com.example.technicstoreapp.ui.cart.order.OrderFragmentDirections
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +32,16 @@ class InfoUserFragment : Fragment() {
     ): View {
         _binding = FragmentInfoUserBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_profile).let { menu ->
+            menu.isChecked = true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,7 +114,7 @@ class InfoUserFragment : Fragment() {
                 binding.numberUser.text = it.number
                 binding.emailUser.text = it.email
                 binding.dateOfBirthUser.text = it.dateOfBirth
-                if (it.address != "") {
+                if (it.address.isNotEmpty()) {
                     binding.actualAddress.isVisible = true
                     binding.actualAddressUser.isVisible = true
                     binding.actualAddressUser.text = it.address

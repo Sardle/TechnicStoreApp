@@ -24,7 +24,6 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         with(viewModel) {
             checkAvailabilityUser()
             checkLiveData.observe(viewLifecycleOwner) {
@@ -49,12 +48,15 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         comeToInfoUserPage()
+        setupPage()
+    }
+
+    private fun setupPage() {
         if (!viewModel.checkUser()) {
 
-            binding.orderHistory.setOnClickListener {
-                val action = ProfileFragmentDirections.actionNavigationProfileToHistoryOrderFragment()
-                findNavController().navigate(action)
-            }
+            comeToHistory()
+
+            comeToFavourite()
 
             with(viewModel) {
                 getUser()
@@ -68,6 +70,20 @@ class ProfileFragment : Fragment() {
                     binding.discount.text = it.discountPoints.toString()
                 }
             }
+        }
+    }
+
+    private fun comeToFavourite() {
+        binding.favourites.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToFavouriteFragment()
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun comeToHistory() {
+        binding.orderHistory.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToHistoryOrderFragment()
+            findNavController().navigate(action)
         }
     }
 

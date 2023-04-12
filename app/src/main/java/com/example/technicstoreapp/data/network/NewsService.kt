@@ -6,5 +6,5 @@ import retrofit2.http.*
 interface NewsService {
 
     @GET("everything")
-    fun getNews(@Query("q") q: String, @Header("x-api-key") value: String): NewsArticlesResponse
+    suspend fun getNews(@Query("q") q: String, @Header("x-api-key") value: String): NewsArticlesResponse
 }

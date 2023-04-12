@@ -46,21 +46,54 @@ class TechnicPageFragment : Fragment() {
         bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
             menu.isChecked = true
         }
+
+        viewModel.checkToFavourite(args.id)
+        viewModel.checkIsFavouriteLiveData.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.toFavourite.isVisible = false
+            } else {
+                binding.toFavourite.isVisible = true
+                binding.toFavourite.text =
+                    if (it) getString(R.string.remove_from_favourite) else getString(R.string.add_to_favourite)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getTechnicInfo(args.id)
+        viewModel.checkToFavourite(args.id)
+
+        binding.toFavourite.setOnClickListener {
+            if (binding.toFavourite.text == getString(R.string.add_to_favourite)) {
+                viewModel.addTechnicToFavourite(args.id, binding.toFavourite)
+                binding.toFavourite.text = getString(R.string.remove_from_favourite)
+            } else {
+                viewModel.deleteFromFavourite(args.id, binding.toFavourite)
+                binding.toFavourite.text = getString(R.string.add_to_favourite)
+            }
+        }
+        setupBadgeCart()
         observeLoadingLiveData()
         observeCheckLiveData()
         observeTechnicLiveData()
         back()
     }
 
+    private fun setupBadgeCart() {
+        viewModel.countLiveData.observe(viewLifecycleOwner) {
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
+            badge.number = it
+        }
+    }
+
     private fun observeLoadingLiveData() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            checkLoading(it)
+            binding.groupTechnicPage.isVisible = !it
+            binding.progressBarTechnicPage.isVisible = it
         }
     }
 
@@ -122,7 +155,12 @@ class TechnicPageFragment : Fragment() {
                     }
                     bottomNavigationView.selectedItemId = R.id.navigation_cart
                 }
-                .setOnBackClickListener {_, _ -> viewModel.checkIfElementExists(name, selectedColor)}
+                .setOnBackClickListener { _, _ ->
+                    viewModel.checkIfElementExists(
+                        name,
+                        selectedColor
+                    )
+                }
         }
 
         customAlertDialog?.show()
@@ -170,16 +208,6 @@ class TechnicPageFragment : Fragment() {
             firstColor.text = colors.first()
             secondColor.text = colors[1]
             thirdColor.text = colors.last()
-        }
-    }
-
-    private fun checkLoading(exists: Boolean) {
-        for (view in requireView().allViews) {
-            if (view is ProgressBar) {
-                view.isVisible = exists
-            } else if (view !is ConstraintLayout) {
-                view.isVisible = !exists
-            }
         }
     }
 

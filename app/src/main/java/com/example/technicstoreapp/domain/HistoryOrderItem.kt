@@ -15,4 +15,8 @@ sealed class HistoryOrderItem {
     data class TimeOrder(
         val timeOrder: String
     ) : HistoryOrderItem()
+
+    data class TotalCount(
+        val totalCount: Double
+    ) : HistoryOrderItem()
 }

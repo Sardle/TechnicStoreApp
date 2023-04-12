@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_historyOrderFragment"
             app:destination="@id/historyOrderFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/technicPageFragment"
@@ -188,4 +191,13 @@
         tools:layout="@layout/fragment_history_order"
         android:name="com.example.technicstoreapp.ui.profile.history_order.HistoryOrderFragment"
         android:label="HistoryOrderFragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        tools:layout="@layout/fragment_favourite"
+        android:name="com.example.technicstoreapp.ui.profile.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+    </fragment>
 </navigation>

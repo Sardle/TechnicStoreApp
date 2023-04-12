@@ -1,15 +1,11 @@
 package com.example.technicstoreapp.data
 
 import com.example.technicstoreapp.data.mappers.HistoryOrderItemMapper
-import com.example.technicstoreapp.data.mappers.HistoryOrderMapper
 import com.example.technicstoreapp.data.mappers.UserMapper
 import com.example.technicstoreapp.data.models.LogInResponse
 import com.example.technicstoreapp.data.network.UserService
 import com.example.technicstoreapp.data.source.UserDataSource
-import com.example.technicstoreapp.domain.HistoryOrderData
-import com.example.technicstoreapp.domain.HistoryOrderItem
-import com.example.technicstoreapp.domain.RepositoryUser
-import com.example.technicstoreapp.domain.UserData
+import com.example.technicstoreapp.domain.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.security.MessageDigest
@@ -49,12 +45,51 @@ class RepositoryUserImpl @Inject constructor(
 
     override suspend fun deleteUser() {
         withContext(Dispatchers.IO) {
-            service.deleteUser(userMapper.dataToResponse(getUserById()))
+            val user = getUserById()
+            service.deleteUser(userMapper.dataToResponse(user))
             logOutUser()
         }
     }
 
-    override suspend fun getHistoryOrderData(): List<HistoryOrderItem> {
+    override suspend fun addToFavourite(TechnicData: TechnicData) {
+        withContext(Dispatchers.IO) {
+            val user = getUserById()
+
+            val listFavourite = user.favouriteTechnicData.toMutableList()
+            listFavourite.add(TechnicData)
+            user.favouriteTechnicData = listFavourite.toList()
+            service.updateUser(userMapper.dataToResponse(user))
+        }
+    }
+
+    override suspend fun removeFromFavourite(technicData: TechnicData) {
+        withContext(Dispatchers.IO) {
+            val user = getUserById()
+
+            val listFavourite = user.favouriteTechnicData.toMutableList()
+            listFavourite.remove(technicData)
+            user.favouriteTechnicData = listFavourite.toList()
+            service.updateUser(userMapper.dataToResponse(user))
+        }
+    }
+
+    override suspend fun checkToFavourite(technicData: TechnicData): Boolean? {
+        return withContext(Dispatchers.IO) {
+            try {
+                getUserById().favouriteTechnicData.contains(technicData)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
+    override suspend fun getFavouriteTechnic(): List<TechnicData> {
+        return withContext(Dispatchers.IO) {
+            getUserById().favouriteTechnicData
+        }
+    }
+
+    override suspend fun getHistoryOrderItem(): List<HistoryOrderItem> {
         return withContext(Dispatchers.IO) {
             val user = getUserById()
             historyOrderItemMapper(user.carts)
@@ -69,7 +104,11 @@ class RepositoryUserImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateUser(historyOrderData: HistoryOrderData, address: String, points: Int) {
+    override suspend fun updateUser(
+        historyOrderData: HistoryOrderData,
+        address: String,
+        points: Int
+    ) {
         withContext(Dispatchers.IO) {
             val user = getUserById()
 

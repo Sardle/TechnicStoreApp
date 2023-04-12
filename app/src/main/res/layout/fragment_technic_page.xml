@@ -102,7 +102,7 @@
         android:text="Primer"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/add_to_cart"
+        app:layout_constraintBottom_toTopOf="@+id/to_favourite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_technic" />
 
@@ -113,8 +113,21 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="#FF9800"
         android:text="@string/add_to_cart"
+        android:visibility="invisible"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline58"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/to_favourite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_700"
+        android:text="@string/add_to_favourite"
+        android:visibility="invisible"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline58"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -124,13 +137,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/gray_sup"
-        android:text="@string/product_in_cart"
         android:clickable="false"
+        android:text="@string/product_in_cart"
         android:visibility="invisible"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline58"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <RadioGroup
         android:id="@+id/toggle"
@@ -196,6 +210,19 @@
             android:text="Outbreak"
             android:textColor="@drawable/control_switch_color_selector" />
     </RadioGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_technic_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="name_heading, name_technic, image_technic_page, toggle, description"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline58"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.93" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

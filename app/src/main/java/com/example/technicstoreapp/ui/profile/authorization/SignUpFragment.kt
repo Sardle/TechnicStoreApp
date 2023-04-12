@@ -76,7 +76,8 @@ class SignUpFragment : Fragment() {
                         binding.email.text.toString(),
                         0,
                         emptyList(),
-                        binding.dateOfBirth.text.toString()
+                        binding.dateOfBirth.text.toString(),
+                        emptyList()
                     )
                 )
             }

@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,12 +36,33 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViewModel()
+        setupBadgeCart()
+        setupPopularRecyclerView()
+        setupNewsRecyclerView()
+        observeTechnicLiveData()
+        observeNewsLiveData()
+        observeLoadingLiveData()
+    }
 
-//        viewModel.setUserToken()
-//        setupPopularRecyclerView()
-//        setupNewsRecyclerView()
-//        observeTechnicLiveData()
-//        observeNewsLiveData()
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.homeAll.isVisible = !it
+            binding.progressBarHome.isVisible = it
+        }
+    }
+
+    private fun setupViewModel() {
+        viewModel.setUserToken()
+        viewModel.setupBadgeCart()
+    }
+
+    private fun setupBadgeCart() {
+        viewModel.countLiveData.observe(viewLifecycleOwner) {
+            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
+            badge.number = it
+        }
     }
 
     private fun setupPopularRecyclerView() {

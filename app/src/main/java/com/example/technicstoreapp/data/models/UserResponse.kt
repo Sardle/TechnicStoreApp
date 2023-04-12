@@ -13,5 +13,6 @@ data class UserResponse(
     @Json(name = "address") var address: String? = null,
     @Json(name = "discountPoints") var discountPoints: Int? = null,
     @Json(name = "carts") var carts: List<HistoryOrderResponse>? = null,
-    @Json(name = "dateOfBirth") val dateOfBirth: String? = null
+    @Json(name = "dateOfBirth") val dateOfBirth: String? = null,
+    @Json(name = "favouriteTechnicResponse") val favouriteTechnicResponse: List<TechnicResponse>? = null
 )

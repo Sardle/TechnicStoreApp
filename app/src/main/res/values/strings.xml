@@ -77,4 +77,8 @@
     <string name="auth">Авторизоваться</string>
     <string name="actual_address">Актуальный адрес:</string>
     <string name="history_order">История заказов</string>
+    <string name="add_to_favourite">Добавить товар в избранное</string>
+    <string name="remove_from_favourite">Удалить товар из избранных</string>
+    <string name="favourite_empty">Вы еще ничего не добавили в избранное</string>
+    <string name="history_empty">Вы еще не совершали заказов</string>
 </resources>

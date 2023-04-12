@@ -16,7 +16,8 @@ class HistoryOrderMapper @Inject constructor(
                     cartTechnicMapper.dataToResponse(
                         it
                     )
-                }
+                },
+                totalCount = totalCount
             )
         }
 
@@ -28,7 +29,8 @@ class HistoryOrderMapper @Inject constructor(
                     cartTechnicMapper.responseToData(
                         it
                     )
-                } ?: emptyList()
+                } ?: emptyList(),
+                totalCount = totalCount ?: 0.0
             )
         }
 }

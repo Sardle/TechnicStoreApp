@@ -34,7 +34,8 @@ class CategoryPageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.menu.findItem(R.id.navigation_catalog).let { menu ->
             menu.isChecked = true
         }

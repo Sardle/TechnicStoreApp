@@ -19,7 +19,7 @@ interface UserService {
     @POST("create-user")
     suspend fun createUser(@Body user: UserResponse): AuthResponse
 
-    @PUT("delete-user")
+    @HTTP(method = "DELETE", path = "delete-user", hasBody = true)
     suspend fun deleteUser(@Body user: UserResponse): Boolean
 
     @PUT("update-user")
