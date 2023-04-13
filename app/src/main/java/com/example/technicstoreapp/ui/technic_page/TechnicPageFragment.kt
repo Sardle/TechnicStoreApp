@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RadioButton
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
 import com.example.technicstoreapp.domain.TechnicData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -108,32 +104,46 @@ class TechnicPageFragment : Fragment() {
         viewModel.technicLiveData.observe(viewLifecycleOwner) { technic ->
 
             if (technic != null) {
-                val defaultColor = args.defaultColor
-                val colors = technic.colors.keys.toList()
+                setupPage(technic)
 
-                binding.toggle.check(binding.firstColor.id)
-                setupColors(colors)
-                var selectedColor = getDefaultColor(defaultColor, colors)
-                setupPage(technic, selectedColor)
-                viewModel.checkIfElementExists(technic.name, selectedColor)
-
-                binding.toggle.setOnCheckedChangeListener { _, checkedId ->
-                    val selectedRadioButton = binding.toggle.findViewById<RadioButton>(checkedId)
-                    selectedColor = selectedRadioButton?.text.toString()
-                    getPoster(
-                        technic.colors[selectedColor].toString(),
-                        binding.imageTechnicPage
-                    )
-                    viewModel.checkIfElementExists(technic.name, selectedColor)
-                }
-
-                binding.addToCart.setOnClickListener {
-                    showDialogAccess(technic.name, selectedColor)
-                    viewModel.insertTechnicToCart(technic, selectedColor)
-                    viewModel.checkIfElementExists(technic.name, selectedColor)
-                }
+                viewModel.checkIfElementExists(technic.name, getSelectedTabText())
+                addTabSelectedListener(technic)
+                addToCart(technic)
             }
         }
+    }
+
+    private fun addToCart(technic: TechnicData) {
+        binding.addToCart.setOnClickListener {
+            showDialogAccess(technic.name, getSelectedTabText())
+            viewModel.insertTechnicToCart(technic, getSelectedTabText())
+            viewModel.checkIfElementExists(technic.name, getSelectedTabText())
+        }
+    }
+
+    private fun addTabSelectedListener(technic: TechnicData) {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    viewModel.checkIfElementExists(technic.name, tab.text.toString())
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+    }
+
+    private fun getSelectedTabText(): String {
+        val selectedTabPosition = binding.tabLayout.selectedTabPosition
+        val selectedTab = binding.tabLayout.getTabAt(selectedTabPosition)
+        return selectedTab?.text.toString()
     }
 
     private fun showDialogAccess(name: String, selectedColor: String) {
@@ -172,48 +182,26 @@ class TechnicPageFragment : Fragment() {
         }
     }
 
-    private fun setupPage(technic: TechnicData, selectedColor: String) {
+    private fun setupPage(technic: TechnicData) {
         with(binding) {
             nameHeading.text = technic.name
             nameTechnic.text = technic.name
             description.text = technic.description
-            getPoster(
-                technic.colors[selectedColor].toString(),
-                imageTechnicPage
-            )
+
+            val adapter = TechnicPhotoAdapter(requireActivity(), technic.colors.values.toList())
+            imageTechnicPage.adapter = adapter
+
+            val colors = technic.colors.keys.toList()
+            TabLayoutMediator(tabLayout, imageTechnicPage) { tab, position ->
+                tab.text = colors[position]
+
+                if (args.defaultColor.isNotEmpty()) {
+                    val imageIndex = colors.indexOf(args.defaultColor)
+                    imageTechnicPage.setCurrentItem(imageIndex, false)
+                }
+            }.attach()
+
             addToCart.text = getString(R.string.add_to_cart, technic.price.toString())
         }
-    }
-
-    private fun getDefaultColor(defaultColor: String, colors: List<String>): String {
-        val selectedColor: String
-        when (defaultColor) {
-            "default" -> {
-                selectedColor = colors.first()
-            }
-            colors[1] -> {
-                selectedColor = colors[1]
-                binding.toggle.check(binding.secondColor.id)
-            }
-            else -> {
-                selectedColor = colors.last()
-                binding.toggle.check(binding.thirdColor.id)
-            }
-        }
-        return selectedColor
-    }
-
-    private fun setupColors(colors: List<String>) {
-        with(binding) {
-            firstColor.text = colors.first()
-            secondColor.text = colors[1]
-            thirdColor.text = colors.last()
-        }
-    }
-
-    private fun getPoster(url: String, image: ImageView) {
-        Glide.with(image)
-            .load(url)
-            .into(image)
     }
 }
