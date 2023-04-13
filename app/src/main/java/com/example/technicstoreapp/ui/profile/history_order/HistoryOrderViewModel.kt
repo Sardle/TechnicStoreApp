@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.HistoryOrderItem
 import com.example.technicstoreapp.domain.RepositoryUser
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class HistoryOrderViewModel @Inject constructor(
     private val repositoryUser: RepositoryUser
 ) : ViewModel() {

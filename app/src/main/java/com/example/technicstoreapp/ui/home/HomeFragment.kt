@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +10,27 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: HomeViewModel by viewModels { factory }
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<HomeViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +67,8 @@ class HomeFragment : Fragment() {
 
     private fun setupBadgeCart() {
         viewModel.countLiveData.observe(viewLifecycleOwner) {
-            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
             val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
             badge.number = it
         }

@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.profile.history_order
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +13,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHistoryOrderBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class HistoryOrderFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: HistoryOrderViewModel by viewModels { factory }
     private var _binding: FragmentHistoryOrderBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<HistoryOrderViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +43,8 @@ class HistoryOrderFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.menu.findItem(R.id.navigation_profile).let { menu ->
             menu.isChecked = true
         }

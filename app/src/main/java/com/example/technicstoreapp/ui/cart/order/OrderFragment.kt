@@ -1,8 +1,7 @@
 package com.example.technicstoreapp.ui.cart.order
 
+import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +14,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentOrderBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class OrderFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: OrderViewModel by viewModels { factory }
     private var _binding: FragmentOrderBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<OrderViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,7 +100,9 @@ class OrderFragment : Fragment() {
             }
             with(binding) {
                 done.setOnClickListener {
-                    if (discountPoints.text.toString() != "" && discountPoints.text.toString().toInt() > user.discountPoints) {
+                    if (discountPoints.text.toString() != "" && discountPoints.text.toString()
+                            .toInt() > user.discountPoints
+                    ) {
                         Toast.makeText(
                             this@OrderFragment.context,
                             "Недостаточно баллов!",

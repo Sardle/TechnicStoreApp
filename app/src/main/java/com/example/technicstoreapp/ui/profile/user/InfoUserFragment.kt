@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.profile.user
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,17 +14,24 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentInfoUserBinding
-import com.example.technicstoreapp.ui.cart.order.OrderFragmentDirections
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class InfoUserFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: InfoUserViewModel by viewModels { factory }
     private var _binding: FragmentInfoUserBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<InfoUserViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -127,7 +135,7 @@ class InfoUserFragment : Fragment() {
         for (view in requireView().allViews) {
             if (view is ProgressBar) {
                 view.isVisible = exists
-            } else if (view !is ConstraintLayout){
+            } else if (view !is ConstraintLayout) {
                 view.isVisible = !exists
             }
         }

@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.profile.favourite
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +15,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentFavouriteBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: FavouriteViewModel by viewModels { factory }
     private var _binding: FragmentFavouriteBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<FavouriteViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

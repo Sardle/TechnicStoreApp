@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.*
 import com.example.technicstoreapp.domain.use_cases.CalcDiscount
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-@HiltViewModel
 class OrderViewModel @Inject constructor(
     private val repositoryUser: RepositoryUser,
     private val repositoryTech: RepositoryTech,
@@ -62,7 +60,8 @@ class OrderViewModel @Inject constructor(
     fun calculatingPriceWithDiscount(points: Int) {
         viewModelScope.launch {
             _priceWithDiscountLiveData.value = points
-            _priceLiveData.value = repositoryTech.getSumCurrentPrices() - calcDiscount.calculatingDiscount(points)
+            _priceLiveData.value =
+                repositoryTech.getSumCurrentPrices() - calcDiscount.calculatingDiscount(points)
         }
     }
 
@@ -75,7 +74,11 @@ class OrderViewModel @Inject constructor(
             if (priceWithDiscountLiveData.value!! > 0) {
                 points = -priceWithDiscountLiveData.value!!
             }
-            val historyOrderData = HistoryOrderData(formattedDate, repositoryTech.getAllTechnicFromCart(), priceLiveData.value!!)
+            val historyOrderData = HistoryOrderData(
+                formattedDate,
+                repositoryTech.getAllTechnicFromCart(),
+                priceLiveData.value!!
+            )
             repositoryUser.updateUser(historyOrderData, address, points)
             repositoryTech.deleteAllTechnicFromCart()
         }

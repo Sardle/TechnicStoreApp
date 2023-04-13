@@ -1,8 +1,7 @@
 package com.example.technicstoreapp.ui.catalog
 
+import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +12,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCatalogBinding
-import com.example.technicstoreapp.ui.search.SearchFragment
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class CatalogFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: CatalogViewModel by viewModels { factory }
     private var _binding: FragmentCatalogBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<CatalogViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
