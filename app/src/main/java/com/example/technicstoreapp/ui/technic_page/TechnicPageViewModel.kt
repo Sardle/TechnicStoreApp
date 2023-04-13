@@ -8,11 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.TechnicData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class TechnicPageViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech,
     private val repositoryUser: RepositoryUser
@@ -70,7 +68,7 @@ class TechnicPageViewModel @Inject constructor(
         }
     }
 
-    fun getTechnicInfo(id: Int){
+    fun getTechnicInfo(id: Int) {
         _loadingLiveData.value = true
         viewModelScope.launch {
             _technicLiveData.value = repositoryTech.getTechnicInfo(id)

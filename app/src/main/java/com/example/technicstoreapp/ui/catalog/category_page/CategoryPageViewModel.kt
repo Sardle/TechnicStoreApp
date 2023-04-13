@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.TechnicData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class CategoryPageViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech
-): ViewModel() {
+) : ViewModel() {
 
     private val _technicLiveData = MutableLiveData<List<TechnicData>>()
     val technicLiveData: LiveData<List<TechnicData>> get() = _technicLiveData

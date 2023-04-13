@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.cart
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +15,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCartBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class CartFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: CartViewModel by viewModels { factory }
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<CartViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,13 +58,14 @@ class CartFragment : Fragment() {
         checkListTechnicLiveData()
         comeToCatalog()
 
-        viewModel.checkLiveData.observe(viewLifecycleOwner) {check ->
+        viewModel.checkLiveData.observe(viewLifecycleOwner) { check ->
             binding.orderCart.setOnClickListener {
                 if (!check) {
                     val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
                     findNavController().navigate(action)
                 } else {
-                    val action = CartFragmentDirections.actionNavigationCartToNotAuthenticationFragment()
+                    val action =
+                        CartFragmentDirections.actionNavigationCartToNotAuthenticationFragment()
                     findNavController().navigate(action)
                 }
             }
@@ -119,7 +129,8 @@ class CartFragment : Fragment() {
 
     private fun observeCountLiveData() {
         viewModel.countLiveData.observe(viewLifecycleOwner) {
-            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
             val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
             badge.number = it
         }

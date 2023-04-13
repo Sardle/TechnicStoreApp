@@ -5,14 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class CatalogViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech
-): ViewModel() {
+) : ViewModel() {
 
     private val _categoriesLiveData = MutableLiveData<List<String>>()
     val categoriesLiveData: LiveData<List<String>> get() = _categoriesLiveData

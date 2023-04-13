@@ -1,22 +1,26 @@
 package com.example.technicstoreapp.ui.cart.order
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentNotAuthenticationBinding
+import com.example.technicstoreapp.di.app.App
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class NotAuthenticationFragment : Fragment() {
 
     private var _binding: FragmentNotAuthenticationBinding? = null
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

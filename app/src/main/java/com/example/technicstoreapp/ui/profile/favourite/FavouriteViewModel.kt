@@ -7,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.TechnicData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val repositoryUser: RepositoryUser,
     private val repositoryTech: RepositoryTech

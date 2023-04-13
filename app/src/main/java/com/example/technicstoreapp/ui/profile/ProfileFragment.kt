@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +14,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentProfileBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: ProfileViewModel by viewModels { factory }
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<ProfileViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onStart() {
         super.onStart()

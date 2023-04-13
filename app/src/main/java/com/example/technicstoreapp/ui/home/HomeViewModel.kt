@@ -4,16 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.technicstoreapp.R
 import com.example.technicstoreapp.domain.NewsData
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.TechnicData
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech
 ) : ViewModel() {

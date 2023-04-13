@@ -1,5 +1,6 @@
 package com.example.technicstoreapp.ui.technic_page
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +12,28 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
+import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.domain.TechnicData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class TechnicPageFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: TechnicPageViewModel by viewModels { factory }
     private var _binding: FragmentTechnicPageBinding? = null
-    private val viewModel by viewModels<TechnicPageViewModel>()
     private val binding get() = _binding!!
     private val args: TechnicPageFragmentArgs by navArgs()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
