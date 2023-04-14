@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.TechnicData
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,14 +32,16 @@ class TechnicPageViewModel @Inject constructor(
     private val _checkIsFavouriteLiveData = MutableLiveData<Boolean?>()
     val checkIsFavouriteLiveData: LiveData<Boolean?> get() = _checkIsFavouriteLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun checkIfElementExists(name: String, color: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _checkLiveData.value = repositoryTech.checkIfElementExists(name, color)
         }
     }
 
     fun insertTechnicToCart(technicData: TechnicData, color: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             repositoryTech.insertTechnic(technicData, color)
             _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
         }
@@ -46,7 +49,7 @@ class TechnicPageViewModel @Inject constructor(
 
     fun addTechnicToFavourite(id: Int, button: Button) {
         button.isClickable = false
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             repositoryUser.addToFavourite(repositoryTech.getTechnicInfo(id))
             button.isClickable = true
         }
@@ -54,14 +57,14 @@ class TechnicPageViewModel @Inject constructor(
 
     fun deleteFromFavourite(id: Int, button: Button) {
         button.isClickable = false
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             repositoryUser.removeFromFavourite(repositoryTech.getTechnicInfo(id))
             button.isClickable = true
         }
     }
 
     fun checkToFavourite(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _checkIsFavouriteLiveData.value =
                 repositoryUser.checkToFavourite(repositoryTech.getTechnicInfo(id))
             _loadingLiveData.value = false
@@ -70,7 +73,7 @@ class TechnicPageViewModel @Inject constructor(
 
     fun getTechnicInfo(id: Int) {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _technicLiveData.value = repositoryTech.getTechnicInfo(id)
         }
     }

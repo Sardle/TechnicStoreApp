@@ -30,6 +30,7 @@
     <string name="incorrect_number_or_password">Incorrect login or password!</string>
     <string name="error_to_date">Date should be in format DD.MM.YYYY</string>
     <string name="error_to_number">Invalid number</string>
+    <string name="error_to_email">Invalid email format</string>
     <string name="error_to_number_is_occupied">Phone number is already occupied!</string>
     <string name="hello">Hello, %1$s!</string>
     <string name="info_about_user">User information</string>
@@ -66,7 +67,7 @@
     <string name="no">No</string>
     <string name="product_in_cart">This product is already in the cart!</string>
     <string name="back_to_cart">Back to cart</string>
-    <string name="to_history">Go to history</string>
+    <string name="to_profile">Go to profile</string>
     <string name="discount_calc">10 points = 1 RUB</string>
     <string name="discount_error">Insufficient points!</string>
     <string name="done">Done</string>
@@ -81,4 +82,9 @@
     <string name="remove_from_favourite">Remove product from favorites</string>
     <string name="favourite_empty">You haven\'t added anything to favorites yet</string>
     <string name="history_empty">You haven\'t placed any orders yet</string>
+    <string name="no_internet">There is no internet connection!</string>
+    <string name="retry">Retry</string>
+    <string name="not_enough_points">Not enough points!</string>
+    <string name="discount_applied"> Discount applied!</string>
+    <string name="discount_cancelled">Discount cancelled!</string>
 </resources>

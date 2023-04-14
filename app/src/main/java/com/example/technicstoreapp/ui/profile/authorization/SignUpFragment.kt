@@ -68,10 +68,11 @@ class SignUpFragment : Fragment() {
     private fun checkDataEntry() {
         binding.registerBtn.setOnClickListener {
             val checkPassword = checkPassword()
+            val checkEmail = checkEmail()
             val areAllEditTextsFilled = areAllEditTextsFilled()
             val checkDate = checkDate()
             val checkNumber = checkNumber()
-            if (checkPassword && areAllEditTextsFilled && checkDate && checkNumber) {
+            if (checkPassword && checkEmail && areAllEditTextsFilled && checkDate && checkNumber) {
                 binding.progressBarRegister.isVisible = true
                 binding.registerGroup.isVisible = false
                 viewModel.addUserToList(
@@ -199,6 +200,21 @@ class SignUpFragment : Fragment() {
         return true
     }
 
+    private fun checkEmail(): Boolean {
+        if (!binding.email.text.toString().matches(REGEX_EMAIL.toRegex())) {
+            binding.email.error = getString(R.string.error_to_password)
+            binding.email.background =
+                this@SignUpFragment.context?.let { context ->
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.error_style_edittext
+                    )
+                }
+            return false
+        }
+        return true
+    }
+
     private fun checkDate(): Boolean {
         if (!binding.dateOfBirth.text.toString().matches(REGEX_DATE.toRegex())) {
             binding.dateOfBirth.error = getString(R.string.error_to_date)
@@ -223,6 +239,8 @@ class SignUpFragment : Fragment() {
         private const val REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)\\w{8,}\$"
 
         private const val REGEX_DATE = "^(0[1-9]|[12]\\d|3[01])\\.(0[1-9]|1[0-2])\\.\\d{4}\$"
+
+        private const val REGEX_EMAIL = "^\\S+@\\S+\\.\\S+\$"
 
         private const val FORMAT_NUMBER = "+375 (__) ___-__-__"
 

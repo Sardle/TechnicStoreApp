@@ -8,6 +8,10 @@ class TotalCountViewHolder(private val binding: TextItemTotalCountBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(item: HistoryOrderItem.TotalCount) {
-        binding.totalCountOrder.text = "Общая сумма заказа: " + item.totalCount
+        binding.totalCountOrder.text = TOTAL_COUNT + item.totalCount
+    }
+
+    companion object {
+        private const val TOTAL_COUNT = "Общая сумма заказа: "
     }
 }

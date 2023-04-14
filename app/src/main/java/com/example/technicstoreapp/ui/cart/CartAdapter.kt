@@ -3,13 +3,9 @@ package com.example.technicstoreapp.ui.cart
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.example.technicstoreapp.R
-import com.example.technicstoreapp.databinding.CartRecyclerBinding
+import com.example.technicstoreapp.databinding.RvCartBinding
 import com.example.technicstoreapp.domain.CartTechnicData
-import com.example.technicstoreapp.domain.TechnicData
 
 class CartAdapter(
     private val itemClick: (Int, String) -> Unit,
@@ -24,7 +20,7 @@ class CartAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val item = CartRecyclerBinding.inflate(layoutInflater, parent, false)
+        val item = RvCartBinding.inflate(layoutInflater, parent, false)
         return CartViewHolder(item, itemClick, plusClick, minusClick, deleteClick, updateClick)
     }
 

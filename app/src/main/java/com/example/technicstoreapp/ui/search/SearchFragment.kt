@@ -123,16 +123,4 @@ class SearchFragment : Fragment() {
         val action = SearchFragmentDirections.actionSearchFragmentToTechnicPageFragment(id)
         findNavController().navigate(action)
     }
-
-//    companion object {
-//        private const val SEARCH = "SEARCH"
-//
-//        fun newInstance(searchString: String): SearchFragment {
-//            val fragment = SearchFragment()
-//            val args = Bundle()
-//            args.putString(SEARCH, searchString)
-//            fragment.arguments = args
-//            return fragment
-//        }
-//    }
 }

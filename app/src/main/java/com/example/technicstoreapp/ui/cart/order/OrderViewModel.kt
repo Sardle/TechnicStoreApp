@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.*
 import com.example.technicstoreapp.domain.use_cases.CalcDiscount
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,23 +33,25 @@ class OrderViewModel @Inject constructor(
     private val _priceWithDiscountLiveData = MutableLiveData<Int>()
     val priceWithDiscountLiveData: LiveData<Int> get() = _priceWithDiscountLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
 
     fun getTechnicCart() {
-        viewModelScope.launch {
+        viewModelScope.launch (exceptionHandler){
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun getUser() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch (exceptionHandler){
             _userLiveData.value = repositoryUser.getUserById()
             _loadingLiveData.value = false
         }
     }
 
     fun getTotalSum() {
-        viewModelScope.launch {
+        viewModelScope.launch (exceptionHandler){
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
         }
     }
@@ -58,7 +61,7 @@ class OrderViewModel @Inject constructor(
     }
 
     fun calculatingPriceWithDiscount(points: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch (exceptionHandler){
             _priceWithDiscountLiveData.value = points
             _priceLiveData.value =
                 repositoryTech.getSumCurrentPrices() - calcDiscount.calculatingDiscount(points)
@@ -66,20 +69,22 @@ class OrderViewModel @Inject constructor(
     }
 
     fun update(address: String, sum: Double) {
-        viewModelScope.launch {
+        viewModelScope.launch (exceptionHandler){
             val currentDate = Date()
-            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
             val formattedDate = dateFormat.format(currentDate)
             var points = calcDiscount.calculatingPoints(sum)
             if (priceWithDiscountLiveData.value!! > 0) {
                 points = -priceWithDiscountLiveData.value!!
             }
-            val historyOrderData = HistoryOrderData(
-                formattedDate,
-                repositoryTech.getAllTechnicFromCart(),
-                priceLiveData.value!!
-            )
-            repositoryUser.updateUser(historyOrderData, address, points)
+            val historyOrderData = priceLiveData.value?.let {
+                HistoryOrderData(
+                    formattedDate,
+                    repositoryTech.getAllTechnicFromCart(),
+                    it
+                )
+            }
+            historyOrderData?.let { repositoryUser.updateUser(it, address, points) }
             repositoryTech.deleteAllTechnicFromCart()
         }
     }

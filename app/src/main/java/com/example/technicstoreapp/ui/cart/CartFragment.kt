@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,39 +44,72 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        viewModel.checkUser()
-
-        viewModel.checkListTechnic()
-        checkListTechnicLiveData()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkUser()
-        viewModel.checkListTechnic()
+
         checkListTechnicLiveData()
         comeToCatalog()
-
-        viewModel.checkLiveData.observe(viewLifecycleOwner) { check ->
-            binding.orderCart.setOnClickListener {
-                if (!check) {
-                    val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
-                    findNavController().navigate(action)
-                } else {
-                    val action =
-                        CartFragmentDirections.actionNavigationCartToNotAuthenticationFragment()
-                    findNavController().navigate(action)
-                }
-            }
-        }
-
+        observeCheckLiveData()
+        comeToOrder()
         observeCountLiveData()
         setupPrice()
         setupCatalogRecyclerView()
         observeCartTechnicLiveData()
+        checkNetworkConnection()
+        retry()
+    }
+
+    private fun retry() {
+        binding.retryCart.setOnClickListener {
+            viewModel.checkNetworkConnection()
+        }
+    }
+
+    private fun checkNetworkConnection() {
+        viewModel.checkNetworkConnection()
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                with(binding) {
+                    noInternetGroup.isVisible = false
+                    viewCartGroup.isVisible = true
+                }
+                setupViewModel()
+            } else {
+                with(binding) {
+                    noInternetGroup.isVisible = true
+                    viewCartGroup.isVisible = false
+                    emptyCart.isVisible = false
+                    cartGroup.isVisible = false
+                }
+            }
+        }
+    }
+
+    private fun setupViewModel() {
+        with(viewModel) {
+            getTechnicCart()
+            checkListTechnic()
+            getAllPrices()
+        }
+    }
+
+    private fun observeCheckLiveData() {
+        viewModel.checkUserLiveData.observe(viewLifecycleOwner) {
+            if (!it) {
+                val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
+                findNavController().navigate(action)
+            } else {
+                val action =
+                    CartFragmentDirections.actionNavigationCartToNotAuthenticationFragment()
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    private fun comeToOrder() {
+        binding.orderCart.setOnClickListener {
+            viewModel.checkUser()
+        }
     }
 
     private fun comeToCatalog() {
@@ -94,23 +129,30 @@ class CartFragment : Fragment() {
 
     private fun checkListTechnicLiveData() {
         with(viewModel) {
-            checkListTechnicLiveData.observe(viewLifecycleOwner) {
+            val mediatorLiveData = MediatorLiveData<Boolean>()
+
+            val loadingObserver = Observer<Boolean> { loading ->
+                binding.progressBarCart.isVisible = loading
+                binding.cartGroup.isVisible = !loading
+                binding.orderCart.isVisible = !loading
+            }
+
+            mediatorLiveData.addSource(checkListTechnicLiveData) {
                 if (!it) {
-                    viewModel.loadingLiveData.observe(viewLifecycleOwner) { loading ->
-                        binding.progressBarCart.isVisible = loading
-                        binding.cartGroup.isVisible = !loading
-                        binding.orderCart.isVisible = !loading
-                    }
+                    mediatorLiveData.addSource(loadingLiveData, loadingObserver)
+                } else {
+                    mediatorLiveData.removeSource(loadingLiveData)
                 }
                 binding.cartGroup.isVisible = !it
                 binding.emptyCart.isVisible = it
             }
+
+            mediatorLiveData.observe(viewLifecycleOwner) { }
         }
     }
 
     private fun setupPrice() {
         with(viewModel) {
-            getAllPrices()
             priceLiveData.observe(viewLifecycleOwner) {
                 binding.orderCart.text = getString(R.string.order, it.toString())
             }
@@ -149,8 +191,6 @@ class CartFragment : Fragment() {
             adapter = catalogAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-
-        viewModel.getTechnicCart()
     }
 
     private fun onItemClick(id: Int, color: String) {
@@ -182,9 +222,7 @@ class CartFragment : Fragment() {
     }
 
     private fun updateOrder() {
-        with(viewModel) {
-            getAllPrices()
-        }
+        viewModel.getAllPrices()
     }
 
     override fun onDestroyView() {

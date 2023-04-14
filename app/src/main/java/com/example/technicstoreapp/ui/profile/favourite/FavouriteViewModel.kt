@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.TechnicData
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,22 +25,24 @@ class FavouriteViewModel @Inject constructor(
     private val _checkLiveData = MutableLiveData<Boolean>()
     val checkLiveData: LiveData<Boolean> get() = _checkLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun checkFavouriteListIsEmpty() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _checkLiveData.value = repositoryUser.getFavouriteTechnic().isEmpty()
         }
     }
 
     fun getFavouriteTechnic() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _favouriteTechnicLiveData.value = repositoryUser.getFavouriteTechnic()
             _loadingLiveData.value = false
         }
     }
 
     fun removeFromFavourite(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             repositoryUser.removeFromFavourite(repositoryTech.getTechnicInfo(id))
             _favouriteTechnicLiveData.value = repositoryUser.getFavouriteTechnic()
             _checkLiveData.value = repositoryUser.getFavouriteTechnic().isEmpty()

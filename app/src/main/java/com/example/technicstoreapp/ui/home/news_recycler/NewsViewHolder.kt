@@ -5,15 +5,15 @@ import android.net.Uri
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.technicstoreapp.databinding.NewsRecyclerBinding
+import com.example.technicstoreapp.databinding.RvNewsBinding
 import com.example.technicstoreapp.domain.NewsData
 
-class NewsViewHolder(private val binding: NewsRecyclerBinding) :
+class NewsViewHolder(private val binding: RvNewsBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: NewsData) {
         binding.title.text = item.title
         binding.author.text = item.author
-        getPoster(item.urlToImage, binding.image)
+        getPhoto(item.urlToImage, binding.image)
 
         itemView.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -22,7 +22,7 @@ class NewsViewHolder(private val binding: NewsRecyclerBinding) :
         }
     }
 
-    private fun getPoster(url: String, image: ImageView) {
+    private fun getPhoto(url: String, image: ImageView) {
         Glide.with(image)
             .load(url)
             .into(image)

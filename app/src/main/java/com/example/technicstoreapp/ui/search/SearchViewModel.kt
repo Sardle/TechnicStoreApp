@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.TechnicData
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,10 +23,12 @@ class SearchViewModel @Inject constructor(
     private val _checkEmptyLiveData = MutableLiveData<Boolean>()
     val checkEmptyLiveData: LiveData<Boolean> get() = _checkEmptyLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun getSearchResult(search: String) {
         if (search != "") {
             _loadingLiveData.value = true
-            viewModelScope.launch {
+            viewModelScope.launch(exceptionHandler) {
                 _searchLiveData.value = repositoryTech.getSearchResult(search)
                 _loadingLiveData.value = false
                 _checkEmptyLiveData.value = repositoryTech.getSearchResult(search).isEmpty()

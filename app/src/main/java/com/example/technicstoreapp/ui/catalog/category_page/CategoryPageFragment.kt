@@ -54,12 +54,15 @@ class CategoryPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.categoryName.text = args.category
+        setupCatalogRecyclerView()
+        observeTechnicLiveData()
+        back()
+    }
+
+    private fun back() {
         binding.backCategory.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-
-        setupCatalogRecyclerView()
-        observeTechnicLiveData()
     }
 
     private fun observeTechnicLiveData() {

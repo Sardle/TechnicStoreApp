@@ -1,11 +1,14 @@
 package com.example.technicstoreapp.ui.cart.order
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,6 +19,7 @@ import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentOrderBinding
 import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
+import com.example.technicstoreapp.domain.UserData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import javax.inject.Inject
 
@@ -43,15 +47,21 @@ class OrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getUser()
-        viewModel.getTotalSum()
 
-        viewModel.setupPriceWithDiscountLiveData()
+        setupViewModel()
+        addOrder()
         observeLoadingLiveData()
         setupOrderRecyclerView()
         observeCartTechnicLiveData()
         observePriceLiveData()
         observeUserLiveData()
+        back()
+    }
+
+    private fun setupViewModel() {
+        viewModel.getUser()
+        viewModel.getTotalSum()
+        viewModel.setupPriceWithDiscountLiveData()
     }
 
     private fun observeLoadingLiveData() {
@@ -64,13 +74,47 @@ class OrderFragment : Fragment() {
     private fun observePriceLiveData() {
         viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
             binding.totalPrice.text = getString(R.string.set_price, price.toString())
-            binding.addOrder.setOnClickListener {
+        }
+    }
+
+    private fun addOrder() {
+        binding.addOrder.setOnClickListener {
+            if (checkAddressEmpty()) {
                 viewModel.update(
                     if (binding.address.text.toString() != "") binding.address.text.toString() else binding.address.hint.toString(),
-                    price
+                    binding.totalPrice.text.toString().replace("\\s.*".toRegex(), "").toDouble()
                 )
+                showPurchaseSuccessNotification()
                 showDialogAccess()
             }
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun checkAddressEmpty(): Boolean {
+        if (binding.address.text.toString() == "" && binding.address.hint.toString() == getString(R.string.your_address)) {
+            binding.address.background =
+                requireContext().getDrawable(R.drawable.erroe_style_edittext_of)
+            return false
+        }
+        return true
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun showPurchaseSuccessNotification() {
+        val channelId = "my_channel_id"
+        val notificationId = 1
+
+        val notification = NotificationCompat.Builder(requireActivity(), channelId)
+            .setSmallIcon(R.drawable.electro)
+            .setContentTitle("Успешная покупка")
+            .setContentText("Покупка успешно завершена")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+
+        with(NotificationManagerCompat.from(requireActivity())) {
+            notify(notificationId, notification)
         }
     }
 
@@ -78,9 +122,10 @@ class OrderFragment : Fragment() {
         val customAlertDialog = this@OrderFragment.context?.let {
             CustomAlertDialog(it)
                 .setImage(R.drawable.success)
-                .setMessage(getString(R.string.log_out))
+                .setMessage(getString(R.string.order_access))
                 .setBackText(getString(R.string.back_to_cart))
-                .setOkText(getString(R.string.to_history))
+                .setOkText(getString(R.string.to_profile))
+                .setOnBackClickListener { _, _ -> }
                 .setOnCancelable(false)
                 .setOnBackClickListener { _, _ ->
                     val action = OrderFragmentDirections.actionOrderFragmentToNavigationCart()
@@ -98,52 +143,62 @@ class OrderFragment : Fragment() {
             if (user.address != "") {
                 binding.address.hint = user.address
             }
-            with(binding) {
-                done.setOnClickListener {
-                    if (discountPoints.text.toString() != "" && discountPoints.text.toString()
-                            .toInt() > user.discountPoints
-                    ) {
-                        Toast.makeText(
-                            this@OrderFragment.context,
-                            "Недостаточно баллов!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        discountPoints.setText("")
-                    } else if (done.text.toString() == getString(R.string.done) && discountPoints.text.toString() != "") {
-                        done.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.gray_sup
-                            )
+            checkDiscount(user)
+        }
+    }
+
+    private fun checkDiscount(user: UserData) {
+        with(binding) {
+            done.setOnClickListener {
+                if (discountPoints.text.toString() != "" && discountPoints.text.toString()
+                        .toInt() > user.discountPoints
+                ) {
+                    Toast.makeText(
+                        this@OrderFragment.context,
+                        getString(R.string.not_enough_points),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    discountPoints.setText("")
+                } else if (done.text.toString() == getString(R.string.done) && discountPoints.text.toString() != "") {
+                    done.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.gray_sup
                         )
-                        viewModel.calculatingPriceWithDiscount(
-                            binding.discountPoints.text.toString().toInt()
+                    )
+                    viewModel.calculatingPriceWithDiscount(
+                        binding.discountPoints.text.toString().toInt()
+                    )
+                    discountPoints.setText("")
+                    done.text = getString(R.string.cancel)
+                    Toast.makeText(
+                        this@OrderFragment.context,
+                        getString(R.string.discount_applied),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (done.text.toString() == getString(R.string.cancel)) {
+                    done.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.purple_700
                         )
-                        discountPoints.setText("")
-                        done.text = getString(R.string.cancel)
-                        Toast.makeText(
-                            this@OrderFragment.context,
-                            "Скидка применена",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (done.text.toString() == getString(R.string.cancel)) {
-                        done.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.purple_700
-                            )
-                        )
-                        viewModel.calculatingPriceWithDiscount(0)
-                        discountPoints.setText("")
-                        done.text = getString(R.string.done)
-                        Toast.makeText(
-                            this@OrderFragment.context,
-                            "Скидка отменена",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    )
+                    viewModel.calculatingPriceWithDiscount(0)
+                    discountPoints.setText("")
+                    done.text = getString(R.string.done)
+                    Toast.makeText(
+                        this@OrderFragment.context,
+                        getString(R.string.discount_cancelled),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
+    }
+
+    private fun back() {
+        binding.backOrder.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

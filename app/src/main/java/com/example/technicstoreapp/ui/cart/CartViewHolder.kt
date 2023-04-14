@@ -4,11 +4,11 @@ import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.technicstoreapp.databinding.CartRecyclerBinding
+import com.example.technicstoreapp.databinding.RvCartBinding
 import com.example.technicstoreapp.domain.CartTechnicData
 
 class CartViewHolder(
-    private val binding: CartRecyclerBinding,
+    private val binding: RvCartBinding,
     private val itemClick: (Int, String) -> Unit,
     private val plusClick: (Int, String) -> Unit,
     private val minusClick: (Int, String) -> Unit,
@@ -18,9 +18,9 @@ class CartViewHolder(
     fun onBind(item: CartTechnicData) {
         binding.count.text = item.count.toString()
         binding.cartName.text = item.name
-        getPoster(item.imageUrl, binding.cartImage)
-        binding.cartPrice.text = (item.price * item.count).toString() + " р."
-        binding.cartColor.text = "Цвет: " + item.color
+        getPhoto(item.imageUrl, binding.cartImage)
+        binding.cartPrice.text = (item.price * item.count).toString() + RUB
+        binding.cartColor.text = COLOR + item.color
 
         if (binding.count.text == "0") {
             deleteClick(item.id, binding.root, item.color)
@@ -45,8 +45,15 @@ class CartViewHolder(
         }
     }
 
-    private fun getPoster(url: String, image: ImageView) {
-        Glide.with(image).load(url).into(image)
+    private fun getPhoto(url: String, image: ImageView) {
+        Glide.with(image)
+            .load(url)
+            .into(image)
     }
 
+    companion object {
+        private const val RUB = " р."
+
+        private const val COLOR = "Цвет: "
+    }
 }

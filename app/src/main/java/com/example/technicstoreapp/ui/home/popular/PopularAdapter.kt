@@ -3,7 +3,7 @@ package com.example.technicstoreapp.ui.home.popular
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.technicstoreapp.databinding.PopularRecyclerBinding
+import com.example.technicstoreapp.databinding.RvPopularBinding
 import com.example.technicstoreapp.domain.TechnicData
 
 class PopularAdapter(private val itemClick: (Int) -> Unit) :
@@ -13,7 +13,7 @@ class PopularAdapter(private val itemClick: (Int) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemRvNewsBinding = PopularRecyclerBinding.inflate(layoutInflater, parent, false)
+        val itemRvNewsBinding = RvPopularBinding.inflate(layoutInflater, parent, false)
         return PopularViewHolder(itemRvNewsBinding, itemClick)
     }
 

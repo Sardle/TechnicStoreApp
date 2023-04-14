@@ -67,9 +67,21 @@ class TechnicPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViewModel()
+        addOrRemoveFromFavourite()
+        setupBadgeCart()
+        observeLoadingLiveData()
+        observeCheckLiveData()
+        observeTechnicLiveData()
+        back()
+    }
+
+    private fun setupViewModel() {
         viewModel.getTechnicInfo(args.id)
         viewModel.checkToFavourite(args.id)
+    }
 
+    private fun addOrRemoveFromFavourite() {
         binding.toFavourite.setOnClickListener {
             if (binding.toFavourite.text == getString(R.string.add_to_favourite)) {
                 viewModel.addTechnicToFavourite(args.id, binding.toFavourite)
@@ -79,11 +91,6 @@ class TechnicPageFragment : Fragment() {
                 binding.toFavourite.text = getString(R.string.add_to_favourite)
             }
         }
-        setupBadgeCart()
-        observeLoadingLiveData()
-        observeCheckLiveData()
-        observeTechnicLiveData()
-        back()
     }
 
     private fun setupBadgeCart() {
@@ -138,14 +145,9 @@ class TechnicPageFragment : Fragment() {
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
 
@@ -183,6 +185,11 @@ class TechnicPageFragment : Fragment() {
         }
 
         customAlertDialog?.show()
+
+        viewModel.checkIfElementExists(
+            name,
+            selectedColor
+        )
     }
 
     private fun back() {

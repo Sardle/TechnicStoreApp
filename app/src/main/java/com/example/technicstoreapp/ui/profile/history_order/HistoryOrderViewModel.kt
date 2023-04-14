@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.HistoryOrderItem
 import com.example.technicstoreapp.domain.RepositoryUser
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,15 +23,17 @@ class HistoryOrderViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun checkHistoryListIsEmpty() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _checkLiveData.value = repositoryUser.getHistoryOrderItem().isEmpty()
         }
     }
 
     fun getHistoryOrderList() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _historyOrderLiveData.value = repositoryUser.getHistoryOrderItem()
             _loadingLiveData.value = false
         }

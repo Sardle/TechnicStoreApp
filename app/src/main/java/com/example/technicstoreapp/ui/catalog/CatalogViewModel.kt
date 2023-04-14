@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.RepositoryTech
+import com.example.technicstoreapp.ui.utils.CheckNetworkConnection
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CatalogViewModel @Inject constructor(
-    private val repositoryTech: RepositoryTech
+    private val repositoryTech: RepositoryTech,
+    private val checkNetworkConnection: CheckNetworkConnection
 ) : ViewModel() {
 
     private val _categoriesLiveData = MutableLiveData<List<String>>()
@@ -18,11 +21,20 @@ class CatalogViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _checkNetworkLiveData = MutableLiveData<Boolean>()
+    val checkNetworkLiveData: LiveData<Boolean> get() = _checkNetworkLiveData
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun getCategories() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _categoriesLiveData.value = repositoryTech.getCategories()
             _loadingLiveData.value = false
         }
+    }
+
+    fun checkNetworkConnection() {
+        _checkNetworkLiveData.value = checkNetworkConnection.isInternetAvailable()
     }
 }

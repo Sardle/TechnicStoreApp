@@ -44,13 +44,36 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModel()
         setupBadgeCart()
         setupPopularRecyclerView()
         setupNewsRecyclerView()
         observeTechnicLiveData()
         observeNewsLiveData()
         observeLoadingLiveData()
+        checkNetworkConnection()
+        retry()
+    }
+
+    private fun retry() {
+        binding.retryHome.setOnClickListener {
+            viewModel.checkNetworkConnection()
+        }
+    }
+
+    private fun checkNetworkConnection() {
+        viewModel.checkNetworkConnection()
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.homeAll.isVisible = true
+                binding.noInternetGroup.isVisible = false
+                binding.searchLayout.isVisible = true
+                setupViewModel()
+            } else {
+                binding.homeAll.isVisible = false
+                binding.noInternetGroup.isVisible = true
+                binding.searchLayout.isVisible = false
+            }
+        }
     }
 
     private fun observeLoadingLiveData() {
@@ -63,6 +86,8 @@ class HomeFragment : Fragment() {
     private fun setupViewModel() {
         viewModel.setUserToken()
         viewModel.setupBadgeCart()
+        viewModel.getNews()
+        viewModel.getTechnic()
     }
 
     private fun setupBadgeCart() {
@@ -81,8 +106,6 @@ class HomeFragment : Fragment() {
             adapter = popularAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-
-        viewModel.getTechnic()
     }
 
     private fun setupNewsRecyclerView() {
@@ -92,8 +115,6 @@ class HomeFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-
-        viewModel.getNews()
     }
 
     private fun observeTechnicLiveData() {

@@ -26,10 +26,10 @@ class PhotoTechnicPage(private val url: String) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getPoster(url, binding.imagePhotoTechnic)
+        getPhoto(url, binding.imagePhotoTechnic)
     }
 
-    private fun getPoster(url: String, image: ImageView) {
+    private fun getPhoto(url: String, image: ImageView) {
         Glide.with(image)
             .load(url)
             .into(image)

@@ -7,7 +7,7 @@
     android:background="@color/lite_white">
 
     <View
-        android:id="@+id/cart_name_view"
+        android:id="@+id/order_name_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/purple_700"
@@ -15,8 +15,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/back_order"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintBottom_toBottomOf="@+id/order_name_view"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.14" />
+
     <TextView
-        android:id="@+id/cart_name_text"
+        android:id="@+id/order_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_order"

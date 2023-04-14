@@ -3,7 +3,7 @@ package com.example.technicstoreapp.ui.catalog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.technicstoreapp.databinding.CatalogRecyclerBinding
+import com.example.technicstoreapp.databinding.RvCatalogBinding
 
 class CatalogAdapter(
     private val itemClick: (String) -> Unit
@@ -13,7 +13,7 @@ class CatalogAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val item = CatalogRecyclerBinding.inflate(layoutInflater, parent, false)
+        val item = RvCatalogBinding.inflate(layoutInflater, parent, false)
         return CatalogViewHolder(item, itemClick)
     }
 

@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.technicstoreapp.databinding.CategoryRecyclerPageBinding
 import com.example.technicstoreapp.databinding.RvFavouriteBinding
 import com.example.technicstoreapp.domain.TechnicData
 
@@ -16,9 +15,9 @@ class FavouriteViewHolder(
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: TechnicData) {
         binding.favouriteName.text = item.name
-        getPoster(item.colors.values.first(), binding.favouriteImage)
+        getPhoto(item.colors.values.first(), binding.favouriteImage)
         binding.favouriteDescription.text = item.description
-        binding.favouritePrice.text = item.price.toString() + " р."
+        binding.favouritePrice.text = item.price.toString() + RUB
 
         binding.clear.setOnClickListener {
             removeClick(item.id, binding.root)
@@ -31,9 +30,13 @@ class FavouriteViewHolder(
         }
     }
 
-    private fun getPoster(url: String, image: ImageView) {
+    private fun getPhoto(url: String, image: ImageView) {
         Glide.with(image)
             .load(url)
             .into(image)
+    }
+
+    companion object {
+        private const val RUB = " р."
     }
 }

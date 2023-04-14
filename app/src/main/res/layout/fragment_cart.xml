@@ -7,6 +7,54 @@
     android:background="@color/gray"
     tools:context=".ui.cart.CartFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view_network_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/no_internet_cart"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="no_internet.json"/>
+
+    <TextView
+        android:id="@+id/no_internet_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:elevation="12dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/no_internet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/retry_cart"/>
+
+    <Button
+        android:id="@+id/retry_cart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/orange"
+        android:text="@string/retry"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/no_internet_cart"
+        app:layout_constraintStart_toStartOf="@id/no_internet_cart" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/no_internet_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="retry_cart, no_internet_cart, animation_view_network_cart"/>
+
     <View
         android:id="@+id/cart_name_view"
         android:layout_width="match_parent"
@@ -27,6 +75,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/view_cart_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="cart_name_view, cart_name_text"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"

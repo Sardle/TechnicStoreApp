@@ -3,7 +3,7 @@ package com.example.technicstoreapp.ui.catalog.category_page
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.technicstoreapp.databinding.CategoryRecyclerPageBinding
+import com.example.technicstoreapp.databinding.RvCategoryPageBinding
 import com.example.technicstoreapp.domain.TechnicData
 
 class CategoryPageAdapter(private val itemClick: (Int) -> Unit) :
@@ -13,7 +13,7 @@ class CategoryPageAdapter(private val itemClick: (Int) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryPageViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val item = CategoryRecyclerPageBinding.inflate(layoutInflater, parent, false)
+        val item = RvCategoryPageBinding.inflate(layoutInflater, parent, false)
         return CategoryPageViewHolder(item, itemClick)
     }
 

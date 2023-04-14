@@ -52,9 +52,37 @@ class CatalogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkNetworkConnection()
+        retry()
         observeTechnicLiveData()
         setupCatalogRecyclerView()
+        toSearchCatalog()
+        observeLoadingLiveData()
+    }
 
+    private fun retry() {
+        binding.retryCatalog.setOnClickListener {
+            viewModel.checkNetworkConnection()
+        }
+    }
+
+    private fun checkNetworkConnection() {
+        viewModel.checkNetworkConnection()
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.noInternetGroup.isVisible = false
+                binding.searchView.isVisible = true
+                binding.searchCatalog.isVisible = true
+                viewModel.getCategories()
+            } else {
+                binding.noInternetGroup.isVisible = true
+                binding.searchView.isVisible = false
+                binding.searchCatalog.isVisible = false
+            }
+        }
+    }
+
+    private fun toSearchCatalog() {
         binding.searchCatalog.setOnClickListener {
             val action = CatalogFragmentDirections.actionNavigationCatalogToSearchFragment()
             findNavController().navigate(action)
@@ -73,12 +101,9 @@ class CatalogFragment : Fragment() {
                 false
             )
         }
-
-        viewModel.getCategories()
     }
 
     private fun observeTechnicLiveData() {
-        observeLoadingLiveData()
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { technicList ->
             binding.categories.adapter?.let { adapter ->
                 if (adapter is CatalogAdapter) {

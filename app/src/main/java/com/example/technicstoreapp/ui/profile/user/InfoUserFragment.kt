@@ -58,6 +58,7 @@ class InfoUserFragment : Fragment() {
         setupPage()
         logOutUser()
         deleteAccount()
+        back()
     }
 
     private fun logOutUser() {
@@ -138,6 +139,12 @@ class InfoUserFragment : Fragment() {
             } else if (view !is ConstraintLayout) {
                 view.isVisible = !exists
             }
+        }
+    }
+
+    private fun back() {
+        binding.backInfoUser.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

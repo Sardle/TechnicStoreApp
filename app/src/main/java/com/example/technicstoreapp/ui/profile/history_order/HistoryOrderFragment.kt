@@ -59,6 +59,7 @@ class HistoryOrderFragment : Fragment() {
         setupHistoryOrderRecyclerView()
         observeHistoryOrderLiveData()
         comeToCatalog()
+        back()
     }
 
     private fun observeLoadingLiveData() {
@@ -115,6 +116,12 @@ class HistoryOrderFragment : Fragment() {
                     adapter.setItems(historyList)
                 }
             }
+        }
+    }
+
+    private fun back() {
+        binding.backHistory.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

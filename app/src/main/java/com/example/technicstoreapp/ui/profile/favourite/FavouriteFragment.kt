@@ -60,6 +60,7 @@ class FavouriteFragment : Fragment() {
         setupCatalogRecyclerView()
         observeLoadingLiveData()
         comeToCatalog()
+        back()
     }
 
     private fun checkFavouriteIsEmpty() {
@@ -136,6 +137,12 @@ class FavouriteFragment : Fragment() {
 
             override fun onAnimationEnd(animation: Animation?) {}
         })
+    }
+
+    private fun back() {
+        binding.backFavourite.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {

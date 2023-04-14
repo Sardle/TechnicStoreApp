@@ -30,6 +30,7 @@
     <string name="incorrect_number_or_password">Неверный логин или пароль!</string>
     <string name="error_to_date">Дата должна быть в формате ДД.ММ.ГГГГ</string>
     <string name="error_to_number">Неверный номер</string>
+    <string name="error_to_email">Неверный формат электронной почты</string>
     <string name="error_to_number_is_occupied">Номер телефона уже занят!</string>
     <string name="hello">Привет, %1$s!</string>
     <string name="info_about_user">Информация о пользователе</string>
@@ -66,7 +67,7 @@
     <string name="no">Нет</string>
     <string name="product_in_cart">Этот товар уже в корзине!</string>
     <string name="back_to_cart">К корзине</string>
-    <string name="to_history">К истории</string>
+    <string name="to_profile">К профилю</string>
     <string name="discount_calc">10 баллов = 1р.</string>
     <string name="discount_error">Недостаточно баллов!</string>
     <string name="done">Готово</string>
@@ -81,4 +82,9 @@
     <string name="remove_from_favourite">Удалить товар из избранных</string>
     <string name="favourite_empty">Вы еще ничего не добавили в избранное</string>
     <string name="history_empty">Вы еще не совершали заказов</string>
+    <string name="no_internet">Подсоединение с интернету отсутствует!</string>
+    <string name="retry">Повторить</string>
+    <string name="not_enough_points">Недостаточно баллов!</string>
+    <string name="discount_applied">Скидка применена!</string>
+    <string name="discount_cancelled">Скидка отменена!</string>
 </resources>

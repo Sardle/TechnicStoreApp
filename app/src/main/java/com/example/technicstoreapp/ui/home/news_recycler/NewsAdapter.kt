@@ -3,7 +3,7 @@ package com.example.technicstoreapp.ui.home.news_recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.technicstoreapp.databinding.NewsRecyclerBinding
+import com.example.technicstoreapp.databinding.RvNewsBinding
 import com.example.technicstoreapp.domain.NewsData
 
 class NewsAdapter() : RecyclerView.Adapter<NewsViewHolder>() {
@@ -12,7 +12,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemRvNewsBinding = NewsRecyclerBinding.inflate(layoutInflater, parent, false)
+        val itemRvNewsBinding = RvNewsBinding.inflate(layoutInflater, parent, false)
         return NewsViewHolder(itemRvNewsBinding)
     }
 

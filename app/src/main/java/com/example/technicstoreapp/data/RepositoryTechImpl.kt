@@ -33,7 +33,7 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getNews(): List<NewsData> {
         return withContext(Dispatchers.IO) {
-            service.getNews("pc technologies", prefs.getUserToken()).articles?.map {
+            service.getNews(QUERY, prefs.getUserToken()).articles?.map {
                 mapperNews(it)
             } ?: emptyList()
         }
@@ -143,5 +143,9 @@ class RepositoryTechImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             db.checkIfElementExists(name, color) == 0
         }
+    }
+
+    companion object {
+        private const val QUERY = "pc technologies"
     }
 }

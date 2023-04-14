@@ -34,6 +34,10 @@ class NotAuthenticationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        comeToAuth()
+    }
+
+    private fun comeToAuth() {
         binding.comeToAuth.setOnClickListener {
             val navController =
                 requireActivity().findNavController(R.id.nav_host_fragment_activity_main)

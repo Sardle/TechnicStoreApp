@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.CartTechnicData
 import com.example.technicstoreapp.domain.RepositoryTech
 import com.example.technicstoreapp.domain.RepositoryUser
+import com.example.technicstoreapp.ui.utils.CheckNetworkConnection
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CartViewModel @Inject constructor(
     private val repositoryTech: RepositoryTech,
-    private val repositoryUser: RepositoryUser
+    private val repositoryUser: RepositoryUser,
+    private val checkNetworkConnection: CheckNetworkConnection
 ) : ViewModel() {
 
     private val _technicCartLiveData = MutableLiveData<List<CartTechnicData>>()
@@ -21,8 +24,8 @@ class CartViewModel @Inject constructor(
     private val _priceLiveData = MutableLiveData<Double>()
     val priceLiveData: LiveData<Double> get() = _priceLiveData
 
-    private val _checkLiveData = MutableLiveData<Boolean>()
-    val checkLiveData: LiveData<Boolean> get() = _checkLiveData
+    private val _checkUserLiveData = MutableLiveData<Boolean>()
+    val checkUserLiveData: LiveData<Boolean> get() = _checkUserLiveData
 
     private val _checkListTechnicLiveData = MutableLiveData<Boolean>()
     val checkListTechnicLiveData: LiveData<Boolean> get() = _checkListTechnicLiveData
@@ -33,6 +36,11 @@ class CartViewModel @Inject constructor(
     private val _countLiveData = MutableLiveData<Int>()
     val countLiveData: LiveData<Int> get() = _countLiveData
 
+    private val _checkNetworkLiveData = MutableLiveData<Boolean>()
+    val checkNetworkLiveData: LiveData<Boolean> get() = _checkNetworkLiveData
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     fun checkListTechnic() {
         viewModelScope.launch {
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
@@ -40,8 +48,8 @@ class CartViewModel @Inject constructor(
     }
 
     fun checkUser() {
-        viewModelScope.launch {
-            _checkLiveData.value = repositoryUser.checkAvailabilityUser()
+        viewModelScope.launch(exceptionHandler) {
+            _checkUserLiveData.value = repositoryUser.checkAvailabilityUser()
             _checkListTechnicLiveData.value = repositoryTech.checkListCart()
         }
     }
@@ -89,6 +97,16 @@ class CartViewModel @Inject constructor(
     fun getAllPrices() {
         viewModelScope.launch {
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
+        }
+    }
+
+    fun checkNetworkConnection() {
+        checkNetworkConnection.isInternetAvailable().let {
+            _checkNetworkLiveData.value = it
+            if (!it) {
+                _countLiveData.value = 0
+            }
+            _loadingLiveData.value = true
         }
     }
 }
