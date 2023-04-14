@@ -76,7 +76,7 @@ class InfoUserFragment : Fragment() {
     private fun showDialogDelete() {
         val customAlertDialog = this@InfoUserFragment.context?.let {
             CustomAlertDialog(it)
-                .setImage(R.drawable.delete)
+                .setImage(R.drawable.ic_delete)
                 .setMessage(getString(R.string.delete_account))
                 .setBackText(getString(R.string.no))
                 .setOkText(getString(R.string.yes))
@@ -92,7 +92,7 @@ class InfoUserFragment : Fragment() {
     private fun showDialogLogOut() {
         val customAlertDialog = this@InfoUserFragment.context?.let {
             CustomAlertDialog(it)
-                .setImage(R.drawable.log_out)
+                .setImage(R.drawable.ic_log_out)
                 .setMessage(getString(R.string.log_out))
                 .setBackText(getString(R.string.no))
                 .setOkText(getString(R.string.yes))

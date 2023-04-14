@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/success" />
+        app:srcCompat="@drawable/ic_success" />
 
 
     <TextView
@@ -48,7 +48,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/style_button"
+        android:background="@drawable/bg_gray_color"
         android:stateListAnimator="@null"
         android:text="@string/back"
         android:textAllCaps="false"
@@ -66,7 +66,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/style_button"
+        android:background="@drawable/bg_gray_color"
         android:stateListAnimator="@null"
         android:text="@string/to_cart"
         android:textAllCaps="false"

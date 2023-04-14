@@ -86,7 +86,7 @@ class LogInFragment : Fragment() {
 
             @SuppressLint("UseCompatLoadingForDrawables")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editText.background = requireContext().getDrawable(R.drawable.style_login_edittext)
+                editText.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
                 binding.incorrectNumberOrPassword.isVisible = false
             }
 
@@ -103,7 +103,7 @@ class LogInFragment : Fragment() {
                 this@LogInFragment.context?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false
@@ -141,7 +141,7 @@ class LogInFragment : Fragment() {
                 this@LogInFragment.context?.let {
                     ContextCompat.getDrawable(
                         it,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false
@@ -165,9 +165,9 @@ class LogInFragment : Fragment() {
                 val text = view.text.toString().trim()
                 if (text.isEmpty()) {
                     allFilled = false
-                    view.background = requireContext().getDrawable(R.drawable.error_style_edittext)
+                    view.background = requireContext().getDrawable(R.drawable.bg_error_edittext)
                 } else {
-                    view.background = requireContext().getDrawable(R.drawable.style_login_edittext)
+                    view.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
                 }
             }
         }

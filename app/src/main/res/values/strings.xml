@@ -87,4 +87,10 @@
     <string name="not_enough_points">Недостаточно баллов!</string>
     <string name="discount_applied">Скидка применена!</string>
     <string name="discount_cancelled">Скидка отменена!</string>
+    <string name="sorting">Сортировка</string>
+    <string-array name="sort">
+        <item>Сортировка: по умолчанию</item>
+        <item>Сортировка: по цене(убывание)</item>
+        <item>Сортировка: по цене(возрастание)</item>
+    </string-array>
 </resources>

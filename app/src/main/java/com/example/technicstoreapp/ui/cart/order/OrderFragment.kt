@@ -94,7 +94,7 @@ class OrderFragment : Fragment() {
     private fun checkAddressEmpty(): Boolean {
         if (binding.address.text.toString() == "" && binding.address.hint.toString() == getString(R.string.your_address)) {
             binding.address.background =
-                requireContext().getDrawable(R.drawable.erroe_style_edittext_of)
+                requireContext().getDrawable(R.drawable.bg_error_edittext_order)
             return false
         }
         return true
@@ -106,7 +106,7 @@ class OrderFragment : Fragment() {
         val notificationId = 1
 
         val notification = NotificationCompat.Builder(requireActivity(), channelId)
-            .setSmallIcon(R.drawable.electro)
+            .setSmallIcon(R.drawable.ic_electro)
             .setContentTitle("Успешная покупка")
             .setContentText("Покупка успешно завершена")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -121,7 +121,7 @@ class OrderFragment : Fragment() {
     private fun showDialogAccess() {
         val customAlertDialog = this@OrderFragment.context?.let {
             CustomAlertDialog(it)
-                .setImage(R.drawable.success)
+                .setImage(R.drawable.ic_success)
                 .setMessage(getString(R.string.order_access))
                 .setBackText(getString(R.string.back_to_cart))
                 .setOkText(getString(R.string.to_profile))
@@ -150,50 +150,44 @@ class OrderFragment : Fragment() {
     private fun checkDiscount(user: UserData) {
         with(binding) {
             done.setOnClickListener {
-                if (discountPoints.text.toString() != "" && discountPoints.text.toString()
-                        .toInt() > user.discountPoints
-                ) {
-                    Toast.makeText(
-                        this@OrderFragment.context,
-                        getString(R.string.not_enough_points),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    discountPoints.setText("")
+                if (discountPoints.text.toString() != "" && discountPoints.text.toString().toInt() > user.discountPoints) {
+                    showToastWithMessage(getString(R.string.not_enough_points))
+                    clearDiscountPointsInput()
                 } else if (done.text.toString() == getString(R.string.done) && discountPoints.text.toString() != "") {
-                    done.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.gray_sup
-                        )
-                    )
-                    viewModel.calculatingPriceWithDiscount(
-                        binding.discountPoints.text.toString().toInt()
-                    )
-                    discountPoints.setText("")
-                    done.text = getString(R.string.cancel)
-                    Toast.makeText(
-                        this@OrderFragment.context,
-                        getString(R.string.discount_applied),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    setDoneButtonTextColor(ContextCompat.getColor(requireContext(), R.color.gray_sup))
+                    viewModel.calculatingPriceWithDiscount(discountPoints.text.toString().toInt())
+                    clearDiscountPointsInput()
+                    setDoneButtonText(getString(R.string.cancel))
+                    showToastWithMessage(getString(R.string.discount_applied))
                 } else if (done.text.toString() == getString(R.string.cancel)) {
-                    done.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.purple_700
-                        )
-                    )
+                    setDoneButtonTextColor(ContextCompat.getColor(requireContext(), R.color.purple_700))
                     viewModel.calculatingPriceWithDiscount(0)
-                    discountPoints.setText("")
-                    done.text = getString(R.string.done)
-                    Toast.makeText(
-                        this@OrderFragment.context,
-                        getString(R.string.discount_cancelled),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    clearDiscountPointsInput()
+                    setDoneButtonText(getString(R.string.done))
+                    showToastWithMessage(getString(R.string.discount_cancelled))
                 }
             }
         }
+    }
+
+    private fun showToastWithMessage(message: String) {
+        Toast.makeText(
+            this@OrderFragment.context,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun clearDiscountPointsInput() {
+        binding.discountPoints.setText("")
+    }
+
+    private fun setDoneButtonTextColor(color: Int) {
+        binding.done.setTextColor(color)
+    }
+
+    private fun setDoneButtonText(text: String) {
+        binding.done.text = text
     }
 
     private fun back() {

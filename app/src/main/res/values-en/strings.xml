@@ -87,4 +87,10 @@
     <string name="not_enough_points">Not enough points!</string>
     <string name="discount_applied"> Discount applied!</string>
     <string name="discount_cancelled">Discount cancelled!</string>
+    <string name="sorting">Sorting</string>
+    <string-array name="sort">
+        <item>Sorting: default</item>
+        <item>Sorting: by price(decreasing)</item>
+        <item>Sorting: by price(ascending)</item>
+    </string-array>
 </resources>

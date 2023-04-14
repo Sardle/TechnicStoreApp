@@ -67,7 +67,7 @@ class CustomAlertDialog(context: Context) : Dialog(context) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        window?.setBackgroundDrawableResource(R.drawable.custom_dialog_background)
+        window?.setBackgroundDrawableResource(R.drawable.bg_custom_dialog)
 
         findViewById<Button>(R.id.btn_cancel).text = backText
         findViewById<Button>(R.id.btn_okay).text = okText

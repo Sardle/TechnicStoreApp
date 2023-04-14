@@ -29,4 +29,20 @@ class CategoryPageViewModel @Inject constructor(
             _loadingLiveData.value = false
         }
     }
+
+    fun getTechnicSorted(category: String) {
+        _loadingLiveData.value = true
+        viewModelScope.launch (exceptionHandler){
+            _technicLiveData.value = repositoryTech.getTechnicBasedFromCategory(category).sortedBy { it.price }
+            _loadingLiveData.value = false
+        }
+    }
+
+    fun getTechnicSortedDescending(category: String) {
+        _loadingLiveData.value = true
+        viewModelScope.launch (exceptionHandler){
+            _technicLiveData.value = repositoryTech.getTechnicBasedFromCategory(category).sortedByDescending { it.price }
+            _loadingLiveData.value = false
+        }
+    }
 }

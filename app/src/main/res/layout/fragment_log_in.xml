@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/log_in">
+    android:background="@drawable/ic_log_in">
 
     <TextView
         android:id="@+id/title_log_in"
@@ -69,7 +69,7 @@
         android:id="@+id/number_phone"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/style_login_edittext"
+        android:background="@drawable/bg_login_edittext"
         android:hint="@string/login"
         android:inputType="phone"
         android:paddingStart="20dp"
@@ -98,7 +98,7 @@
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/style_login_edittext"
+        android:background="@drawable/bg_login_edittext"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingStart="20dp"

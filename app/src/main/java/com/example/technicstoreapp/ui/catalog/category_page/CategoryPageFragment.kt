@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -57,6 +58,34 @@ class CategoryPageFragment : Fragment() {
         setupCatalogRecyclerView()
         observeTechnicLiveData()
         back()
+        setupSpinnerSort()
+    }
+
+    private fun setupSpinnerSort() {
+        val spinner = binding.filedExposed
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.drop_down_item,
+            resources.getStringArray(R.array.sort)
+        )
+        spinner.setAdapter(spinnerAdapter)
+
+        spinner.setOnItemClickListener { _, _, position, _ ->
+            when (position) {
+                0 -> {
+                    viewModel.getTechnic(args.category)
+                    binding.categoriesInfo.smoothScrollToPosition(0)
+                }
+                1 -> {
+                    viewModel.getTechnicSorted(args.category)
+                    binding.categoriesInfo.smoothScrollToPosition(0)
+                }
+                2 -> {
+                    viewModel.getTechnicSortedDescending(args.category)
+                    binding.categoriesInfo.smoothScrollToPosition(0)
+                }
+            }
+        }
     }
 
     private fun back() {

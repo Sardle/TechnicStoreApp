@@ -107,7 +107,7 @@ class SignUpFragment : Fragment() {
                     this@SignUpFragment.context?.let { context ->
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.error_style_edittext
+                            R.drawable.bg_error_edittext
                         )
                     }
             }
@@ -130,9 +130,9 @@ class SignUpFragment : Fragment() {
                 val text = view.text.toString().trim()
                 if (text.isEmpty()) {
                     allFilled = false
-                    view.background = requireContext().getDrawable(R.drawable.error_style_edittext)
+                    view.background = requireContext().getDrawable(R.drawable.bg_error_edittext)
                 } else {
-                    view.background = requireContext().getDrawable(R.drawable.style_login_edittext)
+                    view.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
                 }
             }
         }
@@ -160,7 +160,7 @@ class SignUpFragment : Fragment() {
                         count: Int
                     ) {
                         view.background =
-                            requireContext().getDrawable(R.drawable.style_login_edittext)
+                            requireContext().getDrawable(R.drawable.bg_login_edittext)
                     }
 
                     override fun afterTextChanged(s: Editable?) {}
@@ -177,7 +177,7 @@ class SignUpFragment : Fragment() {
                 this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false
@@ -192,7 +192,7 @@ class SignUpFragment : Fragment() {
                 this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false
@@ -207,7 +207,7 @@ class SignUpFragment : Fragment() {
                 this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false
@@ -222,7 +222,7 @@ class SignUpFragment : Fragment() {
                 this@SignUpFragment.context?.let { context ->
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.error_style_edittext
+                        R.drawable.bg_error_edittext
                     )
                 }
             return false

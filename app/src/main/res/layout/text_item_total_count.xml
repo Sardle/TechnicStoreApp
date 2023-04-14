@@ -3,7 +3,7 @@
     android:id="@+id/total_count_order"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_edittext"
+    android:background="@drawable/bg_edittext"
     android:layout_margin="7dp"
     android:text="Primer"
     android:textColor="@color/black"

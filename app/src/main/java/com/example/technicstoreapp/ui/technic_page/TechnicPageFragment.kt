@@ -160,7 +160,7 @@ class TechnicPageFragment : Fragment() {
     private fun showDialogAccess(name: String, selectedColor: String) {
         val customAlertDialog = this@TechnicPageFragment.context?.let {
             CustomAlertDialog(it)
-                .setImage(R.drawable.success)
+                .setImage(R.drawable.ic_success)
                 .setMessage(getString(R.string.to_cart_access))
                 .setBackText(getString(R.string.back))
                 .setOkText(getString(R.string.to_cart))
