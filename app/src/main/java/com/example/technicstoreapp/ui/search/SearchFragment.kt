@@ -57,6 +57,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.search.requestFocus()
         observeLoadingLiveData()
         observeCheckEmptyLiveData()
         observeTechnicLiveData()
@@ -93,7 +94,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupCatalogRecyclerView() {
-        binding.search.requestFocus()
         val catalogAdapter = SearchAdapter(::onItemClick)
         binding.recyclerSearch.apply {
             adapter = catalogAdapter

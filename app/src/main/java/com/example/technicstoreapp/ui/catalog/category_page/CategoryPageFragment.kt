@@ -58,30 +58,30 @@ class CategoryPageFragment : Fragment() {
         setupCatalogRecyclerView()
         observeTechnicLiveData()
         back()
-        setupSpinnerSort()
+        setupSorting()
     }
 
-    private fun setupSpinnerSort() {
-        val spinner = binding.filedExposed
+    private fun setupSorting() {
+        val sortingText = binding.filedExposed
         val spinnerAdapter = ArrayAdapter(
             requireContext(),
             R.layout.drop_down_item,
             resources.getStringArray(R.array.sort)
         )
-        spinner.setAdapter(spinnerAdapter)
+        sortingText.setAdapter(spinnerAdapter)
 
-        spinner.setOnItemClickListener { _, _, position, _ ->
+        sortingText.setOnItemClickListener { _, _, position, _ ->
             when (position) {
                 0 -> {
                     viewModel.getTechnic(args.category)
                     binding.categoriesInfo.smoothScrollToPosition(0)
                 }
                 1 -> {
-                    viewModel.getTechnicSorted(args.category)
+                    viewModel.getTechnicSortedDescending(args.category)
                     binding.categoriesInfo.smoothScrollToPosition(0)
                 }
                 2 -> {
-                    viewModel.getTechnicSortedDescending(args.category)
+                    viewModel.getTechnicSorted(args.category)
                     binding.categoriesInfo.smoothScrollToPosition(0)
                 }
             }

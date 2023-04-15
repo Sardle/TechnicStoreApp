@@ -14,6 +14,7 @@ import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
 import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
+import com.example.technicstoreapp.ui.catalog.CatalogFragmentDirections
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,8 +51,16 @@ class HomeFragment : Fragment() {
         observeTechnicLiveData()
         observeNewsLiveData()
         observeLoadingLiveData()
+        toSearchCatalog()
         checkNetworkConnection()
         retry()
+    }
+
+    private fun toSearchCatalog() {
+        binding.search.setOnClickListener {
+            val action = HomeFragmentDirections.actionNavigationHomeToSearchFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun retry() {
