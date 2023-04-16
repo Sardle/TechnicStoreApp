@@ -1,5 +1,9 @@
 package com.example.technicstoreapp.domain
 
+import com.example.technicstoreapp.domain.models.CartTechnicData
+import com.example.technicstoreapp.domain.models.NewsData
+import com.example.technicstoreapp.domain.models.TechnicData
+
 interface RepositoryTech {
 
     suspend fun getAllTechnic(): List<TechnicData>

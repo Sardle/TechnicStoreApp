@@ -2,7 +2,7 @@ package com.example.technicstoreapp.ui.profile.history_order
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.TextItemBinding
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 
 class TimeOrderViewHolder(private val binding: TextItemBinding) :
     RecyclerView.ViewHolder(binding.root) {

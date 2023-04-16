@@ -1,7 +1,7 @@
 package com.example.technicstoreapp.data.mappers
 
 import com.example.technicstoreapp.data.models.HistoryOrderResponse
-import com.example.technicstoreapp.domain.HistoryOrderData
+import com.example.technicstoreapp.domain.models.HistoryOrderData
 import javax.inject.Inject
 
 class HistoryOrderMapper @Inject constructor(

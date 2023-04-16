@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvCartBinding
-import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.models.CartTechnicData
 
 class CartAdapter(
     private val itemClick: (Int, String) -> Unit,

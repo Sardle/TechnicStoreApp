@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.RvOrderBinding
-import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.models.CartTechnicData
 
 class OrderViewHolder(
     private val binding: RvOrderBinding

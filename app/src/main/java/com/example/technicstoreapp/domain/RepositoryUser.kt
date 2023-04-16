@@ -1,5 +1,10 @@
 package com.example.technicstoreapp.domain
 
+import com.example.technicstoreapp.domain.models.HistoryOrderData
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.TechnicData
+import com.example.technicstoreapp.domain.models.UserData
+
 interface RepositoryUser {
 
     fun checkAvailabilityUser(): Boolean

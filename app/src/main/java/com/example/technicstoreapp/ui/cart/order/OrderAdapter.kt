@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvOrderBinding
-import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.models.CartTechnicData
 
 class OrderAdapter() :
     RecyclerView.Adapter<OrderViewHolder>() {

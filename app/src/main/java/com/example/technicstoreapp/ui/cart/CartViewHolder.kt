@@ -5,7 +5,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.RvCartBinding
-import com.example.technicstoreapp.domain.CartTechnicData
+import com.example.technicstoreapp.domain.models.CartTechnicData
 
 class CartViewHolder(
     private val binding: RvCartBinding,

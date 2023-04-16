@@ -56,6 +56,7 @@ class CatalogFragment : Fragment() {
         retry()
         observeTechnicLiveData()
         setupCatalogRecyclerView()
+        setupBadgeCart()
         toSearchCatalog()
         observeLoadingLiveData()
     }
@@ -110,6 +111,15 @@ class CatalogFragment : Fragment() {
                     adapter.setItems(technicList)
                 }
             }
+        }
+    }
+
+    private fun setupBadgeCart() {
+        viewModel.countLiveData.observe(viewLifecycleOwner) {
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
+            badge.number = it
         }
     }
 

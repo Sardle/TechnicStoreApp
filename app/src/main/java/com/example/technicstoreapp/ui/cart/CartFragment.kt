@@ -50,7 +50,7 @@ class CartFragment : Fragment() {
         checkListTechnicLiveData()
         comeToCatalog()
         observeCheckLiveData()
-        comeToOrder()
+        //comeToOrder()
         observeCountLiveData()
         setupPrice()
         setupCatalogRecyclerView()

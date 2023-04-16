@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.RvPopularBinding
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 
 class PopularViewHolder(
     private val binding: RvPopularBinding,

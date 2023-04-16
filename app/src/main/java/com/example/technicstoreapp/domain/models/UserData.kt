@@ -1,4 +1,7 @@
-package com.example.technicstoreapp.domain
+package com.example.technicstoreapp.domain.models
+
+import com.example.technicstoreapp.domain.models.HistoryOrderData
+import com.example.technicstoreapp.domain.models.TechnicData
 
 data class UserData(
     var id: String,

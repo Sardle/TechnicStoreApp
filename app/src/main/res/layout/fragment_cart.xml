@@ -43,6 +43,7 @@
         android:backgroundTint="@color/orange"
         android:text="@string/retry"
         android:textSize="12sp"
+        android:elevation="10dp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/no_internet_cart"

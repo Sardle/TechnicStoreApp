@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.domain
+package com.example.technicstoreapp.domain.models
 
 data class TechnicData(
     val id: Int,

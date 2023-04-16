@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.technicstoreapp.domain.NewsData
+import com.example.technicstoreapp.domain.models.NewsData
 import com.example.technicstoreapp.domain.RepositoryTech
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 import com.example.technicstoreapp.ui.utils.CheckNetworkConnection
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

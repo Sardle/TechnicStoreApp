@@ -24,6 +24,9 @@ class CatalogViewModel @Inject constructor(
     private val _checkNetworkLiveData = MutableLiveData<Boolean>()
     val checkNetworkLiveData: LiveData<Boolean> get() = _checkNetworkLiveData
 
+    private val _countLiveData = MutableLiveData<Int>()
+    val countLiveData: LiveData<Int> get() = _countLiveData
+
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
     fun getCategories() {
@@ -31,6 +34,12 @@ class CatalogViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             _categoriesLiveData.value = repositoryTech.getCategories()
             _loadingLiveData.value = false
+        }
+    }
+
+    fun setupBadgeCart() {
+        viewModelScope.launch(exceptionHandler) {
+            _countLiveData.value = repositoryTech.getAllTechnicFromCart().sumOf { it.count }
         }
     }
 

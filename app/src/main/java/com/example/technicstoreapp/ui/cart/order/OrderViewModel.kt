@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.technicstoreapp.domain.*
+import com.example.technicstoreapp.domain.models.CartTechnicData
+import com.example.technicstoreapp.domain.models.HistoryOrderData
+import com.example.technicstoreapp.domain.models.UserData
 import com.example.technicstoreapp.domain.use_cases.CalcDiscount
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

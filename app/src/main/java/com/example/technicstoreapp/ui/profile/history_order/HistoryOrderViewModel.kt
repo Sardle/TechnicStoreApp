@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 import com.example.technicstoreapp.domain.RepositoryUser
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

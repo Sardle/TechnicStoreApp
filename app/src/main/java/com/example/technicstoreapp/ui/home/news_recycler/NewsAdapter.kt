@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvNewsBinding
-import com.example.technicstoreapp.domain.NewsData
+import com.example.technicstoreapp.domain.models.NewsData
 
 class NewsAdapter() : RecyclerView.Adapter<NewsViewHolder>() {
 

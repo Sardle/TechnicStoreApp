@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.HistoryOrderItemBinding
 import com.example.technicstoreapp.databinding.TextItemBinding
 import com.example.technicstoreapp.databinding.TextItemTotalCountBinding
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 
 class HistoryOrderAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

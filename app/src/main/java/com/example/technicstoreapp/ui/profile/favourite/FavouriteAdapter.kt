@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvFavouriteBinding
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 
 class FavouriteAdapter(
     private val itemClick: (Int) -> Unit,

@@ -19,7 +19,7 @@ import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentOrderBinding
 import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
-import com.example.technicstoreapp.domain.UserData
+import com.example.technicstoreapp.domain.models.UserData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import javax.inject.Inject
 

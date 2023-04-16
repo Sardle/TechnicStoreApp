@@ -6,6 +6,10 @@ import com.example.technicstoreapp.data.models.LogInResponse
 import com.example.technicstoreapp.data.network.UserService
 import com.example.technicstoreapp.data.source.UserDataSource
 import com.example.technicstoreapp.domain.*
+import com.example.technicstoreapp.domain.models.HistoryOrderData
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.TechnicData
+import com.example.technicstoreapp.domain.models.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.security.MessageDigest

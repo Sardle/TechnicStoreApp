@@ -2,7 +2,7 @@ package com.example.technicstoreapp.ui.profile.history_order
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.TextItemTotalCountBinding
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 
 class TotalCountViewHolder(private val binding: TextItemTotalCountBinding) :
     RecyclerView.ViewHolder(binding.root) {

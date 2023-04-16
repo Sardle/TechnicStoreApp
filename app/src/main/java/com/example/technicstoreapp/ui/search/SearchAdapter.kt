@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvCategoryPageBinding
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 
 class SearchAdapter(private val itemClick: (Int) -> Unit) :
     RecyclerView.Adapter<SearchViewHolder>() {

@@ -7,10 +7,10 @@ import com.example.technicstoreapp.data.network.NewsService
 import com.example.technicstoreapp.data.network.TechService
 import com.example.technicstoreapp.data.source.DataBaseSource
 import com.example.technicstoreapp.data.source.UserDataSource
-import com.example.technicstoreapp.domain.CartTechnicData
-import com.example.technicstoreapp.domain.NewsData
+import com.example.technicstoreapp.domain.models.CartTechnicData
+import com.example.technicstoreapp.domain.models.NewsData
 import com.example.technicstoreapp.domain.RepositoryTech
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

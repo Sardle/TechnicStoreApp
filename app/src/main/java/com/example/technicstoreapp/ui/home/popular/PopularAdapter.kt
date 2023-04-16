@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvPopularBinding
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 
 class PopularAdapter(private val itemClick: (Int) -> Unit) :
     RecyclerView.Adapter<PopularViewHolder>() {

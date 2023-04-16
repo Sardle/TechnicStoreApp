@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.technicstoreapp.databinding.HistoryOrderItemBinding
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 
 class HistoryOrderViewHolder(private val binding: HistoryOrderItemBinding) :
     RecyclerView.ViewHolder(binding.root) {

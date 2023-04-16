@@ -1,7 +1,7 @@
 package com.example.technicstoreapp.data.mappers
 
 import com.example.technicstoreapp.data.models.TechnicResponse
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 import javax.inject.Inject
 
 class TechnicMapper @Inject constructor(){

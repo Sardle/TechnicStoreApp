@@ -1,8 +1,8 @@
 package com.example.technicstoreapp.data.mappers
 
-import com.example.technicstoreapp.domain.CartTechnicData
-import com.example.technicstoreapp.domain.HistoryOrderData
-import com.example.technicstoreapp.domain.HistoryOrderItem
+import com.example.technicstoreapp.domain.models.CartTechnicData
+import com.example.technicstoreapp.domain.models.HistoryOrderData
+import com.example.technicstoreapp.domain.models.HistoryOrderItem
 import javax.inject.Inject
 
 class HistoryOrderItemMapper @Inject constructor() {

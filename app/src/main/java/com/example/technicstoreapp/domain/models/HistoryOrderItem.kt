@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.domain
+package com.example.technicstoreapp.domain.models
 
 sealed class HistoryOrderItem {
     data class HistoryTechnic(

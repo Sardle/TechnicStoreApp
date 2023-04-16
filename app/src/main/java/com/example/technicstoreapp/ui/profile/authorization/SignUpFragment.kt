@@ -19,7 +19,7 @@ import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentSignUpBinding
 import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
-import com.example.technicstoreapp.domain.UserData
+import com.example.technicstoreapp.domain.models.UserData
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.FormatWatcher

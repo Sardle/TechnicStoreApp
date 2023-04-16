@@ -1,8 +1,8 @@
 package com.example.technicstoreapp.data.mappers
 
 import com.example.technicstoreapp.data.database.TechnicEntity
-import com.example.technicstoreapp.domain.CartTechnicData
-import com.example.technicstoreapp.domain.TechnicData
+import com.example.technicstoreapp.domain.models.CartTechnicData
+import com.example.technicstoreapp.domain.models.TechnicData
 import javax.inject.Inject
 
 class DataBaseMapper @Inject constructor() {
