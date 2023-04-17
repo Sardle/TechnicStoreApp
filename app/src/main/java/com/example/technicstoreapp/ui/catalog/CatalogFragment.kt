@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCatalogBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -69,16 +69,19 @@ class CatalogFragment : Fragment() {
 
     private fun checkNetworkConnection() {
         viewModel.checkNetworkConnection()
-        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.noInternetGroup.isVisible = false
-                binding.searchView.isVisible = true
-                binding.searchCatalog.isVisible = true
-                viewModel.getCategories()
-            } else {
-                binding.noInternetGroup.isVisible = true
-                binding.searchView.isVisible = false
-                binding.searchCatalog.isVisible = false
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) { checkNetwork ->
+            with(binding) {
+                if (checkNetwork) {
+                    noInternetGroup.isVisible = false
+                    searchView.isVisible = true
+                    searchCatalog.isVisible = true
+                    viewModel.getCategories()
+                    viewModel.setupBadgeCart()
+                } else {
+                    noInternetGroup.isVisible = true
+                    searchView.isVisible = false
+                    searchCatalog.isVisible = false
+                }
             }
         }
     }
@@ -97,7 +100,7 @@ class CatalogFragment : Fragment() {
             adapter = catalogAdapter
             layoutManager = GridLayoutManager(
                 this@CatalogFragment.context,
-                2,
+                SPAN_COUNT,
                 GridLayoutManager.VERTICAL,
                 false
             )
@@ -115,17 +118,17 @@ class CatalogFragment : Fragment() {
     }
 
     private fun setupBadgeCart() {
-        viewModel.countLiveData.observe(viewLifecycleOwner) {
+        viewModel.countLiveData.observe(viewLifecycleOwner) { count ->
             val bottomNavigationView =
                 requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
             val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
-            badge.number = it
+            badge.number = count
         }
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBarCatalog.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.progressBarCatalog.isVisible = show
         }
     }
 
@@ -138,5 +141,9 @@ class CatalogFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val SPAN_COUNT = 2
     }
 }

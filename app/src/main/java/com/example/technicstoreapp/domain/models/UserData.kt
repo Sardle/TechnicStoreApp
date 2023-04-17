@@ -1,17 +1,14 @@
 package com.example.technicstoreapp.domain.models
 
-import com.example.technicstoreapp.domain.models.HistoryOrderData
-import com.example.technicstoreapp.domain.models.TechnicData
-
 data class UserData(
-    var id: String,
-    var name: String,
-    var hashPassword: String,
-    var number: String,
-    var address: String,
-    var email: String,
-    var discountPoints: Int,
-    var carts: List<HistoryOrderData>,
+    val id: String,
+    val name: String,
+    val hashPassword: String,
+    val number: String,
+    val address: String,
+    val email: String,
+    val discountPoints: Int,
+    val carts: List<HistoryOrderData>,
     val dateOfBirth: String,
-    var favouriteTechnicData: List<TechnicData>
+    val favouriteTechnicData: List<TechnicData>
 )

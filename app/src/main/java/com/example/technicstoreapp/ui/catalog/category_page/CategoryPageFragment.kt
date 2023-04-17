@@ -14,7 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCategoryPageBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -57,8 +57,10 @@ class CategoryPageFragment : Fragment() {
         binding.categoryName.text = args.category
         setupCatalogRecyclerView()
         observeTechnicLiveData()
-        back()
         setupSorting()
+        binding.backCategory.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setupSorting() {
@@ -74,23 +76,17 @@ class CategoryPageFragment : Fragment() {
             when (position) {
                 0 -> {
                     viewModel.getTechnic(args.category)
-                    binding.categoriesInfo.smoothScrollToPosition(0)
+                    binding.categoriesInfo.smoothScrollToPosition(ZERO)
                 }
                 1 -> {
                     viewModel.getTechnicSortedDescending(args.category)
-                    binding.categoriesInfo.smoothScrollToPosition(0)
+                    binding.categoriesInfo.smoothScrollToPosition(ZERO)
                 }
                 2 -> {
                     viewModel.getTechnicSorted(args.category)
-                    binding.categoriesInfo.smoothScrollToPosition(0)
+                    binding.categoriesInfo.smoothScrollToPosition(ZERO)
                 }
             }
-        }
-    }
-
-    private fun back() {
-        binding.backCategory.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -106,8 +102,8 @@ class CategoryPageFragment : Fragment() {
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBarCategoryPage.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.progressBarCategoryPage.isVisible = show
         }
     }
 
@@ -126,5 +122,9 @@ class CategoryPageFragment : Fragment() {
         val action =
             CategoryPageFragmentDirections.actionCategoryPageFragmentToTechnicPageFragment(id)
         findNavController().navigate(action)
+    }
+
+    companion object {
+        private const val ZERO = 0
     }
 }

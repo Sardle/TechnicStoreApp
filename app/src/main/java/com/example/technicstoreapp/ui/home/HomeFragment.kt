@@ -10,11 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHomeBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
-import com.example.technicstoreapp.ui.catalog.CatalogFragmentDirections
 import com.example.technicstoreapp.ui.home.news_recycler.NewsAdapter
 import com.example.technicstoreapp.ui.home.popular.PopularAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -71,40 +70,43 @@ class HomeFragment : Fragment() {
 
     private fun checkNetworkConnection() {
         viewModel.checkNetworkConnection()
-        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.homeAll.isVisible = true
-                binding.noInternetGroup.isVisible = false
-                binding.searchLayout.isVisible = true
-                setupViewModel()
-            } else {
-                binding.homeAll.isVisible = false
-                binding.noInternetGroup.isVisible = true
-                binding.searchLayout.isVisible = false
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) { checkNetwork ->
+            with(binding) {
+                if (checkNetwork) {
+                    homeAll.isVisible = true
+                    noInternetGroup.isVisible = false
+                    searchLayout.isVisible = true
+                    setupViewModel()
+                } else {
+                    homeAll.isVisible = false
+                    noInternetGroup.isVisible = true
+                    searchLayout.isVisible = false
+                }
             }
         }
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.homeAll.isVisible = !it
-            binding.progressBarHome.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.homeAll.isVisible = !show
+            binding.progressBarHome.isVisible = show
         }
     }
 
     private fun setupViewModel() {
-        viewModel.setUserToken()
-        viewModel.setupBadgeCart()
-        viewModel.getNews()
-        viewModel.getTechnic()
+        with(viewModel) {
+            setupBadgeCart()
+            getNews()
+            getTechnic()
+        }
     }
 
     private fun setupBadgeCart() {
-        viewModel.countLiveData.observe(viewLifecycleOwner) {
+        viewModel.countLiveData.observe(viewLifecycleOwner) { count ->
             val bottomNavigationView =
                 requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
             val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
-            badge.number = it
+            badge.number = count
         }
     }
 

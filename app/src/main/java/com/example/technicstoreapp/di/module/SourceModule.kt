@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.di
+package com.example.technicstoreapp.di.module
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

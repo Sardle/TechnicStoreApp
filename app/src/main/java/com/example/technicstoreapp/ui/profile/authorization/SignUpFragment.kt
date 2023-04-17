@@ -1,6 +1,5 @@
 package com.example.technicstoreapp.ui.profile.authorization
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -15,9 +14,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentSignUpBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.domain.models.UserData
 import ru.tinkoff.decoro.MaskImpl
@@ -73,43 +72,45 @@ class SignUpFragment : Fragment() {
             val checkDate = checkDate()
             val checkNumber = checkNumber()
             if (checkPassword && checkEmail && areAllEditTextsFilled && checkDate && checkNumber) {
-                binding.progressBarRegister.isVisible = true
-                binding.registerGroup.isVisible = false
-                viewModel.addUserToList(
-                    UserData(
-                        "",
-                        binding.name.text.toString(),
-                        binding.passwordReg.text.toString(),
-                        binding.phone.text.toString(),
-                        "",
-                        binding.email.text.toString(),
-                        0,
-                        emptyList(),
-                        binding.dateOfBirth.text.toString(),
-                        emptyList()
+                with(binding) {
+                    progressBarRegister.isVisible = true
+                    registerGroup.isVisible = false
+                    viewModel.addUserToList(
+                        UserData(
+                            EMPTY_STRING,
+                            name.text.toString(),
+                            passwordReg.text.toString(),
+                            phone.text.toString(),
+                            EMPTY_STRING,
+                            email.text.toString(),
+                            ZERO,
+                            emptyList(),
+                            dateOfBirth.text.toString(),
+                            emptyList()
+                        )
                     )
-                )
+                }
             }
         }
     }
 
     private fun comeToProfilePage() {
-        viewModel.checkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
+        viewModel.checkLiveData.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
                 binding.progressBarRegister.isVisible = false
                 val action = SignUpFragmentDirections.actionRegisterFragmentToAuthSuccessDialog()
                 findNavController().navigate(action)
             } else {
-                binding.registerGroup.isVisible = true
-                binding.progressBarRegister.isVisible = false
-                binding.phone.error = getString(R.string.error_to_number_is_occupied)
-                binding.phone.background =
-                    this@SignUpFragment.context?.let { context ->
+                with(binding) {
+                    registerGroup.isVisible = true
+                    progressBarRegister.isVisible = false
+                    phone.error = getString(R.string.error_to_number_is_occupied)
+                    phone.background =
                         ContextCompat.getDrawable(
-                            context,
+                            requireContext(),
                             R.drawable.bg_error_edittext
                         )
-                    }
+                }
             }
         }
     }
@@ -122,7 +123,6 @@ class SignUpFragment : Fragment() {
         formatWatcher.installOn(editText)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun areAllEditTextsFilled(): Boolean {
         var allFilled = true
         for (view in requireView().allViews) {
@@ -130,9 +130,11 @@ class SignUpFragment : Fragment() {
                 val text = view.text.toString().trim()
                 if (text.isEmpty()) {
                     allFilled = false
-                    view.background = requireContext().getDrawable(R.drawable.bg_error_edittext)
+                    view.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.bg_error_edittext)
                 } else {
-                    view.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
+                    view.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.bg_login_edittext)
                 }
             }
         }
@@ -152,7 +154,6 @@ class SignUpFragment : Fragment() {
                     ) {
                     }
 
-                    @SuppressLint("UseCompatLoadingForDrawables")
                     override fun onTextChanged(
                         s: CharSequence?,
                         start: Int,
@@ -160,7 +161,10 @@ class SignUpFragment : Fragment() {
                         count: Int
                     ) {
                         view.background =
-                            requireContext().getDrawable(R.drawable.bg_login_edittext)
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.bg_login_edittext
+                            )
                     }
 
                     override fun afterTextChanged(s: Editable?) {}
@@ -174,12 +178,10 @@ class SignUpFragment : Fragment() {
         if (binding.phone.text.toString().length != 19) {
             binding.phone.error = getString(R.string.error_to_number)
             binding.phone.background =
-                this@SignUpFragment.context?.let { context ->
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -189,12 +191,10 @@ class SignUpFragment : Fragment() {
         if (!binding.passwordReg.text.toString().matches(REGEX_PASSWORD.toRegex())) {
             binding.passwordReg.error = getString(R.string.error_to_password)
             binding.passwordReg.background =
-                this@SignUpFragment.context?.let { context ->
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -204,12 +204,10 @@ class SignUpFragment : Fragment() {
         if (!binding.email.text.toString().matches(REGEX_EMAIL.toRegex())) {
             binding.email.error = getString(R.string.error_to_password)
             binding.email.background =
-                this@SignUpFragment.context?.let { context ->
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -219,12 +217,10 @@ class SignUpFragment : Fragment() {
         if (!binding.dateOfBirth.text.toString().matches(REGEX_DATE.toRegex())) {
             binding.dateOfBirth.error = getString(R.string.error_to_date)
             binding.dateOfBirth.background =
-                this@SignUpFragment.context?.let { context ->
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -245,5 +241,9 @@ class SignUpFragment : Fragment() {
         private const val FORMAT_NUMBER = "+375 (__) ___-__-__"
 
         private const val FORMAT_DATE = "__.__.____"
+
+        private const val EMPTY_STRING = ""
+
+        private const val ZERO = 0
     }
 }

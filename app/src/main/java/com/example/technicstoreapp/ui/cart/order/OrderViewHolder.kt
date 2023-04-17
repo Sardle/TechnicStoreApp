@@ -8,8 +8,7 @@ import com.example.technicstoreapp.domain.models.CartTechnicData
 
 class OrderViewHolder(
     private val binding: RvOrderBinding
-) :
-    RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: CartTechnicData) {
         binding.nameOrder.text = item.name
         binding.priceOrder.text = (item.price * item.count).toString() + RUB

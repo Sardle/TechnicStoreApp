@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentFavouriteBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -60,15 +60,17 @@ class FavouriteFragment : Fragment() {
         setupCatalogRecyclerView()
         observeLoadingLiveData()
         comeToCatalog()
-        back()
+        binding.backFavourite.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun checkFavouriteIsEmpty() {
         with(viewModel) {
             checkFavouriteListIsEmpty()
 
-            checkLiveData.observe(viewLifecycleOwner) {
-                binding.favouriteGroup.isVisible = it
+            checkLiveData.observe(viewLifecycleOwner) { checkFavourite ->
+                binding.favouriteGroup.isVisible = checkFavourite
             }
         }
     }
@@ -89,9 +91,9 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.recyclerFavourite.isVisible = !it
-            binding.progressBarFavourite.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.recyclerFavourite.isVisible = !show
+            binding.progressBarFavourite.isVisible = show
         }
     }
 
@@ -137,12 +139,6 @@ class FavouriteFragment : Fragment() {
 
             override fun onAnimationEnd(animation: Animation?) {}
         })
-    }
-
-    private fun back() {
-        binding.backFavourite.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     override fun onDestroyView() {

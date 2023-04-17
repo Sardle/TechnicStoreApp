@@ -101,9 +101,9 @@ class CartViewModel @Inject constructor(
     }
 
     fun checkNetworkConnection() {
-        checkNetworkConnection.isInternetAvailable().let {
-            _checkNetworkLiveData.value = it
-            if (!it) {
+        checkNetworkConnection.isInternetAvailable().let { checkNetwork ->
+            _checkNetworkLiveData.value = checkNetwork
+            if (!checkNetwork) {
                 _countLiveData.value = 0
             }
             _loadingLiveData.value = true

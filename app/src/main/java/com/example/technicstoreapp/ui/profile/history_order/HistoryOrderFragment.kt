@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentHistoryOrderBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -59,13 +59,15 @@ class HistoryOrderFragment : Fragment() {
         setupHistoryOrderRecyclerView()
         observeHistoryOrderLiveData()
         comeToCatalog()
-        back()
+        binding.backHistory.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.recyclerHistory.isVisible = !it
-            binding.progressBarHistory.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.recyclerHistory.isVisible = !show
+            binding.progressBarHistory.isVisible = show
         }
     }
 
@@ -73,8 +75,8 @@ class HistoryOrderFragment : Fragment() {
         with(viewModel) {
             checkHistoryListIsEmpty()
 
-            checkLiveData.observe(viewLifecycleOwner) {
-                binding.historyGroup.isVisible = it
+            checkLiveData.observe(viewLifecycleOwner) { checkList ->
+                binding.historyGroup.isVisible = checkList
             }
         }
     }
@@ -116,12 +118,6 @@ class HistoryOrderFragment : Fragment() {
                     adapter.setItems(historyList)
                 }
             }
-        }
-    }
-
-    private fun back() {
-        binding.backHistory.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

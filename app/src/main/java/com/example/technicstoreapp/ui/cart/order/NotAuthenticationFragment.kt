@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentNotAuthenticationBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NotAuthenticationFragment : Fragment() {

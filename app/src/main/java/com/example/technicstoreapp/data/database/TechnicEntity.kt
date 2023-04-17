@@ -10,9 +10,9 @@ data class TechnicEntity(
     @ColumnInfo val name: String,
     @ColumnInfo val imageUrl: String,
     @ColumnInfo val description: String,
-    @ColumnInfo var price: Double,
-    @ColumnInfo var currentPrice: Double,
+    @ColumnInfo val price: Double,
+    @ColumnInfo val currentPrice: Double,
     @ColumnInfo val category: String,
     @ColumnInfo val color: String,
-    @ColumnInfo var count: Int
+    @ColumnInfo val count: Int
 )

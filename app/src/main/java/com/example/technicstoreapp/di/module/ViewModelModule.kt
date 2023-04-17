@@ -1,6 +1,7 @@
-package com.example.technicstoreapp.di.view_model
+package com.example.technicstoreapp.di.module
 
 import androidx.lifecycle.ViewModel
+import com.example.technicstoreapp.di.view_model.ViewModelKey
 import com.example.technicstoreapp.ui.cart.CartViewModel
 import com.example.technicstoreapp.ui.cart.order.OrderViewModel
 import com.example.technicstoreapp.ui.catalog.CatalogViewModel

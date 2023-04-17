@@ -3,8 +3,9 @@ package com.example.technicstoreapp.ui.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import javax.inject.Inject
 
-class CheckNetworkConnection(private val context: Context) {
+class CheckNetworkConnection @Inject constructor(private val context: Context) {
 
     fun isInternetAvailable(): Boolean {
         val connectivityManager =

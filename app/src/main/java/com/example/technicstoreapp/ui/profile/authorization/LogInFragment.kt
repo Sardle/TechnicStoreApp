@@ -15,9 +15,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentLogInBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.tinkoff.decoro.MaskImpl
@@ -68,14 +68,16 @@ class LogInFragment : Fragment() {
     }
 
     private fun comeToProfilePage() {
-        viewModel.checkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
+        viewModel.checkLiveData.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
                 val action = LogInFragmentDirections.actionLogInFragmentToNavigationProfile()
                 findNavController().navigate(action)
             } else {
-                binding.progressBarProfileLogIn.isVisible = false
-                binding.logInGroup.isVisible = true
-                binding.incorrectNumberOrPassword.isVisible = true
+                with(binding) {
+                    progressBarProfileLogIn.isVisible = false
+                    logInGroup.isVisible = true
+                    incorrectNumberOrPassword.isVisible = true
+                }
             }
         }
     }
@@ -84,9 +86,9 @@ class LogInFragment : Fragment() {
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            @SuppressLint("UseCompatLoadingForDrawables")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editText.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
+                editText.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_login_edittext)
                 binding.incorrectNumberOrPassword.isVisible = false
             }
 
@@ -100,12 +102,10 @@ class LogInFragment : Fragment() {
         if (!binding.password.text.toString().matches(REGEX_PASSWORD.toRegex())) {
             binding.password.error = getString(R.string.error_to_password)
             binding.password.background =
-                this@LogInFragment.context?.let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -135,15 +135,13 @@ class LogInFragment : Fragment() {
     }
 
     private fun checkNumber(): Boolean {
-        if (binding.numberPhone.text.toString().length != 19) {
+        if (binding.numberPhone.text.toString().length != MAX_LENGTH_NUMBER) {
             binding.numberPhone.error = getString(R.string.error_to_number)
             binding.numberPhone.background =
-                this@LogInFragment.context?.let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.bg_error_edittext
-                    )
-                }
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.bg_error_edittext
+                )
             return false
         }
         return true
@@ -157,7 +155,6 @@ class LogInFragment : Fragment() {
         formatWatcher.installOn(binding.numberPhone)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun areAllEditTextsFilled(): Boolean {
         var allFilled = true
         for (view in requireView().allViews) {
@@ -165,9 +162,11 @@ class LogInFragment : Fragment() {
                 val text = view.text.toString().trim()
                 if (text.isEmpty()) {
                     allFilled = false
-                    view.background = requireContext().getDrawable(R.drawable.bg_error_edittext)
+                    view.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.bg_error_edittext)
                 } else {
-                    view.background = requireContext().getDrawable(R.drawable.bg_login_edittext)
+                    view.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.bg_login_edittext)
                 }
             }
         }
@@ -183,5 +182,7 @@ class LogInFragment : Fragment() {
         private const val REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)\\w{8,}\$"
 
         private const val FORMAT_NUMBER = "+375 (__) ___-__-__"
+
+        private const val MAX_LENGTH_NUMBER = 19
     }
 }

@@ -11,7 +11,7 @@ interface RepositoryUser {
 
     suspend fun createUser(userData: UserData): Boolean
 
-    fun setPrefs(id: String)
+    fun setPrefsIdUser(id: String)
 
     fun logOutUser()
 

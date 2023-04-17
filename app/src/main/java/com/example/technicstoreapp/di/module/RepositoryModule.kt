@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.di
+package com.example.technicstoreapp.di.module
 
 import com.example.technicstoreapp.data.RepositoryTechImpl
 import com.example.technicstoreapp.data.RepositoryUserImpl

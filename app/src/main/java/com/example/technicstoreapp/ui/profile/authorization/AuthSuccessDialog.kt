@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.databinding.FragmentAuthSuccessBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 
 class AuthSuccessDialog : Fragment() {
 

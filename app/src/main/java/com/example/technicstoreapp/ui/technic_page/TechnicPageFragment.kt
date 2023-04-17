@@ -12,7 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentTechnicPageBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.domain.models.TechnicData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
@@ -73,7 +73,9 @@ class TechnicPageFragment : Fragment() {
         observeLoadingLiveData()
         observeCheckLiveData()
         observeTechnicLiveData()
-        back()
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setupViewModel() {
@@ -103,16 +105,16 @@ class TechnicPageFragment : Fragment() {
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.groupTechnicPage.isVisible = !it
-            binding.progressBarTechnicPage.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.groupTechnicPage.isVisible = !show
+            binding.progressBarTechnicPage.isVisible = show
         }
     }
 
     private fun observeCheckLiveData() {
-        viewModel.checkLiveData.observe(viewLifecycleOwner) {
-            binding.addToCart.isVisible = it
-            binding.productInCart.isVisible = !it
+        viewModel.checkLiveData.observe(viewLifecycleOwner) { checkProductList ->
+            binding.addToCart.isVisible = checkProductList
+            binding.productInCart.isVisible = !checkProductList
         }
     }
 
@@ -158,8 +160,8 @@ class TechnicPageFragment : Fragment() {
     }
 
     private fun showDialogAccess(name: String, selectedColor: String) {
-        val customAlertDialog = this@TechnicPageFragment.context?.let {
-            CustomAlertDialog(it)
+        val customAlertDialog =
+            CustomAlertDialog(requireContext())
                 .setImage(R.drawable.ic_success)
                 .setMessage(getString(R.string.to_cart_access))
                 .setBackText(getString(R.string.back))
@@ -182,20 +184,13 @@ class TechnicPageFragment : Fragment() {
                         selectedColor
                     )
                 }
-        }
 
-        customAlertDialog?.show()
+        customAlertDialog.show()
 
         viewModel.checkIfElementExists(
             name,
             selectedColor
         )
-    }
-
-    private fun back() {
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     private fun setupPage(technic: TechnicData) {

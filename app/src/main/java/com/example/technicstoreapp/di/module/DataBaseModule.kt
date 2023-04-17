@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.di
+package com.example.technicstoreapp.di.module
 
 import android.content.Context
 import androidx.room.Room
@@ -14,11 +14,15 @@ class DataBaseModule {
     @Provides
     @Singleton
     fun provideDataBase(context: Context): AppDataBase {
-        return Room.databaseBuilder(context, AppDataBase::class.java, "database-name")
+        return Room.databaseBuilder(context, AppDataBase::class.java, DATABASE_NAME)
             .build()
     }
 
     @Provides
     @Singleton
     fun provideUserDao(db: AppDataBase): TechnicDao = db.getTechnicDao()
+
+    companion object {
+        private const val DATABASE_NAME = "database-name"
+    }
 }

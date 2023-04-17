@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.technicstoreapp.domain.*
+import com.example.technicstoreapp.domain.RepositoryTech
+import com.example.technicstoreapp.domain.RepositoryUser
 import com.example.technicstoreapp.domain.models.CartTechnicData
 import com.example.technicstoreapp.domain.models.HistoryOrderData
 import com.example.technicstoreapp.domain.models.UserData
-import com.example.technicstoreapp.domain.use_cases.CalcDiscount
+import com.example.technicstoreapp.ui.utils.CalcDiscount
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -40,21 +41,21 @@ class OrderViewModel @Inject constructor(
 
 
     fun getTechnicCart() {
-        viewModelScope.launch (exceptionHandler){
+        viewModelScope.launch(exceptionHandler) {
             _technicCartLiveData.value = repositoryTech.getAllTechnicFromCart()
         }
     }
 
     fun getUser() {
         _loadingLiveData.value = true
-        viewModelScope.launch (exceptionHandler){
+        viewModelScope.launch(exceptionHandler) {
             _userLiveData.value = repositoryUser.getUserById()
             _loadingLiveData.value = false
         }
     }
 
     fun getTotalSum() {
-        viewModelScope.launch (exceptionHandler){
+        viewModelScope.launch(exceptionHandler) {
             _priceLiveData.value = repositoryTech.getSumCurrentPrices()
         }
     }
@@ -64,7 +65,7 @@ class OrderViewModel @Inject constructor(
     }
 
     fun calculatingPriceWithDiscount(points: Int) {
-        viewModelScope.launch (exceptionHandler){
+        viewModelScope.launch(exceptionHandler) {
             _priceWithDiscountLiveData.value = points
             _priceLiveData.value =
                 repositoryTech.getSumCurrentPrices() - calcDiscount.calculatingDiscount(points)
@@ -72,13 +73,16 @@ class OrderViewModel @Inject constructor(
     }
 
     fun update(address: String, sum: Double) {
-        viewModelScope.launch (exceptionHandler){
+        viewModelScope.launch(exceptionHandler) {
             val currentDate = Date()
-            val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+            val dateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
             val formattedDate = dateFormat.format(currentDate)
             var points = calcDiscount.calculatingPoints(sum)
-            if (priceWithDiscountLiveData.value!! > 0) {
-                points = -priceWithDiscountLiveData.value!!
+            val priceWithDiscount = priceWithDiscountLiveData.value
+            if (priceWithDiscount != null) {
+                if (priceWithDiscount > 0) {
+                    points = -priceWithDiscount
+                }
             }
             val historyOrderData = priceLiveData.value?.let {
                 HistoryOrderData(
@@ -90,5 +94,9 @@ class OrderViewModel @Inject constructor(
             historyOrderData?.let { repositoryUser.updateUser(it, address, points) }
             repositoryTech.deleteAllTechnicFromCart()
         }
+    }
+
+    companion object {
+        private const val DATE_FORMAT = "dd.MM.yyyy HH:mm"
     }
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentProfileBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import javax.inject.Inject
 
@@ -53,8 +53,8 @@ class ProfileFragment : Fragment() {
 
     private fun checkNetworkConnection() {
         viewModel.checkNetworkConnection()
-        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) { checkNetwork ->
+            if (checkNetwork) {
                 binding.noInternetGroup.isVisible = false
                 setupPage()
             } else {
@@ -76,14 +76,14 @@ class ProfileFragment : Fragment() {
             with(viewModel) {
                 getUser()
 
-                loadingLiveData.observe(viewLifecycleOwner) {
-                    binding.profileGroup.isVisible = !it
-                    binding.progressBarProfile.isVisible = it
+                loadingLiveData.observe(viewLifecycleOwner) { show ->
+                    binding.profileGroup.isVisible = !show
+                    binding.progressBarProfile.isVisible = show
                 }
 
-                userLiveData.observe(viewLifecycleOwner) {
-                    binding.hello.text = getString(R.string.hello, it.name)
-                    binding.discount.text = it.discountPoints.toString()
+                userLiveData.observe(viewLifecycleOwner) { user ->
+                    binding.hello.text = getString(R.string.hello, user.name)
+                    binding.discount.text = user.discountPoints.toString()
                 }
             }
         } else {

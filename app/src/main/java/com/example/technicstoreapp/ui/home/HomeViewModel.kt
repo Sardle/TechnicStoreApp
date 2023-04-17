@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.technicstoreapp.domain.models.NewsData
 import com.example.technicstoreapp.domain.RepositoryTech
+import com.example.technicstoreapp.domain.models.NewsData
 import com.example.technicstoreapp.domain.models.TechnicData
 import com.example.technicstoreapp.ui.utils.CheckNetworkConnection
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -56,20 +56,12 @@ class HomeViewModel @Inject constructor(
     }
 
     fun checkNetworkConnection() {
-        checkNetworkConnection.isInternetAvailable().let {
-            _checkNetworkLiveData.value = it
-            if (!it) {
+        checkNetworkConnection.isInternetAvailable().let { checkNetwork ->
+            _checkNetworkLiveData.value = checkNetwork
+            if (!checkNetwork) {
                 _countLiveData.value = 0
             }
             _loadingLiveData.value = true
         }
-    }
-
-    fun setUserToken() {
-        repositoryTech.setUserToken(USER_TOKEN)
-    }
-
-    companion object {
-        private const val USER_TOKEN = "6e2215d6c8824752abea6defbc421007"
     }
 }

@@ -33,14 +33,10 @@ class RepositoryTechImpl @Inject constructor(
 
     override suspend fun getNews(): List<NewsData> {
         return withContext(Dispatchers.IO) {
-            service.getNews(QUERY, prefs.getUserToken()).articles?.map {
+            service.getNews(QUERY, USER_TOKEN).articles?.map {
                 mapperNews(it)
             } ?: emptyList()
         }
-    }
-
-    override fun setUserToken(token: String) {
-        prefs.setUserToken(token)
     }
 
     override suspend fun getCategories(): List<String> {
@@ -59,11 +55,10 @@ class RepositoryTechImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             val existingTechnic = db.getItemById(id, color)
             if (existingTechnic != null) {
-                with(existingTechnic) {
-                    count += 1
-                    currentPrice = price * count
-                }
-                db.updateItem(existingTechnic)
+                val updatedCount = existingTechnic.count + 1
+                val updatedCurrentPrice = existingTechnic.price * updatedCount
+                val updatedTechnic = existingTechnic.copy(count = updatedCount, currentPrice = updatedCurrentPrice)
+                db.updateItem(updatedTechnic)
             }
         }
     }
@@ -75,7 +70,7 @@ class RepositoryTechImpl @Inject constructor(
                 mapperDb.dataToEntity(
                     technicData,
                     color,
-                    1,
+                    ONE,
                     technicData.price,
                     technicData.colors[color].toString()
                 )
@@ -105,11 +100,10 @@ class RepositoryTechImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             val existingTechnic = db.getItemById(id, color)
             if (existingTechnic != null) {
-                with(existingTechnic) {
-                    count -= 1
-                    currentPrice = price * count
-                }
-                db.updateItem(existingTechnic)
+                val updatedCount = existingTechnic.count - 1
+                val updatedCurrentPrice = existingTechnic.price * updatedCount
+                val updatedTechnic = existingTechnic.copy(count = updatedCount, currentPrice = updatedCurrentPrice)
+                db.updateItem(updatedTechnic)
             }
         }
     }
@@ -147,5 +141,9 @@ class RepositoryTechImpl @Inject constructor(
 
     companion object {
         private const val QUERY = "pc technologies"
+
+        private const val ONE = 1
+
+        private const val USER_TOKEN = "6e2215d6c8824752abea6defbc421007"
     }
 }

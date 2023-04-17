@@ -82,12 +82,14 @@
     <string name="remove_from_favourite">Удалить товар из избранных</string>
     <string name="favourite_empty">Вы еще ничего не добавили в избранное</string>
     <string name="history_empty">Вы еще не совершали заказов</string>
-    <string name="no_internet">Подсоединение с интернету отсутствует!</string>
+    <string name="no_internet">Подсоединение к интернету отсутствует!</string>
     <string name="retry">Повторить</string>
     <string name="not_enough_points">Недостаточно баллов!</string>
     <string name="discount_applied">Скидка применена!</string>
     <string name="discount_cancelled">Скидка отменена!</string>
     <string name="sorting">Сортировка</string>
+    <string name="success_order_title">Успешная покупка</string>
+    <string name="success_order_description">Покупка успешно завершена</string>
     <string-array name="sort">
         <item>Сортировка: по умолчанию</item>
         <item>Сортировка: по цене(убывание)</item>

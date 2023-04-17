@@ -1,8 +1,7 @@
 package com.example.technicstoreapp.di.app
 
 import android.content.Context
-import com.example.technicstoreapp.di.*
-import com.example.technicstoreapp.di.view_model.ViewModelModule
+import com.example.technicstoreapp.di.module.*
 import com.example.technicstoreapp.ui.MainActivity
 import com.example.technicstoreapp.ui.cart.CartFragment
 import com.example.technicstoreapp.ui.cart.order.NotAuthenticationFragment
@@ -24,7 +23,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ViewModelModule::class, DataBaseModule::class, NewsModule::class, RepositoryModule::class, SourceModule::class, TechModule::class, UserModule::class, CheckNetworkModule::class])
+@Component(modules = [ViewModelModule::class, DataBaseModule::class, NewsModule::class, RepositoryModule::class, SourceModule::class, TechModule::class, UserModule::class, MoshiModule::class])
 interface ApplicationComponent {
 
     @Component.Factory

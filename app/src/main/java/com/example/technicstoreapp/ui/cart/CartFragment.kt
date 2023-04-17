@@ -15,9 +15,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentCartBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -67,19 +67,19 @@ class CartFragment : Fragment() {
 
     private fun checkNetworkConnection() {
         viewModel.checkNetworkConnection()
-        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                with(binding) {
+        viewModel.checkNetworkLiveData.observe(viewLifecycleOwner) { checkNetwork ->
+            with(binding) {
+                if (checkNetwork) {
                     noInternetGroup.isVisible = false
                     viewCartGroup.isVisible = true
-                }
-                setupViewModel()
-            } else {
-                with(binding) {
+
+                    setupViewModel()
+                } else {
                     noInternetGroup.isVisible = true
                     viewCartGroup.isVisible = false
                     emptyCart.isVisible = false
                     cartGroup.isVisible = false
+
                 }
             }
         }
@@ -94,8 +94,8 @@ class CartFragment : Fragment() {
     }
 
     private fun observeCheckLiveData() {
-        viewModel.checkUserLiveData.observe(viewLifecycleOwner) {
-            if (!it) {
+        viewModel.checkUserLiveData.observe(viewLifecycleOwner) { checkUser ->
+            if (!checkUser) {
                 val action = CartFragmentDirections.actionNavigationCartToOrderFragment()
                 findNavController().navigate(action)
             } else {
@@ -132,9 +132,11 @@ class CartFragment : Fragment() {
             val mediatorLiveData = MediatorLiveData<Boolean>()
 
             val loadingObserver = Observer<Boolean> { loading ->
-                binding.progressBarCart.isVisible = loading
-                binding.cartGroup.isVisible = !loading
-                binding.orderCart.isVisible = !loading
+                with(binding) {
+                    progressBarCart.isVisible = loading
+                    cartGroup.isVisible = !loading
+                    orderCart.isVisible = !loading
+                }
             }
 
             mediatorLiveData.addSource(checkListTechnicLiveData) {
@@ -153,8 +155,8 @@ class CartFragment : Fragment() {
 
     private fun setupPrice() {
         with(viewModel) {
-            priceLiveData.observe(viewLifecycleOwner) {
-                binding.orderCart.text = getString(R.string.order, it.toString())
+            priceLiveData.observe(viewLifecycleOwner) { price ->
+                binding.orderCart.text = getString(R.string.order, price.toString())
             }
         }
     }
@@ -170,11 +172,11 @@ class CartFragment : Fragment() {
     }
 
     private fun observeCountLiveData() {
-        viewModel.countLiveData.observe(viewLifecycleOwner) {
+        viewModel.countLiveData.observe(viewLifecycleOwner) { count ->
             val bottomNavigationView =
                 requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
             val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
-            badge.number = it
+            badge.number = count
         }
     }
 

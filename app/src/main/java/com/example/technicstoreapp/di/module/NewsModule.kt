@@ -1,9 +1,8 @@
-package com.example.technicstoreapp.di
+package com.example.technicstoreapp.di.module
 
 import com.example.technicstoreapp.data.network.NewsService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,9 +18,7 @@ class NewsModule {
     @Provides
     @Named("retrofitNews")
     @Singleton
-    fun getRetrofit(client: OkHttpClient): Retrofit {
-        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory())
-            .build()
+    fun getRetrofit(moshi: Moshi,client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://newsapi.org/v2/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))

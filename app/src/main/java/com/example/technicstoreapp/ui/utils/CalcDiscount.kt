@@ -1,4 +1,4 @@
-package com.example.technicstoreapp.domain.use_cases
+package com.example.technicstoreapp.ui.utils
 
 import javax.inject.Inject
 import kotlin.math.roundToInt

@@ -22,7 +22,7 @@ class CartViewHolder(
         binding.cartPrice.text = (item.price * item.count).toString() + RUB
         binding.cartColor.text = COLOR + item.color
 
-        if (binding.count.text == "0") {
+        if (binding.count.text == ZERO) {
             deleteClick(item.id, binding.root, item.color)
             updateClick()
         }
@@ -55,5 +55,7 @@ class CartViewHolder(
         private const val RUB = " р."
 
         private const val COLOR = "Цвет: "
+
+        private const val ZERO = "0"
     }
 }

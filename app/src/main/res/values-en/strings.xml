@@ -14,7 +14,7 @@
     <string name="points_count">Your points count:</string>
     <string name="favourites">Favorites</string>
     <string name="order_history">Order history</string>
-    <string name="entrance">Entrance</string>
+    <string name="entrance">Log in</string>
     <string name="login">Phone number</string>
     <string name="password">Password</string>
     <string name="hilt_to_entrance">Sign in to continue</string>
@@ -88,6 +88,8 @@
     <string name="discount_applied"> Discount applied!</string>
     <string name="discount_cancelled">Discount cancelled!</string>
     <string name="sorting">Sorting</string>
+    <string name="success_order_title">Successful purchase</string>
+    <string name="success_order_description">Purchase completed successfully</string>
     <string-array name="sort">
         <item>Sorting: default</item>
         <item>Sorting: by price(decreasing)</item>

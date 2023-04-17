@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentOrderBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.domain.models.UserData
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
@@ -55,19 +55,23 @@ class OrderFragment : Fragment() {
         observeCartTechnicLiveData()
         observePriceLiveData()
         observeUserLiveData()
-        back()
+        binding.backOrder.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setupViewModel() {
-        viewModel.getUser()
-        viewModel.getTotalSum()
-        viewModel.setupPriceWithDiscountLiveData()
+        with(viewModel) {
+            getUser()
+            getTotalSum()
+            setupPriceWithDiscountLiveData()
+        }
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBarOrder.isVisible = it
-            binding.orderGroup.isVisible = !it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.progressBarOrder.isVisible = show
+            binding.orderGroup.isVisible = !show
         }
     }
 
@@ -81,8 +85,9 @@ class OrderFragment : Fragment() {
         binding.addOrder.setOnClickListener {
             if (checkAddressEmpty()) {
                 viewModel.update(
-                    if (binding.address.text.toString() != "") binding.address.text.toString() else binding.address.hint.toString(),
-                    binding.totalPrice.text.toString().replace("\\s.*".toRegex(), "").toDouble()
+                    if (binding.address.text.toString() != EMPTY_STRING) binding.address.text.toString() else binding.address.hint.toString(),
+                    binding.totalPrice.text.toString().replace("\\s.*".toRegex(), EMPTY_STRING)
+                        .toDouble()
                 )
                 showPurchaseSuccessNotification()
                 showDialogAccess()
@@ -90,11 +95,13 @@ class OrderFragment : Fragment() {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkAddressEmpty(): Boolean {
-        if (binding.address.text.toString() == "" && binding.address.hint.toString() == getString(R.string.your_address)) {
+        if (binding.address.text.toString() == EMPTY_STRING && binding.address.hint.toString() == getString(
+                R.string.your_address
+            )
+        ) {
             binding.address.background =
-                requireContext().getDrawable(R.drawable.bg_error_edittext_order)
+                ContextCompat.getDrawable(requireContext(), R.drawable.bg_error_edittext_order)
             return false
         }
         return true
@@ -102,45 +109,40 @@ class OrderFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun showPurchaseSuccessNotification() {
-        val channelId = "my_channel_id"
-        val notificationId = 1
-
-        val notification = NotificationCompat.Builder(requireActivity(), channelId)
+        val notification = NotificationCompat.Builder(requireActivity(), CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_electro)
-            .setContentTitle("Успешная покупка")
-            .setContentText("Покупка успешно завершена")
+            .setContentTitle(getString(R.string.success_order_title))
+            .setContentText(getString(R.string.success_order_description))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .build()
 
         with(NotificationManagerCompat.from(requireActivity())) {
-            notify(notificationId, notification)
+            notify(NOTIFICATION_ID, notification)
         }
     }
 
     private fun showDialogAccess() {
-        val customAlertDialog = this@OrderFragment.context?.let {
-            CustomAlertDialog(it)
+        val customAlertDialog =
+            CustomAlertDialog(requireContext())
                 .setImage(R.drawable.ic_success)
                 .setMessage(getString(R.string.order_access))
                 .setBackText(getString(R.string.back_to_cart))
                 .setOkText(getString(R.string.to_profile))
-                .setOnBackClickListener { _, _ -> }
                 .setOnCancelable(false)
                 .setOnBackClickListener { _, _ ->
                     val action = OrderFragmentDirections.actionOrderFragmentToNavigationCart()
                     findNavController().navigate(action)
                 }
-        }
 
-        customAlertDialog?.show()
+        customAlertDialog.show()
     }
 
     private fun observeUserLiveData() {
         viewModel.userLiveData.observe(viewLifecycleOwner) { user ->
             binding.discountPoints.hint =
                 getString(R.string.total_discount, user.discountPoints.toString())
-            if (user.address != "") {
+            if (user.address != EMPTY_STRING) {
                 binding.address.hint = user.address
             }
             checkDiscount(user)
@@ -150,18 +152,29 @@ class OrderFragment : Fragment() {
     private fun checkDiscount(user: UserData) {
         with(binding) {
             done.setOnClickListener {
-                if (discountPoints.text.toString() != "" && discountPoints.text.toString().toInt() > user.discountPoints) {
+                if (discountPoints.text.toString() != EMPTY_STRING && discountPoints.text.toString()
+                        .toInt() > user.discountPoints) {
                     showToastWithMessage(getString(R.string.not_enough_points))
                     clearDiscountPointsInput()
-                } else if (done.text.toString() == getString(R.string.done) && discountPoints.text.toString() != "") {
-                    setDoneButtonTextColor(ContextCompat.getColor(requireContext(), R.color.gray_sup))
+                } else if (done.text.toString() == getString(R.string.done) && discountPoints.text.toString() != EMPTY_STRING) {
+                    setDoneButtonTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.gray_sup
+                        )
+                    )
                     viewModel.calculatingPriceWithDiscount(discountPoints.text.toString().toInt())
                     clearDiscountPointsInput()
                     setDoneButtonText(getString(R.string.cancel))
                     showToastWithMessage(getString(R.string.discount_applied))
                 } else if (done.text.toString() == getString(R.string.cancel)) {
-                    setDoneButtonTextColor(ContextCompat.getColor(requireContext(), R.color.purple_700))
-                    viewModel.calculatingPriceWithDiscount(0)
+                    setDoneButtonTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.purple_700
+                        )
+                    )
+                    viewModel.calculatingPriceWithDiscount(ZERO)
                     clearDiscountPointsInput()
                     setDoneButtonText(getString(R.string.done))
                     showToastWithMessage(getString(R.string.discount_cancelled))
@@ -179,7 +192,7 @@ class OrderFragment : Fragment() {
     }
 
     private fun clearDiscountPointsInput() {
-        binding.discountPoints.setText("")
+        binding.discountPoints.setText(EMPTY_STRING)
     }
 
     private fun setDoneButtonTextColor(color: Int) {
@@ -188,12 +201,6 @@ class OrderFragment : Fragment() {
 
     private fun setDoneButtonText(text: String) {
         binding.done.text = text
-    }
-
-    private fun back() {
-        binding.backOrder.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     private fun setupOrderRecyclerView() {
@@ -220,5 +227,15 @@ class OrderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val EMPTY_STRING = ""
+
+        private const val CHANNEL_ID = "my_channel_id"
+
+        private const val NOTIFICATION_ID = 1
+
+        private const val ZERO = 0
     }
 }

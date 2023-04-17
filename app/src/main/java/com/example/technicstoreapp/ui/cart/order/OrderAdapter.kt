@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.technicstoreapp.databinding.RvOrderBinding
 import com.example.technicstoreapp.domain.models.CartTechnicData
 
-class OrderAdapter() :
-    RecyclerView.Adapter<OrderViewHolder>() {
+class OrderAdapter : RecyclerView.Adapter<OrderViewHolder>() {
 
     private val listTechnicData = mutableListOf<CartTechnicData>()
 

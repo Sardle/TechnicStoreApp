@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentSearchBinding
-import com.example.technicstoreapp.di.app.App
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -62,10 +62,6 @@ class SearchFragment : Fragment() {
         observeCheckEmptyLiveData()
         observeTechnicLiveData()
         setupCatalogRecyclerView()
-        back()
-    }
-
-    private fun back() {
         binding.cancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
@@ -82,8 +78,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeLoadingLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBarSearch.isVisible = it
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+            binding.progressBarSearch.isVisible = show
         }
     }
 

@@ -12,9 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.technicstoreapp.App
 import com.example.technicstoreapp.R
 import com.example.technicstoreapp.databinding.FragmentInfoUserBinding
-import com.example.technicstoreapp.di.app.App
 import com.example.technicstoreapp.di.view_model.ViewModelFactory
 import com.example.technicstoreapp.ui.custom.CustomAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -58,7 +58,9 @@ class InfoUserFragment : Fragment() {
         setupPage()
         logOutUser()
         deleteAccount()
-        back()
+        binding.backInfoUser.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun logOutUser() {
@@ -74,8 +76,8 @@ class InfoUserFragment : Fragment() {
     }
 
     private fun showDialogDelete() {
-        val customAlertDialog = this@InfoUserFragment.context?.let {
-            CustomAlertDialog(it)
+        val customAlertDialog =
+            CustomAlertDialog(requireContext())
                 .setImage(R.drawable.ic_delete)
                 .setMessage(getString(R.string.delete_account))
                 .setBackText(getString(R.string.no))
@@ -84,14 +86,13 @@ class InfoUserFragment : Fragment() {
                     viewModel.deleteUser()
                     comeToProfilePage()
                 }
-        }
 
-        customAlertDialog?.show()
+        customAlertDialog.show()
     }
 
     private fun showDialogLogOut() {
-        val customAlertDialog = this@InfoUserFragment.context?.let {
-            CustomAlertDialog(it)
+        val customAlertDialog =
+            CustomAlertDialog(requireContext())
                 .setImage(R.drawable.ic_log_out)
                 .setMessage(getString(R.string.log_out))
                 .setBackText(getString(R.string.no))
@@ -100,9 +101,8 @@ class InfoUserFragment : Fragment() {
                     viewModel.logOutUser()
                     comeToProfilePage()
                 }
-        }
 
-        customAlertDialog?.show()
+        customAlertDialog.show()
     }
 
     private fun comeToProfilePage() {
@@ -114,19 +114,21 @@ class InfoUserFragment : Fragment() {
         with(viewModel) {
             getUser()
 
-            viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-                checkLoading(it)
+            viewModel.loadingLiveData.observe(viewLifecycleOwner) { show ->
+                checkLoading(show)
             }
 
-            userLiveData.observe(viewLifecycleOwner) {
-                binding.nameUserPage.text = it.name
-                binding.numberUser.text = it.number
-                binding.emailUser.text = it.email
-                binding.dateOfBirthUser.text = it.dateOfBirth
-                if (it.address.isNotEmpty()) {
-                    binding.actualAddress.isVisible = true
-                    binding.actualAddressUser.isVisible = true
-                    binding.actualAddressUser.text = it.address
+            userLiveData.observe(viewLifecycleOwner) { user ->
+                with(binding) {
+                    nameUserPage.text = user.name
+                    numberUser.text = user.number
+                    emailUser.text = user.email
+                    dateOfBirthUser.text = user.dateOfBirth
+                    if (user.address.isNotEmpty()) {
+                        actualAddress.isVisible = true
+                        actualAddressUser.isVisible = true
+                        actualAddressUser.text = user.address
+                    }
                 }
             }
         }
@@ -139,12 +141,6 @@ class InfoUserFragment : Fragment() {
             } else if (view !is ConstraintLayout) {
                 view.isVisible = !exists
             }
-        }
-    }
-
-    private fun back() {
-        binding.backInfoUser.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

@@ -10,8 +10,6 @@ interface RepositoryTech {
 
     suspend fun getNews(): List<NewsData>
 
-    fun setUserToken(token: String)
-
     suspend fun getCategories(): List<String>
 
     suspend fun getTechnicBasedFromCategory(category: String): List<TechnicData>
