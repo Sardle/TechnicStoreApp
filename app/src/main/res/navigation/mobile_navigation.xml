@@ -9,22 +9,198 @@
         android:id="@+id/navigation_home"
         android:name="com.example.technicstoreapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_catalog"
         android:name="com.example.technicstoreapp.ui.catalog.CatalogFragment"
         android:label="@string/title_catalog"
-        tools:layout="@layout/fragment_catalog" />
+        tools:layout="@layout/fragment_catalog">
+        <action
+            android:id="@+id/action_navigation_catalog_to_categoryPageFragment"
+            app:destination="@id/categoryPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_catalog_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.example.technicstoreapp.ui.notifications.CartFragment"
+        android:name="com.example.technicstoreapp.ui.cart.CartFragment"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_navigation_cart_to_technicPageFragment"
+            app:destination="@id/technicPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_cart_to_orderFragment"
+            app:destination="@id/orderFragment"
+            app:enterAnim="@anim/slide_enter_profile"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_exit_profile" />
+        <action
+            android:id="@+id/action_navigation_cart_to_notAuthenticationFragment"
+            app:destination="@id/notAuthenticationFragment"
+            app:enterAnim="@anim/slide_enter_profile"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.technicstoreapp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_infoUserFragment"
+            app:destination="@id/infoUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_profile_to_historyOrderFragment"
+            app:destination="@id/historyOrderFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/technicPageFragment"
+        android:name="com.example.technicstoreapp.ui.technic_page.TechnicPageFragment"
+        android:label="TechnicPageFragment"
+        tools:layout="@layout/fragment_technic_page">
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="default_color"
+            android:defaultValue="default"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryPageFragment"
+        android:name="com.example.technicstoreapp.ui.catalog.category_page.CategoryPageFragment"
+        android:label="fragment_category_page"
+        tools:layout="@layout/fragment_category_page">
+        <argument
+            android:name="category"
+            android:defaultValue="Телефоны"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryPageFragment_to_technicPageFragment"
+            app:destination="@id/technicPageFragment"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.technicstoreapp.ui.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.LogInFragment"
+        android:label="LogInFragment"
+        tools:layout="@layout/fragment_log_in">
+        <action
+            android:id="@+id/action_logInFragment_to_registerFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/slide_enter_profile"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_exit_profile" />
+        <action
+            android:id="@+id/action_logInFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.SignUpFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_registerFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:exitAnim="@anim/slide_exit_profile" />
+        <action
+            android:id="@+id/action_registerFragment_to_authSuccessDialog"
+            app:destination="@id/authSuccessDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoUserFragment"
+        android:name="com.example.technicstoreapp.ui.profile.user.InfoUserFragment"
+        android:label="InfoUserFragment"
+        tools:layout="@layout/fragment_info_user" >
+        <action
+            android:id="@+id/action_infoUserFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/authSuccessDialog"
+        android:name="com.example.technicstoreapp.ui.profile.authorization.AuthSuccessDialog"
+        android:label="AuthSuccessDialog"
+        tools:layout="@layout/fragment_auth_success">
+        <action
+            android:id="@+id/action_authSuccessDialog_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_order"
+        android:id="@+id/orderFragment"
+        android:name="com.example.technicstoreapp.ui.cart.order.OrderFragment"
+        android:label="OrderFragment" >
+        <action
+            android:id="@+id/action_orderFragment_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
+    <fragment
+        android:id="@+id/notAuthenticationFragment"
+        tools:layout="@layout/fragment_not_authentication"
+        android:name="com.example.technicstoreapp.ui.cart.order.NotAuthenticationFragment"
+        android:label="NotAuthenticationFragment" >
+        <action
+            android:id="@+id/action_notAuthenticationFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_notAuthenticationFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyOrderFragment"
+        tools:layout="@layout/fragment_history_order"
+        android:name="com.example.technicstoreapp.ui.profile.history_order.HistoryOrderFragment"
+        android:label="HistoryOrderFragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        tools:layout="@layout/fragment_favourite"
+        android:name="com.example.technicstoreapp.ui.profile.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_technicPageFragment"
+            app:destination="@id/technicPageFragment" />
+    </fragment>
 </navigation>

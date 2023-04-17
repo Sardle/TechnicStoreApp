@@ -1,8 +1,11 @@
 package com.example.technicstoreapp
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.technicstoreapp.di.app.ApplicationComponent
+import com.example.technicstoreapp.di.app.DaggerApplicationComponent
 
-@HiltAndroidApp
 class App : Application() {
+    val appComponent: ApplicationComponent by lazy {
+        DaggerApplicationComponent.factory().create(applicationContext)
+    }
 }

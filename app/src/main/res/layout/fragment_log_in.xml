@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_log_in">
+
+    <TextView
+        android:id="@+id/title_log_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/entrance"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/hilt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hilt_to_entrance"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline22" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_profile_log_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/purple_700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/log_in_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="forget_password, title_log_in, hilt, number_phone, password, log_in, register"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.49" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.68" />
+
+    <EditText
+        android:id="@+id/number_phone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_login_edittext"
+        android:hint="@string/login"
+        android:inputType="phone"
+        android:paddingStart="20dp"
+        android:maxLines="1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline24"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintTop_toTopOf="@id/guideline23"
+        tools:ignore="RtlSymmetry,TextFields" />
+
+    <TextView
+        android:id="@+id/incorrect_number_or_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:visibility="invisible"
+        android:text="@string/incorrect_number_or_password"
+        app:layout_constraintTop_toBottomOf="@id/hilt"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintBottom_toTopOf="@id/number_phone"
+        />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_login_edittext"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:maxLines="1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline28"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintTop_toTopOf="@id/guideline27"
+        tools:ignore="RtlSymmetry,TextFields" />
+
+    <Button
+        android:id="@+id/log_in"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:cornerRadius="10dp"
+        android:text="@string/log_in"
+        android:backgroundTint="@color/purple_700"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintTop_toTopOf="@id/guideline28"
+        app:layout_constraintBottom_toBottomOf="@id/guideline29"/>
+
+    <TextView
+        android:id="@+id/forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:text="@string/forget_password"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintTop_toBottomOf="@id/log_in"/>
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:textSize="15sp"
+        android:text="@string/register"
+        app:layout_constraintStart_toStartOf="@id/guideline25"
+        app:layout_constraintEnd_toEndOf="@id/guideline26"
+        app:layout_constraintTop_toBottomOf="@id/forget_password"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.84" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.76" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
